@@ -1,0 +1,39 @@
+title: 'Three Col Features With Background'
+fields:
+  -
+    handle: features
+    field:
+      type: replicator
+      display: Features
+      sets:
+        new_set_group:
+          display: 'New Set Group'
+          sets:
+            new_set:
+              display: 'New Set'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: highlight
+                  field:
+                    buttons:
+                      - bold
+                      - italic
+                      - unorderedlist
+                      - orderedlist
+                      - quote
+                      - link
+                    smartypants: true
+                    type: markdown
+                    display: Highlight
+                -
+                  handle: background_image
+                  field:
+                    max_files: 1
+                    container: assets
+                    type: assets
+                    display: 'Background Image'

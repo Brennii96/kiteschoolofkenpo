@@ -1,0 +1,13 @@
+name: Brendan
+super: true
+id: 0e220831-81be-49c9-bcf4-204e13cb2899
+password_hash: $2y$12$NYrKPRgZQDKDMxsN7zTjfuYVCXXoonJlNWk7iLefifOGD.43tD0S2
+preferences:
+  collections:
+    pages:
+      after_save: continue_editing
+  locale: en
+  favorites: {  }
+  assets:
+    assets:
+      mode: grid

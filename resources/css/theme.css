@@ -1,0 +1,35 @@
+@theme {
+    --font-montserrat: "Montserrat", serif;
+    --font-roboto: "Roboto", serif;
+
+    --text-2xs: 0.7rem;
+    --text-xs: 0.8rem;
+    --text-sm: 0.95rem;
+    --text-base: 1.1rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.3rem;
+    --text-2xl: 1.6rem;
+    --text-3xl: 1.953rem;
+    --text-4xl: 2.441rem;
+    --text-5xl: 3.052rem;
+    --text-6xl: 3.5rem;
+    --text-7xl: 4.375rem;
+    --text-10xl: 6rem;
+
+    --color-brand-50: #fcdede;
+    --color-brand-100: #f7b5b5;
+    --color-brand-200: #f28c8d;
+    --color-brand-300: #ed6464;
+    --color-brand-400: #e83b3c;
+    --color-brand-500: #e31213;
+    --color-brand-600: #ba0f10;
+    --color-brand-700: #910c0c;
+    --color-brand-800: #670809;
+    --color-brand-900: #3e0505;
+
+    --color-dark-brand: #1e2123;
+    --color-light-dark-brand: #25292b;
+    --color-red-brand: #e31213;
+    --color-red-brand-dark: #850808;
+    --color-off-white: #999999;
+}

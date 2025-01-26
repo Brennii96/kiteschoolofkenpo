@@ -1,0 +1,71 @@
+@import 'tailwindcss' source("../views");
+@import "./theme.css";
+
+/* This is all you. */
+
+@plugin '@tailwindcss/typography';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-montserrat);
+    font-style: normal;
+    font-optical-sizing: auto;
+}
+
+p, article {
+    font-family: var(--font-roboto);
+    font-style: normal;
+    line-height: 1.6;
+    font-optical-sizing: auto;
+}
+
+@layer components {
+    .hero-title {
+        @apply font-bold text-3xl py-12 md:text-4xl lg:text-5xl xl:text-6xl text-center text-white leading-7 md:leading-10;
+    }
+
+    .hero-text {
+        @apply md:mt-8 mt-12 lg:w-10/12 font-normal text-center text-white text-xl;
+    }
+
+    .btn {
+        @apply bg-red-brand border border-red-brand px-4 py-2 uppercase text-white transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 sm:px-8 sm:py-3 lg:text-xl lg:font-bold hover:bg-red-brand-dark hover:border-red-brand-dark;
+    }
+
+    .btn-dark {
+        @apply bg-brand-800 border border-brand-800 px-4 py-2 uppercase text-white transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 sm:px-8 sm:py-3 lg:text-xl lg:font-bold hover:bg-red-brand-dark hover:border-red-brand-dark;
+    }
+
+    .content-block p {
+        @apply text-off-white md:mt-5 mt-10 lg:w-10/12 font-normal text-base;
+    }
+
+    .content-block a {
+        @apply text-white underline hover:text-red-brand;
+    }
+
+    .content-block h3 {
+        @apply text-2xl font-bold mt-5 text-white;
+    }
+
+    .text-section {
+        @apply text-off-white md:mt-5 mt-10 lg:w-10/12 font-normal text-base;
+    }
+}

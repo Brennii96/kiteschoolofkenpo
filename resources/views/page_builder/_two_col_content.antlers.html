@@ -1,0 +1,21 @@
+<section
+    class="relative flex bg-dark-brand"
+>
+    <div class="relative z-10 container mx-auto flex flex-col content-center items-center py-14">
+        <h2 class="text-2xl font-bold md:mt-2 mt-5 text-center text-white">
+            {{ title }}
+        </h2>
+
+        {{ partial src="partials/seperator" }}
+
+        <div class="flex flex-row flex-wrap">
+            <div class="content-block flex flex-col md:w-1/2 w-full md:pl-12 md:px-2 px-4">
+                {{ col_one_content }}
+            </div>
+            <div class="content-block flex flex-col md:w-1/2 w-full md:pl-12 md:px-2 px-4">
+                {{ col_two_content }}
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,18 @@
+title: Articles
+template: articles/show
+layout: layout
+mount: a9a962f6-7235-4b7c-9464-9d6c72d467a4
+taxonomies:
+  - tags
+revisions: false
+route: '/{mount}/{slug}'
+date: true
+sort_dir: asc
+date_behavior:
+  past: public
+  future: private
+preview_targets:
+  -
+    label: Entry
+    url: '{permalink}'
+    refresh: true

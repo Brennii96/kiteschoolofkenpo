@@ -1,0 +1,188 @@
+title: 'Page Builder'
+fields:
+  -
+    handle: page_builder
+    field:
+      collapse: true
+      type: replicator
+      display: 'Page Builder'
+      sets:
+        interactive:
+          display: Interactive
+          sets:
+            new_set:
+              display: 'New Set'
+              fields: {  }
+        content:
+          display: Content
+          sets:
+            hero:
+              display: Hero
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: background_image
+                  field:
+                    max_files: 1
+                    container: assets
+                    type: assets
+                    display: 'Background Image'
+                -
+                  handle: content
+                  field:
+                    automatic_links: true
+                    smartypants: true
+                    type: markdown
+                    display: Content
+                -
+                  handle: cta_link
+                  field:
+                    collections:
+                      - pages
+                    type: link
+                    display: 'CTA Link'
+                    width: 50
+                -
+                  handle: cta_text
+                  field:
+                    type: text
+                    display: 'CTA Text'
+                    width: 50
+            content_with_cta:
+              display: 'Content With CTA'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: content
+                  field:
+                    buttons:
+                      - bold
+                      - italic
+                      - unorderedlist
+                      - orderedlist
+                      - quote
+                      - link
+                      - image
+                    smartypants: true
+                    type: markdown
+                    display: Content
+                -
+                  import: cta
+            quote:
+              display: Quote
+              icon: text-formatting-quotation
+              fields:
+                -
+                  handle: block_quote
+                  field:
+                    type: textarea
+                    display: 'Block Quote'
+                -
+                  handle: quote_attribution
+                  field:
+                    type: text
+                    display: 'Quote Attribution'
+                -
+                  handle: background_image
+                  field:
+                    max_files: 1
+                    container: assets
+                    type: assets
+                    display: 'Background Image'
+            three_col_features_grid:
+              display: 'Three Col Features Grid'
+              fields:
+                -
+                  import: three_col_features_grid
+            two_col_content:
+              display: 'Two Col Content'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: col_one_content
+                  field:
+                    buttons:
+                      - h2
+                      - h3
+                      - bold
+                      - italic
+                      - unorderedlist
+                      - orderedlist
+                      - removeformat
+                      - quote
+                      - anchor
+                      - image
+                      - table
+                      - h4
+                      - h5
+                      - h6
+                      - underline
+                      - horizontalrule
+                    remove_empty_nodes: false
+                    link_collections:
+                      - pages
+                    type: bard
+                    display: 'Col One Content'
+                    container: assets
+                -
+                  handle: col_two_content
+                  field:
+                    buttons:
+                      - h2
+                      - h3
+                      - bold
+                      - italic
+                      - unorderedlist
+                      - orderedlist
+                      - removeformat
+                      - quote
+                      - anchor
+                      - image
+                      - table
+                      - h4
+                      - h5
+                      - h6
+                      - underline
+                      - horizontalrule
+                    remove_empty_nodes: false
+                    link_collections:
+                      - pages
+                    type: bard
+                    display: 'Col Two Content'
+                    container: assets
+            team:
+              display: Team
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+            testimonials:
+              display: Testimonials
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+            new_set:
+              display: 'New Set'
+              fields: {  }
+            feature_highlights:
+              display: 'Feature Highlights Block'
+              fields:
+                -
+                  import: three_col_features_with_bg

@@ -1,0 +1,32 @@
+title: 'Three Col Features Grid'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+  -
+    handle: features_list_with_background
+    field:
+      max_sets: 3
+      type: replicator
+      display: 'Features List With Background'
+      sets:
+        new_set_group:
+          display: 'New Set Group'
+          sets:
+            new_set:
+              display: 'New Set'
+              fields:
+                -
+                  handle: featured_image
+                  field:
+                    container: assets
+                    type: assets
+                    display: 'Featured Image'
+                    max_files: 1
+                -
+                  handle: features
+                  field:
+                    type: list
+                    display: Features

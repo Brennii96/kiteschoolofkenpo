@@ -1,0 +1,27 @@
+<section
+    class="flex bg-home-hero bg-cover bg-no-repeat bg-center relative w-full"
+>
+    <img
+        src="{{ glide :src='background_image' format='webp' width='1920' height='1200' }}"
+        class="-z-10 object-cover w-full h-full absolute inset-0"
+        alt="Hero Image Background"
+    />
+    <div class="container gap-y-6 m-auto flex flex-col content-center items-center py-12 sm:py-24">
+        <div class="w-11/12 lg:flex justify-center items-center flex-col mb-5 sm:mb-10">
+            <h1 class="hero-title">
+                {{ title }}
+            </h1>
+            <div class="hero-text">
+                {{ content }}
+            </div>
+        </div>
+        <div class="flex justify-center items-center">
+            {{ if cta_link }}
+                <a href="{{ cta_link }}"
+                   class="btn">
+                    {{ cta_text ?? "Learn More" }}
+                </a>
+            {{ /if }}
+        </div>
+    </div>
+</section>

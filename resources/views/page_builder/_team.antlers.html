@@ -1,0 +1,41 @@
+{{ partial src="partials/flex_section" id="team" }}
+<h3 class="text-2xl font-medium title-font text-white">{{ title }}</h3>
+
+{{ partial src="partials/seperator" }}
+
+<div class='container px-5 mt-4 mx-auto'>
+<div class='flex flex-wrap -m-4'>
+{{ collection:team sort="order" }}
+    <div class="p-4 lg:w-1/3 md:w-1/2">
+    <div class="h-full flex flex-col items-center text-center">
+        <img
+        alt="{{ title }}"
+        class="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4 max-w-[250px] transition duration-300 ease-in-out"
+        src="
+
+    {{ glide :src="profile_image" height="225" width="225" format="webp" }}"
+        height="250"
+        width="250"
+    />
+        <div class="w-full">
+            <h3 class="title-font font-medium text-lg text-white">
+                <a href="/team/{{ slug }}">{{ title }}</a>
+            </h3>
+            {{ if role }}
+                <h4 class="text-white">{{ rank }}</h4>
+                <h4 class="text-white mb-3">{{ role }}</h4>
+            {{ else }}
+                <h4 class="text-white mb-3">{{ rank }}</h4>
+            {{ /if }}
+            {{ if intro }}
+                <div class="mb-4 text-off-white">
+                    {{ intro }}
+                </div>
+            {{ /if }}
+        </div>
+    </div>
+    </div>
+    {{ /collection:team }}
+    </div>
+    </div>
+{{ /partial }}

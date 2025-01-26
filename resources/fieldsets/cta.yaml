@@ -1,0 +1,16 @@
+title: CTA
+fields:
+  -
+    handle: cta_link
+    field:
+      collections:
+        - pages
+      type: link
+      display: 'CTA Link'
+      width: 50
+  -
+    handle: cta_text
+    field:
+      type: text
+      display: 'CTA Text'
+      width: 50
