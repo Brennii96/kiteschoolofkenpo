@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2fdab2e8995acbbba30e261791a46f8",
+    "content-hash": "c266596a40285e4e3f0d8d53ebf97f57",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -1348,6 +1348,69 @@
                 "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.23"
             },
             "time": "2023-10-19T13:18:49+00:00"
+        },
+        {
+            "name": "laborb/bunny-stream",
+            "version": "1.2.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laborb/bunny-stream.git",
+                "reference": "315df7c777bbcd7b29f20a03935fd98c7aeb82ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laborb/bunny-stream/zipball/315df7c777bbcd7b29f20a03935fd98c7aeb82ea",
+                "reference": "315df7c777bbcd7b29f20a03935fd98c7aeb82ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "statamic/cms": "^3.2|^4.0|^5.0"
+            },
+            "type": "statamic-addon",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laborb\\BunnyStream\\ServiceProvider"
+                    ]
+                },
+                "statamic": {
+                    "name": "Bunny Stream",
+                    "description": "Bunny Stream addon"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laborb\\BunnyStream\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jannis Forsthövel",
+                    "email": "jf@laborb.de",
+                    "homepage": "https://laborb.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Upload and embed videos from Bunny Stream",
+            "homepage": "https://laborb.de",
+            "keywords": [
+                "Bunny.net",
+                "hosting",
+                "statamic-addon",
+                "streaming",
+                "video"
+            ],
+            "support": {
+                "email": "support@laborb.de",
+                "issues": "https://github.com/laborb/bunny-stream/issues",
+                "source": "https://github.com/laborb/bunny-stream/tree/1.2.11"
+            },
+            "time": "2024-08-14T09:05:44+00:00"
         },
         {
             "name": "laragraph/utils",
