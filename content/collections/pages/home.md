@@ -4,7 +4,7 @@ blueprint: pages
 title: Home
 template: home
 updated_by: 0e220831-81be-49c9-bcf4-204e13cb2899
-updated_at: 1737841336
+updated_at: 1738012139
 page_builder:
   -
     id: m6cjpilo
@@ -28,6 +28,12 @@ page_builder:
     quote_attribution: 'BRUCE LEE - QUOTE OF THE DAY'
     background_image: fist-sparks.webp
     type: quote
+    enabled: true
+  -
+    id: m6fbxm14
+    title: 'Frequently Asked Questions'
+    limit: 10
+    type: faqs
     enabled: true
 ---
 ## Welcome to your brand new Statamic site!
