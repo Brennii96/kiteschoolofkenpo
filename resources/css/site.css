@@ -1,4 +1,4 @@
-@import 'tailwindcss' source("../views");
+@import 'tailwindcss' source("../");
 @import "./theme.css";
 
 /* This is all you. */
