@@ -19,7 +19,8 @@ bio: |-
   American Kenpo Karate is a devastating Martial Science. With its linear and circular movements and deadly effectiveness. It’s an incredible art form to behold. It’s also very contagious, it gets in your blood. I also count myself lucky to have been embraced into a large Kenpo family, and have been fortunate enough to share this incredible martial science with all three of my daughters. Two have achieved the rank of brown belt and my youngest daughter is currently a green belt. Having achieved a lifelong ambition of earning my Black Belt, I am constantly searching for what's next. I believe that my journey has only just begun, and giving back to my students and other members of our association is a perhaps a great way to continue my journey.
 rank: '6th Degree Black Belt'
 updated_by: 0e220831-81be-49c9-bcf4-204e13cb2899
-updated_at: 1737903917
+updated_at: 1738013342
 role: Professor
 intro: 'Discover the journey of Alun: From a founding force to a senior instructor at Kite School of Kenpo. Uncover his inspiring path into the world of Kenpo.'
+template: home
 ---
