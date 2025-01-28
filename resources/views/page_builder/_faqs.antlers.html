@@ -1,0 +1,33 @@
+{{ partial src="partials/flex_section" id="faq-app" }}
+<h3 class="text-2xl font-bold mt-5 text-center text-white">
+    {{ title }}
+</h3>
+{{ partial src="partials/seperator" }}
+    {{ collection:faqs limit="{limit}" }}
+        <div class="md:w-8/12 w-10/12 mb-2 mx-auto faq-item">
+            <div class="w-full rounded-sm bg-white p-2">
+                <div>
+                    <button
+                        class="flex w-full justify-between rounded-lg px-4 py-2 text-left text-lg font-medium text-red-dark-brand hover:bg-red-brand-dark/30 focus:outline-none focus-visible:ring focus-visible:ring-red-brand-dark focus-visible:ring-opacity-75 toggle-accordion">
+                        <span>{{question}}</span>
+                        <span class="faq-icon text-red-dark-brand transition-transform duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                 class="w-5 h-5">
+                                <path
+                                    d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z"/>
+                            </svg>
+                        </span>
+                    </button>
+
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="px-4 pt-4 pb-2 text-md text-gray-800 prose min-w-full">
+                            <div class="prose max-w-none prose:text-gray-800">
+                                {{answer}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ /collection:faqs }}
+{{ /partial }}

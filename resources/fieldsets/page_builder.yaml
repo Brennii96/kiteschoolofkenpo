@@ -178,9 +178,21 @@ fields:
                   field:
                     type: text
                     display: Title
-            new_set:
-              display: 'New Set'
-              fields: {  }
+            faqs:
+              display: FAQs
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: limit
+                  field:
+                    input_type: number
+                    default: '5'
+                    type: text
+                    display: Limit
             feature_highlights:
               display: 'Feature Highlights Block'
               fields:
