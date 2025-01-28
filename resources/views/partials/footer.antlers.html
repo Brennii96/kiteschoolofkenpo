@@ -1,0 +1,115 @@
+<footer class="text-center lg:text-left bg-dark-brand text-off-white">
+    <div class="flex justify-center items-center lg:justify-between p-6 border-b border-gray-300">
+        <div class="mr-12 hidden lg:block">
+            <span>Get connected with us on social networks:</span>
+        </div>
+        <div class="flex justify-center">
+            <a
+                href="{{ contact:facebook_link }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Black Kite Kenpo Facebook"
+                class="mr-6 p-2 text-off-white hover:text-[#4267B2]"
+            >
+                <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fab"
+                    data-icon="facebook-f"
+                    class="w-2.5"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 320 512"
+                >
+                    <path
+                        fill="currentColor"
+                        d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+                    ></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <div class="mx-6 py-10 text-center md:text-left">
+        <div class="grid grid-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div>
+                <h3 class="uppercase font-semibold mb-4 flex items-center justify-center md:justify-start">
+                    <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="fas"
+                        data-icon="cubes"
+                        class="w-4 mr-3"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M488.6 250.2L392 214V105.5c0-15-9.3-28.4-23.4-33.7l-100-37.5c-8.1-3.1-17.1-3.1-25.3 0l-100 37.5c-14.1 5.3-23.4 18.7-23.4 33.7V214l-96.6 36.2C9.3 255.5 0 268.9 0 283.9V394c0 13.6 7.7 26.1 19.9 32.2l100 50c10.1 5.1 22.1 5.1 32.2 0l103.9-52 103.9 52c10.1 5.1 22.1 5.1 32.2 0l100-50c12.2-6.1 19.9-18.6 19.9-32.2V283.9c0-15-9.3-28.4-23.4-33.7zM358 214.8l-85 31.9v-68.2l85-37v73.3zM154 104.1l102-38.2 102 38.2v.6l-102 41.4-102-41.4v-.6zm84 291.1l-85 42.5v-79.1l85-38.8v75.4zm0-112l-102 41.4-102-41.4v-.6l102-38.2 102 38.2v.6zm240 112l-85 42.5v-79.1l85-38.8v75.4zm0-112l-102 41.4-102-41.4v-.6l102-38.2 102 38.2v.6z"
+                        ></path>
+                    </svg>
+                    Come find us
+                </h3>
+                <p>
+                    <a class="link" href="{{ contact:what_3_words_link }}" target="_blank" rel="noreferrer noopener">
+                        {{contact:what_3_words}}
+                    </a>
+                </p>
+                <a class="link" href="{{ contact:address_link }}" target="_blank" rel="noopener noreferrer">
+                    {{ contact:address | nl2br }}
+                </a>
+            </div>
+            <div class="text-off-white">
+                <h3 class="uppercase font-semibold mb-4 flex justify-center md:justify-start">
+                    Opening Times
+                </h3>
+                <p class="mb-4">Wednesday: 18:00 - 19:00</p>
+                <p class="mb-4">Saturday: 11:00 - 12:00</p>
+            </div>
+            <div class="text-off-white">
+                <h3 class="uppercase font-semibold mb-4 flex justify-center md:justify-start">
+                    Useful links
+                </h3>
+                {{ nav:footer }}
+                    <p class="mb-4">
+                        <a class="link" href="{{ url }}">{{ title }}</a>
+                    </p>
+                {{ /nav:footer }}
+            </div>
+            <div>
+                <h3 class="uppercase font-semibold mb-4 flex justify-center md:justify-start">
+                    Contact
+                </h3>
+                <p class="flex items-center justify-center md:justify-start mb-4">
+                    <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="fas"
+                        data-icon="phone"
+                        class="fill-white w-4 mr-4"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"
+                        ></path>
+                    </svg>
+                    <a class="link" href="tel:{{ contact:phone }}">{{contact:phone}}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="text-center p-6 bg-dark-brand">
+        <span>&copy; 2025 Copyright: </span>
+        <a
+            target="_blank"
+            rel="noreferrer"
+            class="text-gray-300 font-semibold"
+            href="https://github.com/brennii96"
+        >
+            Brendan O'Neill
+        </a>
+    </div>
+</footer>

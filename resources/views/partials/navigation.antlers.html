@@ -1,0 +1,134 @@
+<div class="relative bg-dark-brand uppercase text-sm z-30">
+    <div class="max-w-7xl mx-auto md:px-4 px-6">
+        <div class="flex justify-between items-center pt-2 pb-2 md:justify-start md:space-x-10">
+            <!-- Logo -->
+            <div class="flex justify-start lg:w-0 lg:flex-1">
+                <a href="/" title="Home" class="cursor-pointer">
+                    <img src="/assets/kiteschoolofkenpologo.svg" alt="Logo" class="h-24 w-24">
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="-mr-2 -my-2 md:hidden">
+                <button id="mobile-menu-button"
+                        class="bg-dark-brand rounded-md p-2 inline-flex items-center justify-center text-white hover:text-red-brand hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-brand-dark">
+                    <span class="sr-only">Open menu</span>
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="p-2 text-sm lg:text-base font-medium text-white hover:text-red-brand">Home</a>
+                <a href="/about-kenpo-karate"
+                   class="p-2 text-sm lg:text-base font-medium text-white hover:text-red-brand">About Us</a>
+
+                <!-- Dropdown Menu -->
+                <div class="relative group">
+                    <button
+                        class="p-2 bg-dark-brand rounded-md inline-flex items-center text-sm lg:text-base font-medium text-white hover:text-red-brand focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-brand-dark">
+                        <span>About Kenpo Karate</span>
+                        <svg class="ml-2 h-5 w-5 text-gray-400 group-hover:text-white"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Panel -->
+                    <div
+                        class="hidden group-hover:block absolute z-10 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
+                        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                            <div class="bg-dark-brand px-5 py-6">
+                                <!-- About Links -->
+                                <a href="/about-kenpo-karate/the-origins-of-kenpo-karate"
+                                   class="-m-3 p-3 flex items-start rounded-lg">
+                                    <div class="ml-4">
+                                        <p class="text-base font-medium text-white">The Origins of Kenpo Karate</p>
+                                        <p class="mt-1 text-sm text-white">Kenpo is a style of Martial Arts...</p>
+                                    </div>
+                                </a>
+                                <a href="/about-kenpo-karate/belt-ranks-themes"
+                                   class="-m-3 p-3 flex items-start rounded-lg">
+                                    <div class="ml-4">
+                                        <p class="text-base font-medium text-white">Belt Ranks and Themes</p>
+                                        <p class="mt-1 text-sm text-white">Gradings in Kenpo Karate can be
+                                            difficult...</p>
+                                    </div>
+                                </a>
+                                <a href="/about-kenpo-karate/kenpo-karate-syllabus"
+                                   class="-m-3 p-3 flex items-start rounded-lg">
+                                    <div class="ml-4">
+                                        <p class="text-base font-medium text-white">Kenpo Karate Syllabus</p>
+                                        <p class="mt-1 text-sm text-white">There are over 120 techniques in Kenpo
+                                            Karate...</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/contact-us" class="p-2 text-sm lg:text-base font-medium text-white hover:text-red-brand">Contact
+                    Us</a>
+            </nav>
+
+            <!-- Account Section -->
+            <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+                <a href="/account"
+                   class="md:mx-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm lg:text-base font-medium text-white bg-red-brand focus:ring-bg-red-brand-dark hover:bg-red-brand-dark hover:border-red-brand-dark border-red-brand">
+                    Account
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu"
+         class="hidden z-10 absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
+        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-dark-brand divide-y-2 divide-gray-50">
+            <div class="pt-5 pb-6 px-5">
+                <div class="flex items-center justify-between">
+                    <a href="/" class="cursor-pointer" title="Home">
+                        <img src="/assets/kiteschoolofkenpologo.svg" alt="Logo" class="h-24 w-24">
+                    </a>
+                    <button id="mobile-menu-close"
+                            class="bg-dark-brand rounded-md p-2 inline-flex items-center justify-center text-white hover:text-red-brand hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-brand-dark">
+                        <span class="sr-only">Close menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-6 pb-6 px-5">
+                <a href="/" class="block text-sm lg:text-base font-medium text-white hover:text-red-brand">Home</a>
+                <a href="/about-kenpo-karate"
+                   class="block text-sm lg:text-base font-medium text-white hover:text-red-brand">About Us</a>
+                <a href="/contact-us" class="block text-sm lg:text-base font-medium text-white hover:text-red-brand">Contact
+                    Us</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    mobileMenuClose.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+    });
+</script>

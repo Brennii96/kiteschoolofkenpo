@@ -68,4 +68,12 @@ p, article {
     .text-section {
         @apply text-off-white md:mt-5 mt-10 lg:w-10/12 font-normal text-base;
     }
+
+    footer .link {
+        @apply hover:text-red-brand hover:underline text-off-white no-underline;
+    }
+
+    .link {
+        @apply text-white underline;
+    }
 }
