@@ -37,6 +37,15 @@ p, article {
 }
 
 @layer components {
+    button {
+        cursor: pointer;
+    }
+
+    .faq-content {
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+    }
+
     .hero-title {
         @apply font-bold text-3xl py-12 md:text-4xl lg:text-5xl xl:text-6xl text-center text-white leading-7 md:leading-10;
     }
