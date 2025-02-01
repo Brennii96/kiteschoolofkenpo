@@ -4,7 +4,7 @@ blueprint: pages
 title: Home
 template: home
 updated_by: 0e220831-81be-49c9-bcf4-204e13cb2899
-updated_at: 1738012139
+updated_at: 1738344483
 page_builder:
   -
     id: m6cjpilo
@@ -35,6 +35,7 @@ page_builder:
     limit: 10
     type: faqs
     enabled: true
+    lighten: true
 ---
 ## Welcome to your brand new Statamic site!
 
