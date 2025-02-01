@@ -10,6 +10,7 @@ preferences:
   favorites: {  }
   assets:
     assets:
+      per_page: 25
       mode: grid
   forms:
     book_a_class:

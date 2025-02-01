@@ -1,0 +1,20 @@
+{
+    "name": "Existing Docker Compose (Extend)",
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
+    "service": "ksk.test",
+    "workspaceFolder": "/var/www/html",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+            ],
+            "settings": {}
+        }
+    },
+    "remoteUser": "laravel",
+    "postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true"
+    // "forwardPorts": [],
+    // "runServices": [],
+    // "shutdownAction": "none",
+}
