@@ -1,0 +1,81 @@
+<div
+    class="lg:w-2/3 md:w-1/2 md:h-4/5 h-1/2 w-full bg-gray-300 rounded-lg overflow-hidden md:mr-10 flex items-end justify-start relative sm:min-h-[300px]">
+    <div id="map"></div>
+
+    <div class="w-3/4 absolute left-1 bottom-1 bg-white flex flex-wrap md:py-6 py-4 mx-2 rounded shadow-md md:mx-4">
+        <div class="lg:w-1/2 px-6">
+            <h3 class="title-font font-semibold text-gray-900 tracking-widest text-xs">
+                ADDRESS
+            </h3>
+            <div class="mt-1">
+                <p>
+                    <a class="link" href="{{ contact:what_3_words_link }}" target="_blank" rel="noreferrer noopener">
+                        {{contact:what_3_words}}
+                    </a>
+                </p>
+            </div>
+            <p class="mt-1">
+                <a class="link" href="{{ contact:address_link }}" target="_blank" rel="noopener noreferrer">
+                    {{ contact:address | nl2br }}
+                </a>
+            </p>
+        </div>
+        <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
+            <h3 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">
+                PHONE
+            </h3>
+            <p class="leading-relaxed">
+                <a href="tel:{{ contact:phone }}">{{ contact:phone }}</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{{ section:header_scripts }}
+    <script>
+        (g => {
+            var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__",
+                m = document, b = window;
+            b = b[c] || (b[c] = {});
+            var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams,
+                u = () => h || (h = new Promise(async (f, n) => {
+                    await (a = m.createElement("script"));
+                    e.set("libraries", [...r] + "");
+                    for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+                    e.set("callback", c + ".maps." + q);
+                    a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+                    d[q] = f;
+                    a.onerror = () => h = n(Error(p + " could not load."));
+                    a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                    m.head.append(a)
+                }));
+            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+        })({
+            key: "{{ api:maps_key }}",
+            v: "beta"
+        });
+
+        let map;
+
+        async function initMap() {
+            const position = {lat: {{ latitude }}, lng: {{ longitude }} };
+
+            const {Map} = await google.maps.importLibrary("maps");
+            const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
+
+
+            map = new Map(document.getElementById("map"), {
+                center: position,
+                zoom: 16,
+                mapId: 'DEMO_MAP_ID',
+            });
+
+            const marker = new AdvancedMarkerElement({
+                map: map,
+                position: position,
+                title: '{{ site:name }}'
+            });
+        }
+        initMap();
+    </script>
+{{ /section:header_scripts }}

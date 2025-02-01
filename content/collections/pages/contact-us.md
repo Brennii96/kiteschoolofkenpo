@@ -38,7 +38,15 @@ page_builder:
         enabled: true
     type: feature_highlights
     enabled: true
+  -
+    id: m6jmcmj0
+    latitude: '52.60569015094963'
+    longitude: '-0.2562014921461072'
+    show_form: true
+    show_contact: true
+    type: map_with_form
+    enabled: true
 updated_by: 0e220831-81be-49c9-bcf4-204e13cb2899
-updated_at: 1737908669
+updated_at: 1738258723
 template: home
 ---

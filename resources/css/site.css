@@ -37,6 +37,11 @@ p, article {
 }
 
 @layer components {
+    #map {
+        height: 600px;
+        width: 100%;
+    }
+
     button {
         cursor: pointer;
     }
@@ -80,9 +85,5 @@ p, article {
 
     footer .link {
         @apply hover:text-red-brand hover:underline text-off-white no-underline;
-    }
-
-    .link {
-        @apply text-white underline;
     }
 }

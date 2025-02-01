@@ -10,9 +10,23 @@ fields:
         interactive:
           display: Interactive
           sets:
-            new_set:
-              display: 'New Set'
-              fields: {  }
+            map_with_form:
+              display: 'Map With Form'
+              fields:
+                -
+                  import: map
+                -
+                  handle: show_form
+                  field:
+                    default: true
+                    type: toggle
+                    display: 'Show Form'
+                -
+                  handle: show_contact
+                  field:
+                    default: true
+                    type: toggle
+                    display: 'Show Contact'
         content:
           display: Content
           sets:
@@ -186,6 +200,11 @@ fields:
                   field:
                     type: text
                     display: Title
+                -
+                  handle: lighten
+                  field:
+                    type: toggle
+                    display: Lighten
                 -
                   handle: limit
                   field:
