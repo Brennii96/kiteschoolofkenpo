@@ -11,3 +11,14 @@ preferences:
   assets:
     assets:
       mode: grid
+  forms:
+    book_a_class:
+      columns:
+        - datestamp
+        - first_name
+        - surname
+        - class_day
+        - age
+        - email
+        - phone
+        - message
