@@ -1,38 +1,73 @@
-<div
-    class="lg:w-2/3 md:w-1/2 md:h-4/5 h-1/2 w-full bg-gray-300 rounded-lg overflow-hidden md:mr-10 flex items-end justify-start relative sm:min-h-[300px]">
-    <div id="map"></div>
+<div x-data="{ isOpen: true }"
+     class="w-full md:h-4/5 h-1/2 bg-gray-300 rounded-lg overflow-hidden md:mr-10 flex items-end justify-start relative min-h-[500px]">
 
-    <div class="w-3/4 absolute left-1 bottom-1 bg-white flex flex-wrap md:py-6 py-4 mx-2 rounded shadow-md md:mx-4">
-        <div class="lg:w-1/2 px-6">
-            <h3 class="title-font font-semibold text-gray-900 tracking-widest text-xs">
-                ADDRESS
-            </h3>
-            <div class="mt-1">
-                <p>
-                    <a class="link" href="{{ contact:what_3_words_link }}" target="_blank" rel="noreferrer noopener">
-                        {{contact:what_3_words}}
-                    </a>
-                </p>
+    <div id="map" class="w-full h-full"></div>
+
+    <div x-show="isOpen" x-cloak
+         class="w-3/4 absolute left-1 bottom-1 bg-white rounded shadow-md md:mx-4 mx-2 transition-all duration-300">
+        <button type="button" x-on:click="isOpen = false"
+                class="absolute top-0 right-0 m-2 text-gray-500 hover:text-gray-800 focus:outline-none"
+                aria-label="Close Contact Information">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+
+        <div class="p-4">
+            <div class="hidden md:flex justify-between">
+                <div class="px-6">
+                    <h3 class="title-font font-semibold text-gray-900 tracking-widest text-xs">ADDRESS</h3>
+                    <div class="mt-1">
+                        <p>
+                            <a class="link" href="{{ contact:what_3_words_link }}" target="_blank"
+                               rel="noreferrer noopener">
+                                {{ contact:what_3_words }}
+                            </a>
+                        </p>
+                    </div>
+                    <p class="mt-1">
+                        <a class="link" href="{{ contact:address_link }}" target="_blank" rel="noopener noreferrer">
+                            {{ contact:address | nl2br }}
+                        </a>
+                    </p>
+                </div>
+                <div class="px-6">
+                    <h3 class="title-font font-semibold text-gray-900 tracking-widest text-xs">PHONE</h3>
+                    <p class="leading-relaxed">
+                        <a href="tel:{{ contact:phone }}">{{ contact:phone }}</a>
+                    </p>
+                </div>
             </div>
-            <p class="mt-1">
-                <a class="link" href="{{ contact:address_link }}" target="_blank" rel="noopener noreferrer">
-                    {{ contact:address | nl2br }}
-                </a>
-            </p>
-        </div>
-        <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
-            <h3 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">
-                PHONE
-            </h3>
-            <p class="leading-relaxed">
-                <a href="tel:{{ contact:phone }}">{{ contact:phone }}</a>
-            </p>
+
+            <div class="flex flex-col md:hidden">
+                <div class="md:px-6">
+                    <p class="uppercase font-semibold text-gray-900 tracking-widest text-xs">Address:</p>
+                    <a class="link text-sm font-medium" href="{{ contact:what_3_words_link }}" target="_blank"
+                       rel="noreferrer noopener">
+                        {{ contact:what_3_words }}
+                    </a>
+                </div>
+                <div class="md:px-6 mt-2">
+                    <p class="uppercase font-semibold text-gray-900 tracking-widest text-xs">Phone:</p>
+                    <a class="link text-sm font-medium" href="tel:{{ contact:phone }}">
+                        {{ contact:phone }}
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+
+    <button x-show="!isOpen" x-cloak x-on:click="isOpen = true"
+            class="absolute bottom-1 left-1 bg-white rounded shadow-md p-2 md:mx-4 mx-2 transition-all duration-300 focus:outline-none"
+            aria-label="Show Contact Information">
+        Show Contact Info
+    </button>
 </div>
 
+
 {{ section:header_scripts }}
-    <script>
+    <script async defer>
         (g => {
             var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__",
                 m = document, b = window;
@@ -76,6 +111,7 @@
                 title: '{{ site:name }}'
             });
         }
+
         initMap();
     </script>
 {{ /section:header_scripts }}

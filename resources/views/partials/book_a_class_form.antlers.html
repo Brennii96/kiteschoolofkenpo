@@ -1,0 +1,68 @@
+<div class="flex flex-col md:ml-auto w-full md:py-8 md:mt-0 md:min-h-fit min-h-[500px]">
+
+    <h3 class="text-white text-xl mb-1 font-bold title-font">Book a lesson</h3>
+    {{ form:book_a_class js="alpine" }}
+        {{ if success }}
+            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                 role="alert">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm">
+                            Thanks for booking, we look forward to seeing you in class.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {{ /if }}
+        {{if errors }}
+            <div class="bg-red-50 p-4 rounded">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" aria-hidden="true" class="h-5 w-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm">
+                            There was an issue submitting your enquiry. Please fix below and try again.
+                        </p>
+                        {{ errors }}
+                        {{ value }}
+                        {{ /errors }}
+                    </div>
+                </div>
+            </div>
+        {{ /if }}
+
+
+        <div class="flex flex-col space-y-4">
+            <input type="text" class="hidden" name="{{ honeypot ?? 'username' }}">
+            {{ fields }}
+            <div class="relative mb-4">
+                <label class="leading-7 text-sm text-white">{{ display }}</label>
+                <div class="input select textarea">
+                    {{ field }}
+                </div>
+            </div>
+            {{ /fields }}
+        </div>
+
+        <div>
+            <button
+                type="submit"
+                class="btn mt-4"
+            >
+                Submit
+            </button>
+        </div>
+    {{ /form:book_a_class }}
+</div>
