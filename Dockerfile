@@ -45,8 +45,7 @@ RUN install-php-extensions \
 
 # Install Node.js (latest LTS) and Yarn
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
-    apt-get install -y nodejs && \
-    corepack enable && corepack prepare yarn@stable --activate
+    apt-get install -y nodejs
 
 # add additional extensions here:
 RUN install-php-extensions \
@@ -99,7 +98,7 @@ RUN composer install \
 
 RUN composer global require phpunit/phpunit:^10 pestphp/pest:^2.0
 
-RUN yarn install
+RUN npm install
 
 EXPOSE 8000 5173 9003 2019
 
