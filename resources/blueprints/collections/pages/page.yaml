@@ -42,3 +42,8 @@ tabs:
             field:
               type: template
               display: Template
+      -
+        display: SEO
+        fields:
+          -
+            import: seo

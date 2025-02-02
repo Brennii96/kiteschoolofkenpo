@@ -1,0 +1,16 @@
+<title>{{ (seo_title ?? title) + " " + (site:attributes:title_seperator ?? "-") + " " + site:name }}</title>
+<meta property="og:site_name" content="{{ site:name }}"/>
+<meta property="og:title"
+      content="{{ (seo_title ?? title) + " " + (site:attributes:title_seperator ?? "-") + " " + site:name }}"/>
+<meta property="twitter:title"
+      content="{{ (seo_title ?? title) + " " + (site:attributes:title_seperator ?? "-") + " " + site:name }}"/>
+{{ if description }}
+    <meta property="description" content="{{ description }}"/>
+    <meta property="og:description" content="{{ description }}"/>
+    <meta property="twitter:description" content="{{ description }}"/>
+{{ /if }}
+{{ if noindex }}
+    <meta name="robots" content="noindex, nofollow">
+{{ else }}
+    <meta name="robots" content="index, follow">
+{{ /if }}

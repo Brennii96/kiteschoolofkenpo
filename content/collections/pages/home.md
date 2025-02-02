@@ -4,7 +4,7 @@ blueprint: pages
 title: Home
 template: home
 updated_by: 0e220831-81be-49c9-bcf4-204e13cb2899
-updated_at: 1738344483
+updated_at: 1738520076
 page_builder:
   -
     id: m6cjpilo
@@ -36,6 +36,12 @@ page_builder:
     type: faqs
     enabled: true
     lighten: true
+seo_title: 'Kenpo Karate in Peterborough, UK'
+noindex: false
+schema:
+  code: null
+  mode: javascript
+description: 'Welcome to the home of Kenpo Karate in Peterborough, UK. Empowering individuals of all ages with accessible and affordable martial arts training. Join us to embark on a journey of strength, skill, and self-discovery.'
 ---
 ## Welcome to your brand new Statamic site!
 

@@ -141,6 +141,11 @@ page_builder:
     type: testimonials
     enabled: true
 updated_by: 0e220831-81be-49c9-bcf4-204e13cb2899
-updated_at: 1737905643
+updated_at: 1738520473
 template: home
+seo_title: 'About Kenpo Karate'
+noindex: false
+schema:
+  code: null
+  mode: javascript
 ---
