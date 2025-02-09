@@ -60,3 +60,16 @@ tabs:
               default: now
               validate:
                 - required
+          -
+            handle: tags
+            field:
+              type: terms
+              taxonomies:
+                - tags
+              display: Tags
+              mode: select
+      -
+        display: SEO
+        fields:
+          -
+            import: seo

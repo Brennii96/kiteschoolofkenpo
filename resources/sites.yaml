@@ -2,3 +2,5 @@ default:
   name: 'Kite School of Kenpo'
   url: /
   locale: en_GB
+  attributes:
+    title_seperator: '-'

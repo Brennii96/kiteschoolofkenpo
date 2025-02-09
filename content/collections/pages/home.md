@@ -4,7 +4,7 @@ blueprint: pages
 title: Home
 template: home
 updated_by: 0e220831-81be-49c9-bcf4-204e13cb2899
-updated_at: 1738344483
+updated_at: 1738534706
 page_builder:
   -
     id: m6cjpilo
@@ -36,6 +36,12 @@ page_builder:
     type: faqs
     enabled: true
     lighten: true
+seo_title: 'Kenpo Karate in Peterborough, UK'
+noindex: false
+schema:
+  code: '{"@context":"https://schema.org","@type":"Organization","@id":"https://www.kiteschoolofkenpo.co.uk","name":"Kite School of Kenpo","description":"Welcome to the home of Kenpo Karate in Peterborough, UK. Our aim is to make Kenpo Karate available and affordable for all.","sameAs":["https://redkitekenpo.co.uk","https://blackkitekenpo.co.uk","https://www.kiteschoolofkenpo.com"],"address":{"@type":"PostalAddress","streetAddress":"Paston Church Hall, Paston Church Hall","addressLocality":"Peterborough","postalCode":"PE4 7YQ","addressCountry":"GB"},"geo":{"type":"GeoCoordinates","latitude":"52.60569015094963","longitude":"-0.2562014921461072","@type":"GeoCoordinates"},"openingHoursSpecification":[{"opens":"18:00","closes":"19:00","dayOfWeek":["Wednesday"],"@type":"OpeningHoursSpecification"},{"opens":"11:00","closes":"12:00","dayOfWeek":"Saturday","@type":"OpeningHoursSpecification"}]}'
+  mode: javascript
+description: 'Welcome to the home of Kenpo Karate in Peterborough, UK. Empowering individuals of all ages with accessible and affordable martial arts training. Join us to embark on a journey of strength, skill, and self-discovery.'
 ---
 ## Welcome to your brand new Statamic site!
 
