@@ -96,8 +96,6 @@ RUN composer install \
     --no-ansi \
     --no-scripts
 
-RUN composer global require phpunit/phpunit:^10 pestphp/pest:^2.0
-
 RUN npm install
 
 EXPOSE 8000 5173 9003 2019
