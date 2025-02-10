@@ -1,45 +1,51 @@
-FROM dunglas/frankenphp
+FROM dunglas/frankenphp:latest
 
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /var/www/html
 
-# Install system dependencies
+# Install system dependencies required by Laravel and its dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
+    build-essential \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
     unzip \
     git \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/freetype2 \
+    --with-jpeg-dir=/usr/include \
+    --with-png-dir=/usr/include \
+    && docker-php-ext-install -j$(($(nproc)-1)) gd pdo pdo_mysql
 
-# Install Node.js and npm (Latest LTS version)
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g npm@latest
+# Install Composer
+COPY --from=composer:latest --mount=type=cache,target=/var/cache/composer global /usr/bin/composer
 
 # Copy application files
-COPY . .
+COPY . /var/www/html
+
+# Set correct file permissions for Laravel
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html \
+    && chmod -R 777 /var/www/html/storage \
+    && chmod -R 777 /var/www/html/bootstrap/cache
 
 # Install PHP dependencies
-RUN composer install --prefer-dist --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-interaction --no-dev --optimize-autoloader
 
-# Install Node dependencies and build frontend assets
-RUN npm install && npm run build
+# Generate application key (only if .env doesn't exist.  Important for production!)
+RUN if [ ! -f .env ]; then cp .env.example .env; php artisan key:generate --force; fi
 
-# Set correct permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Clear cache
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
 
-# Expose port 9000 (for PHP-FPM)
-EXPOSE 9000
+# Expose port 80 for the FrankenPHP server
+EXPOSE 80
 
-# Set environment variables
-ENV APP_ENV=production
-ENV APP_DEBUG=false
-ENV LOG_CHANNEL=stderr
-ENV SESSION_DRIVER=redis
-ENV QUEUE_CONNECTION=redis
+# Configure FrankenPHP to serve your Laravel application
+COPY frankenphp.conf /etc/frankenphp/conf.d/default.conf
 
-# Set entrypoint script
-ENTRYPOINT [ "php-fpm", "-y", "/etc/php-fpm.conf", "-R" ]
+# Start FrankenPHP
+CMD ["frankenphp", "run"]
