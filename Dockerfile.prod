@@ -22,7 +22,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --prefer-dist --no-dev --optimize-autoloader --no-interaction
 
 # Install Node dependencies and build frontend assets
 RUN npm install && npm run build
