@@ -41,4 +41,4 @@ RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 EXPOSE 80
 
 # Run the application with FrankenPHP
-CMD ["/usr/bin/frankenphp", "serve"]
+ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
