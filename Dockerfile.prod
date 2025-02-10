@@ -1,44 +1,45 @@
-FROM dunglas/frankenphp:latest AS base
+FROM serversideup/php:latest
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /var/www/html
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
-    git \
     unzip \
-    && rm -rf /var/lib/apt/lists/*
+    git \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN install-php-extensions \
-	pdo_mysql \
-	gd \
-	intl \
-	zip \
-	opcache
+# Install Node.js and npm (Latest LTS version)
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
 
-# Install Composer manually
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Install Node.js & npm
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g npm@latest
-
-# Copy the application code
+# Copy application files
 COPY . .
 
-# Install PHP dependencies using Composer
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
 
-# Build frontend assets
+# Install Node dependencies and build frontend assets
 RUN npm install && npm run build
 
 # Set correct permissions
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 80
-EXPOSE 80
+# Expose port 9000 (for PHP-FPM)
+EXPOSE 9000
 
-# Run the application with FrankenPHP
-ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
+# Set environment variables
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV LOG_CHANNEL=stderr
+ENV SESSION_DRIVER=redis
+ENV QUEUE_CONNECTION=redis
+
+# Set entrypoint script
+ENTRYPOINT [ "php-fpm", "-y", "/etc/php-fpm.conf", "-R" ]
