@@ -1,9 +1,7 @@
 FROM dunglas/frankenphp:latest
 
-# Set the working directory inside the container
 WORKDIR /var/www/html
 
-# Install system dependencies required by Laravel and its dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -18,8 +16,8 @@ RUN apt-get update && apt-get install -y \
     --with-png-dir=/usr/include \
     && docker-php-ext-install -j$(($(nproc)-1)) gd pdo pdo_mysql
 
-# Install Composer
-COPY --from=composer:latest --mount=type=cache,target=/var/cache/composer global /usr/bin/composer
+# Install Composer (Corrected)
+COPY --from=composer:latest /usr/bin/composer --chown=root:root
 
 # Copy application files
 COPY . /var/www/html
@@ -41,11 +39,8 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
 
-# Expose port 80 for the FrankenPHP server
 EXPOSE 80
 
-# Configure FrankenPHP to serve your Laravel application
 COPY frankenphp.conf /etc/frankenphp/conf.d/default.conf
 
-# Start FrankenPHP
 CMD ["frankenphp", "run"]
