@@ -7,7 +7,7 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 
 # Install project dependencies
-RUN composer install --no-interaction --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Stage 2: Your application with FrankenPHP
 FROM dunglas/frankenphp:latest
@@ -40,9 +40,9 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*  # Clean up apt cache
 
 # Set locales
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
+RUN locale-gen en_GB.UTF-8
+ENV LANG en_GB.UTF-8
+ENV LANGUAGE en_GB:en
 
 # Set correct file permissions for Laravel
 RUN chown -R www-data:www-data /var/www/html \
