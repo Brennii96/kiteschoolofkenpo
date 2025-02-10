@@ -20,6 +20,9 @@ RUN chown -R www-data:www-data /app && chmod -R 755 /app
 
 # Install Composer dependencies (as www-data user)
 USER www-data
+
+ENV NPM_CONFIG_CACHE /app/.npm
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install \
