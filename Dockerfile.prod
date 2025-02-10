@@ -29,7 +29,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
 COPY . .
 
 # Install PHP dependencies using Composer
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Build frontend assets
 RUN npm install && npm run build
