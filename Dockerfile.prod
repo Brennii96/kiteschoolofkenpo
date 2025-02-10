@@ -2,17 +2,21 @@ FROM dunglas/frankenphp
 
 RUN install-php-extensions pcntl pdo_mysql redis intl zip opcache
 
+WORKDIR /app
+
 COPY . /app
 
-WORKDIR /app  # Set the working directory inside the container
+# Create www-data user and group
+RUN groupadd www-data && useradd -ms /bin/bash -g www-data www-data
 
+# Fix file permissions (now that www-data exists)
 RUN chown -R www-data:www-data /app && chmod -R 755 /app
-USER www-data  # Switch to the www-data user
 
-# Install Composer dependencies
+# Install Composer dependencies (as www-data user)
+USER www-data
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
 
-USER root # Switch back to root user for the rest of the Dockerfile
+USER root
 
 ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
