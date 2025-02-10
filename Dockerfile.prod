@@ -1,0 +1,34 @@
+FROM dunglas/frankenphp:latest AS base
+
+# Set the working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js & npm
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm@latest
+
+# Copy the application code
+COPY . .
+
+# Install PHP dependencies using Composer
+RUN composer install --no-dev --optimize-autoloader
+
+# Build frontend assets
+RUN npm install && npm run build
+
+# Set correct permissions
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+
+# Expose port 80
+EXPOSE 80
+
+# Run the application with FrankenPHP
+CMD ["/usr/bin/frankenphp", "serve"]
