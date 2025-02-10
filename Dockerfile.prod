@@ -1,4 +1,4 @@
-FROM serversideup/php:latest
+FROM dunglas/frankenphp
 
 # Set the working directory
 WORKDIR /var/www/html
