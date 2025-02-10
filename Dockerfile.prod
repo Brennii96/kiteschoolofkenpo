@@ -6,10 +6,13 @@ COPY . /app
 
 WORKDIR /app  # Set the working directory inside the container
 
-RUN ls -l /app
+RUN chown -R www-data:www-data /app && chmod -R 755 /app
+USER www-data  # Switch to the www-data user
 
 # Install Composer dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
+
+USER root # Switch back to root user for the rest of the Dockerfile
 
 ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
