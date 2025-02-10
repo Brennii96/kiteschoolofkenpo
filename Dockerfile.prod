@@ -1,5 +1,9 @@
 FROM dunglas/frankenphp
 
+RUN apt-get update
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get install -y nodejs
+
 RUN install-php-extensions pcntl pdo_mysql redis intl zip opcache
 
 WORKDIR /app
@@ -16,8 +20,17 @@ RUN chown -R www-data:www-data /app && chmod -R 755 /app
 
 # Install Composer dependencies (as www-data user)
 USER www-data
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-dev --optimize-autoloader
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-autoloader \
+    --no-ansi \
+    --no-scripts
+
+RUN npm install
+RUN npm run build
 
 USER root
 
