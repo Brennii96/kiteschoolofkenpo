@@ -18,6 +18,7 @@ services:
       - ./:/var/www/html
       - ./vendor:/var/www/html/vendor
       - caddy_data:/data
+    command: sh -c "if [ ! -d /var/www/html/vendor ]; then cp -r /var/www/html/* /var/www/html_original/; fi && supervisord -c /etc/supervisor/conf.d/supervisord.conf"
 
 volumes:
   caddy_data:
