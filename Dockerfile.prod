@@ -6,10 +6,12 @@ WORKDIR /app
 
 COPY . /app
 
-# Create www-data user and group
-RUN groupadd www-data && useradd -ms /bin/bash -g www-data www-data
+# Check if www-data user exists, create if not
+RUN if ! id -u www-data 2>/dev/null; then \
+        useradd -ms /bin/bash -g www-data www-data; \
+    fi
 
-# Fix file permissions (now that www-data exists)
+# Fix file permissions
 RUN chown -R www-data:www-data /app && chmod -R 755 /app
 
 # Install Composer dependencies (as www-data user)
