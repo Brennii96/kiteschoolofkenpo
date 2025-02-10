@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        uid: 1000
+        gid: 1000
+        WWWGROUP: 1000
+        ADD_XDEBUG: 'N'
+    ports:
+      - "8888:8000"
+      - "5173:5173"
+      - "9003:9003"
+    networks:
+      - laravel
+    volumes:
+      - ./:/var/www/html
+      - ./vendor:/var/www/html/vendor
+      - caddy_data:/data
+
+volumes:
+  mariadb_data:
+    driver: local
+  redis:
+    driver: local
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local
+  minio:
+    driver: local
+
+networks:
+  laravel:
+    driver: bridge
