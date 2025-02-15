@@ -1,94 +1,21 @@
+version: "3.7"
 services:
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
       args:
         uid: 1000
-        gid: 1000
-        WWWGROUP: 1000
-        ADD_XDEBUG: 'Y'
-    ports:
-      - "8888:8000"
-      - "5173:5173"
-      - "9003:9003"
-    depends_on:
-      - db
-      - redis
-    networks:
-      - laravel
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/
     volumes:
-      - ./:/var/www/html
-      - ./vendor:/var/www/html/vendor
-      - caddy_data:/data
+      - ./:/var/www
 
-  db:
-    image: mariadb:lts
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
     ports:
-      - '${DB_PORT:-3306}:3306'
-    environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_DATABASE: '${DB_DATABASE}'
-      MYSQL_USER: '${DB_USERNAME}'
-      MYSQL_PASSWORD: '${DB_PASSWORD}'
-      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      - "8000:80"
     volumes:
-      - mariadb_data:/var/lib/mysql
-      - './docker/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-    networks:
-      - laravel
-
-  redis:
-    image: redis:alpine
-    ports:
-      - '${REDIS_PORT:-6379}:6379'
-    volumes:
-      - redis:/data
-    networks:
-      - laravel
-    healthcheck:
-      test: [ "CMD",  "redis-cli", "ping" ]
-      retries: 3
-      timeout: 5s
-
-  minio:
-    image: 'minio/minio:latest'
-    ports:
-      - '${FORWARD_MINIO_PORT:-9000}:9000'
-      - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
-    environment:
-      MINIO_ROOT_USER: 'brendan'
-      MINIO_ROOT_PASSWORD: 'password'
-    volumes:
-      - minio:/data/minio
-    networks:
-      - laravel
-    command: minio server /data/minio --console-address ":8900"
-    healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      retries: 3
-      timeout: 5s
-
-  mailpit:
-    image: axllent/mailpit:latest
-    networks:
-      - laravel
-    ports:
-      - '${MAIL_PORT:-1025}:1025'
-      - '${MAIL_DASHBOARD_PORT:-8025}:8025'
-
-volumes:
-  mariadb_data:
-    driver: local
-  redis:
-    driver: local
-  caddy_data:
-    driver: local
-  caddy_config:
-    driver: local
-  minio:
-    driver: local
-
-networks:
-  laravel:
-    driver: bridge
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
