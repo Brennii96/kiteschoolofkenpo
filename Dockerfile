@@ -2,6 +2,7 @@ FROM php:8.4-fpm
 
 ARG user
 ARG uid
+ENV APP_ROOT="/var/www/html"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -27,9 +28,11 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
-WORKDIR /var/www/html
+WORKDIR $APP_ROOT
 
-COPY . .
+VOLUME $APP_ROOT
+
+COPY --chown=$user ./ $APP_ROOT
 
 RUN npm install
 
