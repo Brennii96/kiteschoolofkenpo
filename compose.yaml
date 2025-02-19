@@ -1,16 +1,20 @@
-version: "3.7"
 services:
   app:
     build:
-      args:
-        user: ${USER:-ksk}
-        uid: 1000
       context: ./
       dockerfile: Dockerfile
+      args:
+        user: ${USER:-ksk}
+        uid: ${UID:-1000}
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html
+      - app_data:/var/www/html
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+    depends_on:
+      - nginx
 
   nginx:
     image: nginx:alpine
@@ -18,5 +22,26 @@ services:
     ports:
       - "${NGINX_PORT:-8888}:80"
     volumes:
-      - ./:/var/www/html
+      - app_data:/var/www/html
       - ./docker/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - app
+
+  queue:
+    build: .
+    command: php artisan queue:work --tries=3
+    volumes:
+      - app_data:/var/www/html
+    depends_on:
+      - app
+
+  scheduler:
+    build: .
+    command: ["sh", "-c", "while true; do php artisan schedule:run >> /dev/null 2>&1; sleep 60; done"]
+    volumes:
+      - app_data:/var/www/html
+    depends_on:
+      - app
+
+volumes:
+  app_data:
