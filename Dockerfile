@@ -25,6 +25,8 @@ RUN mkdir -p /home/$user/.composer && \
 
 WORKDIR /var/www/html
 
+COPY . .
+
 RUN npm install
 
 RUN composer install --no-scripts --no-interaction --no-dev --optimize-autoloader
