@@ -38,7 +38,7 @@ COPY package.json package-lock.json ./
 RUN npm install --omit=dev
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-scripts --no-interaction --no-dev --optimize-autoloader
 
 COPY . .
 
