@@ -13,8 +13,6 @@ services:
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
-    depends_on:
-      - nginx
 
   nginx:
     image: nginx:alpine
@@ -24,22 +22,6 @@ services:
     volumes:
       - app_data:/var/www/html
       - ./docker/nginx:/etc/nginx/conf.d/
-    depends_on:
-      - app
-
-  queue:
-    build: .
-    command: php artisan queue:work --tries=3
-    volumes:
-      - app_data:/var/www/html
-    depends_on:
-      - app
-
-  scheduler:
-    build: .
-    command: ["sh", "-c", "while true; do php artisan schedule:run >> /dev/null 2>&1; sleep 60; done"]
-    volumes:
-      - app_data:/var/www/html
     depends_on:
       - app
 
