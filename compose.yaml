@@ -3,6 +3,7 @@ services:
   app:
     build:
       args:
+        user: ${USER:-ksk}
         uid: 1000
       context: ./
       dockerfile: Dockerfile
