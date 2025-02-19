@@ -25,6 +25,7 @@ RUN mkdir -p /home/$user/.composer && \
 
 WORKDIR /var/www
 
-RUN npm install && npm run build
+RUN npm install
+RUN npm run build
 
 USER $user
