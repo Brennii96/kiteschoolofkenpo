@@ -23,9 +23,10 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
-WORKDIR /var/www
+WORKDIR /var/www/html
 
-RUN npm install
-RUN npm run build
+RUN npm install && npm run build
+
+RUN composer install --no-scripts --no-interaction --no-dev --optimize-autoloader
 
 USER $user
