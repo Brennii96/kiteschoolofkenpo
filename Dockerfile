@@ -1,4 +1,4 @@
-FROM php:8.4-fpm
+FROM php:8.3-fpm
 
 ARG user
 ARG uid
@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     unzip \
     libzip-dev \
+    mysql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
