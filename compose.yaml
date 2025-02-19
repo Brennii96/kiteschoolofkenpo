@@ -8,9 +8,9 @@ services:
       context: ./
       dockerfile: Dockerfile
     restart: unless-stopped
-    working_dir: /var/www/
+    working_dir: /var/www/html
     volumes:
-      - ./:/var/www
+      - ./:/var/www/html
 
   nginx:
     image: nginx:alpine
@@ -18,5 +18,5 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www
+      - ./:/var/www/html
       - ./docker/nginx:/etc/nginx/conf.d/
