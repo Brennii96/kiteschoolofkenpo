@@ -36,6 +36,7 @@ WORKDIR $APP_ROOT
 
 COPY package.json package-lock.json ./
 RUN npm install --omit=dev
+RUN npm run build
 
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-interaction --no-dev --optimize-autoloader
@@ -43,6 +44,6 @@ RUN composer install --no-scripts --no-interaction --no-dev --optimize-autoloade
 COPY . .
 
 # Ensure proper permissions
-RUN chown -R $user:www-data $APP_ROOT/storage $APP_ROOT/bootstrap/cache
+RUN chown -R $user:www-data $APP_ROOT/
 
 USER $user
