@@ -22,7 +22,8 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Install Node.js & NPM
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
-    apt-get install -y nodejs
+    apt-get install -y nodejs \
+    && npm i -g npm
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
