@@ -35,7 +35,7 @@ RUN mkdir -p /home/$user/.composer && \
 WORKDIR $APP_ROOT
 
 COPY . .
-RUN npm install --omit=dev
+RUN npm ci --omit=dev
 RUN npm run build
 
 RUN composer install --no-scripts --no-interaction --no-dev --optimize-autoloader
