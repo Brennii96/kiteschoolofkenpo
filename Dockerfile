@@ -34,14 +34,11 @@ RUN mkdir -p /home/$user/.composer && \
 
 WORKDIR $APP_ROOT
 
-COPY package.json package-lock.json ./
+COPY . .
 RUN npm install --omit=dev
 RUN npm run build
 
-COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-interaction --no-dev --optimize-autoloader
-
-COPY . .
 
 # Ensure proper permissions
 RUN chown -R $user:www-data $APP_ROOT/
