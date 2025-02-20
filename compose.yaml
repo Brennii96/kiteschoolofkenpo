@@ -13,6 +13,8 @@ services:
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
+    networks:
+      - ksk
 
   nginx:
     image: nginx:alpine
@@ -24,6 +26,10 @@ services:
       - ./docker/nginx:/etc/nginx/conf.d/
     depends_on:
       - app
+    networks:
+      - ksk
 
 volumes:
   app_data:
+networks:
+  ksk:
