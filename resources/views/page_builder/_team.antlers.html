@@ -11,15 +11,13 @@
         <img
         alt="{{ title }}"
         class="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4 max-w-[250px] transition duration-300 ease-in-out"
-        src="
-
-    {{ glide :src="profile_image" height="225" width="225" format="webp" }}"
+        src="{{ glide :src="profile_image" height="225" width="225" format="webp" }}"
         height="250"
         width="250"
     />
         <div class="w-full">
-            <h3 class="title-font font-medium text-lg text-white">
-                <a href="/team/{{ slug }}">{{ title }}</a>
+            <h3 class="title-font font-medium text-lg">
+                <a class="link text-white" href="/team/{{ slug }}">{{ title }}</a>
             </h3>
             {{ if role }}
                 <h4 class="text-white">{{ rank }}</h4>
