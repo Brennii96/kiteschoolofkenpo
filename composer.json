@@ -11,11 +11,12 @@
     ],
     "require": {
         "php": "^8.3",
+        "ext-pdo": "*",
         "laravel/framework": "^11.31",
+        "laravel/octane": "^2.8",
         "laravel/tinker": "^2.9",
         "statamic/cms": "^5.0",
-        "statamic/eloquent-driver": "^4.19",
-        "ext-pdo": "*"
+        "statamic/eloquent-driver": "^4.19"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
