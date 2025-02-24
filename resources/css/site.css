@@ -36,6 +36,11 @@ p, article {
     font-optical-sizing: auto;
 }
 
+a:hover {
+    color: theme(--color-red-brand);
+    text-decoration: underline;
+}
+
 @layer components {
     #map {
         height: -moz-available;
