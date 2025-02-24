@@ -6,6 +6,14 @@ preferences:
   collections:
     pages:
       after_save: continue_editing
+    articles:
+      columns:
+        - title
+        - author
+        - slug
+        - date
+        - status
+        - tags
   locale: en
   favorites: {  }
   assets:
