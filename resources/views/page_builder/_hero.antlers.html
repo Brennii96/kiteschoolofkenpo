@@ -1,29 +1,30 @@
 <section
-    class="flex bg-home-hero bg-cover bg-no-repeat bg-center relative w-full"
->
-    <img
-        src="{{ glide :src='background_image' format='webp' width='1920' height='1200' }}"
-        srcset="
-        {{ glide :src='background_image' format='webp' width='480' height='300' }} 480w,
-        {{ glide :src='background_image' format='webp' width='768' height='480' }} 768w,
-        {{ glide :src='background_image' format='webp' width='1024' height='600' }} 1024w,
-        {{ glide :src='background_image' format='webp' width='1280' height='800' }} 1280w,
-        {{ glide :src='background_image' format='webp' width='1920' height='1200' }} 1920w
-    "
-        sizes="(max-width: 480px) 480w,
-           (max-width: 768px) 768w,
-           (max-width: 1024px) 1024w,
-           (max-width: 1280px) 1280w,
-           1920w"
-        class="-z-10 object-cover w-full h-full absolute inset-0"
-        alt="Hero Image Background"
-    />
-{{#     <img #}}
-{{#         src="{{ glide :src='background_image' format='webp' width='1920' height='1200' }}" #}}
-{{#         class="-z-10 object-cover w-full h-full absolute inset-0" #}}
-{{#         alt="Hero Image Background" #}}
-{{#     /> #}}
-    <div class="container gap-y-6 m-auto flex flex-col content-center items-center py-12 sm:py-24">
+    class="hero-section relative flex items-center justify-center w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
+    <div class="absolute inset-0 w-full h-full">
+        <picture>
+            <source srcset="
+                {{ glide :src='background_image' format='avif' width='480' height='300' }} 480w,
+                {{ glide :src='background_image' format='avif' width='768' height='480' }} 768w,
+                {{ glide :src='background_image' format='avif' width='1024' height='600' }} 1024w,
+                {{ glide :src='background_image' format='avif' width='1280' height='800' }} 1280w,
+                {{ glide :src='background_image' format='avif' width='1920' height='1200' }} 1920w"
+                    type="image/avif">
+
+            <source srcset="
+                {{ glide :src='background_image' format='webp' width='480' height='300' }} 480w,
+                {{ glide :src='background_image' format='webp' width='768' height='480' }} 768w,
+                {{ glide :src='background_image' format='webp' width='1024' height='600' }} 1024w,
+                {{ glide :src='background_image' format='webp' width='1280' height='800' }} 1280w,
+                {{ glide :src='background_image' format='webp' width='1920' height='1200' }} 1920w"
+                    type="image/webp">
+
+            <img src="{{ glide :src='background_image' format='jpg' width='1920' height='1200' }}"
+                 class="w-full h-full object-cover absolute inset-0"
+                 alt="Hero Image Background">
+        </picture>
+    </div>
+
+    <div class="relative z-10 container gap-y-6 m-auto flex flex-col content-center items-center py-12 sm:py-24">
         <div class="w-11/12 lg:flex justify-center items-center flex-col mb-5 sm:mb-10">
             <h1 class="hero-title">
                 {{ title }}
@@ -34,8 +35,7 @@
         </div>
         <div class="flex justify-center items-center">
             {{ if cta_link }}
-                <a href="{{ cta_link }}"
-                   class="btn">
+                <a href="{{ cta_link }}" class="btn">
                     {{ cta_text ?? "Learn More" }}
                 </a>
             {{ /if }}
