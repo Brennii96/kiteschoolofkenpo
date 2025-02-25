@@ -3,7 +3,7 @@
 
 /* This is all you. */
 
-@plugin '@tailwindcss/typography';`
+@plugin '@tailwindcss/typography';
 
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,

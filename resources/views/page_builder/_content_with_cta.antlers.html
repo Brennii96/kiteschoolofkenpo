@@ -1,9 +1,9 @@
-<section class="relative flex">
-    <div class="relative z-10 container mx-auto flex flex-col content-center items-center py-14 my-12">
-        <h2 class="md:text-3xl text-2xl font-bold md:mt-2 mt-5 text-center text-white">
+{{ partial src="partials/flex_section" lighten="{{lighten}}" }}
+    <div class="relative container mx-auto flex flex-col content-center items-center">
+        <h2 class="md:text-3xl text-2xl font-bold my-12 text-center text-white">
             {{title}}
         </h2>
-        <div class="text-off-white md:mt-5 mt-10 lg:w-10/12 font-normal text-center text-base leading-relaxed">
+        <div class="text-off-white md:mt-5 my-12 lg:w-10/12 font-normal text-center text-base leading-relaxed">
             {{ content }}
         </div>
         {{ if cta_link }}
@@ -14,4 +14,4 @@
             </div>
         {{ /if }}
     </div>
-</section>
+{{ /partial }}
