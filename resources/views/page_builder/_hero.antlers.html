@@ -19,23 +19,24 @@
                     type="image/webp">
 
             <img src="{{ glide :src='background_image' format='jpg' width='1920' height='1200' }}"
-                 class="w-full h-full object-cover absolute inset-0"
+                 class="w-full h-full object-cover object-center absolute inset-0"
                  alt="Hero Image Background">
         </picture>
     </div>
 
-    <div class="relative z-10 container gap-y-6 m-auto flex flex-col content-center items-center py-12 sm:py-24">
-        <div class="w-11/12 lg:flex justify-center items-center flex-col mb-5 sm:mb-10">
-            <h1 class="hero-title">
+    <div
+        class="relative z-10 container max-w-screen-xl px-4 md:px-8 gap-y-6 m-auto flex flex-col content-center items-center py-12 sm:py-24">
+        <div class="w-11/12 lg:flex justify-center items-center flex-col mb-5 sm:mb-10 text-center">
+            <h1 class="hero-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
                 {{ title }}
             </h1>
-            <div class="hero-text">
+            <div class="hero-text text-lg sm:text-xl md:text-2xl">
                 {{ content }}
             </div>
         </div>
         <div class="flex justify-center items-center">
             {{ if cta_link }}
-                <a href="{{ cta_link }}" class="btn">
+                <a href="{{ cta_link }}" class="btn px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl">
                     {{ cta_text ?? "Learn More" }}
                 </a>
             {{ /if }}
