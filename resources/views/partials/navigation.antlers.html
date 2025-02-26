@@ -9,7 +9,7 @@
         <!-- Desktop Navigation -->
         <div class="hidden md:flex flex-grow justify-center space-x-12">
             {{ nav:main }}
-                {{ if children }}
+                {{ if children or show_blog_items }}
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" @click.away="open = false"
                                 class="uppercase p-2 flex items-center gap-2 text-sm lg:text-base font-medium text-white hover:text-red-brand">
@@ -24,11 +24,50 @@
                             </svg>
                         </button>
                         <div x-show="open"
-                             class="absolute bg-dark-brand text-white rounded-md mt-2 w-48 z-50 shadow-lg border border-gray-600"
+                             class="bg-dark-brand absolute z-50 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2 normal-case"
                              x-transition.origin.top.left>
-                            {{ children }}
-                            <a href="{{ url }}" class="uppercase block px-4 py-2 hover:bg-gray-800">{{ title }}</a>
-                            {{ /children }}
+                            {{ if children }}
+                                {{ children }}
+                                <a href="{{ url }}" class="uppercase block px-4 py-2 hover:bg-gray-800">{{ title }}</a>
+                                {{ /children }}
+                            {{ /if }}
+
+                            {{ if show_blog_items }}
+                                {{ collection:articles taxonomy:tags="about-kenpo-karate" limit="3" as="posts" }}
+                                    {{ posts }}
+                                    <div class="relative grid gap-6 bg-dark-brand px-5 py-6 sm:gap-8 sm:p-8">
+                                        <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
+                                            <div class="ml-4">
+                                                <p class=" text-sm:text-base font-medium text-white">{{ title }}</p>
+                                                <p class="mt-1 text-sm text-white">{{ excerpt }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    {{ /posts }}
+                                {{ /collection:articles }}
+                                <hr/>
+                                <div
+                                    class="px-5 py-5 bg-dark-brand space-y-6 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
+                                    <div class="flex flex-col">
+                                        <a href="/get-motivated"
+                                           class="-m-3 p-3 pb-6 flex items-center rounded-md text-sm lg:text-base font-medium text-white">
+                                            Get Motivated
+                                        </a>
+                                        {{ collection:articles taxonomy:tags="get-motivated" limit="3" as="posts" }}
+                                            {{ posts }}
+                                            <div class="relative grid md:gap-6 bg-dark-brand gap-8 pb-2">
+                                                <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
+                                                    <div class="ml-4">
+                                                        <p class=" text-sm:text-base font-medium text-white">{{ title }}</p>
+                                                        <p class="mt-1 text-sm text-white">{{ excerpt }}</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            {{ /posts }}
+                                        {{ /collection:articles }}
+                                    </div>
+                                </div>
+                            {{ /if }}
                         </div>
                     </div>
                 {{ else }}
