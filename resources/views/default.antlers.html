@@ -1,3 +1,14 @@
+{{# {{ page_builder scope="block" }} #}}
+{{#     {{ partial src="page_builder/{type}" }} #}}
+{{# {{ /page_builder }} #}}
+
 {{ page_builder scope="block" }}
-    {{ partial src="page_builder/{type}" }}
+{{ cache key="page_builder_{block:id}" }}
+    {{ if type }}
+        {{ partial src="page_builder/{type}" }}
+    {{ else }}
+        {{ partial src="page_builder/default" }}
+        <p>Block type not specified.</p>
+    {{ /if }}
+{{ /cache }}
 {{ /page_builder }}

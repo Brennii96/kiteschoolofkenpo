@@ -33,18 +33,20 @@
                             {{ /if }}
 
                             {{ if show_blog_items }}
-                                {{ collection:articles taxonomy:tags="about-kenpo-karate" limit="3" as="posts" }}
-                                    {{ posts }}
-                                    <div class="relative grid gap-6 bg-dark-brand px-5 py-6 sm:gap-8 sm:p-8">
-                                        <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
-                                            <div class="ml-4">
-                                                <p class=" text-sm:text-base font-medium text-white">{{ title }}</p>
-                                                <p class="mt-1 text-sm text-white">{{ excerpt }}</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    {{ /posts }}
-                                {{ /collection:articles }}
+                                {{ cache key="articles_kenpo_karate_nav" }}
+                                    {{ collection:articles taxonomy:tags="about-kenpo-karate" limit="3" as="posts" }}
+                                        {{ posts }}
+                                        <div class="relative grid gap-6 bg-dark-brand px-5 py-6 sm:gap-8 sm:p-8">
+                                            <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
+                                                <div class="ml-4">
+                                                    <p class=" text-sm:text-base font-medium text-white">{{ title }}</p>
+                                                    <p class="mt-1 text-sm text-white">{{ excerpt }}</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        {{ /posts }}
+                                    {{ /collection:articles }}
+                                {{ /cache }}
                                 <hr/>
                                 <div
                                     class="px-5 py-5 bg-dark-brand space-y-6 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
@@ -53,18 +55,19 @@
                                            class="-m-3 p-3 pb-6 flex items-center rounded-md text-sm lg:text-base font-medium text-white">
                                             Get Motivated
                                         </a>
-                                        {{ collection:articles taxonomy:tags="get-motivated" limit="2" as="posts" }}
-                                            {{ posts }}
-                                            <div class="relative grid md:gap-6 bg-dark-brand gap-8 pb-2">
-                                                <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
-                                                    <div class="ml-4">
-                                                        <p class=" text-sm:text-base font-medium text-white">{{ title }}</p>
-{{#                                                         <p class="mt-1 text-sm text-white">{{ excerpt }}</p> #}}
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            {{ /posts }}
-                                        {{ /collection:articles }}
+                                        {{ cache key="get_motivated_nav" }}
+                                            {{ collection:articles taxonomy:tags="get-motivated" limit="2" as="posts" }}
+                                                {{ posts }}
+                                                <div class="relative grid md:gap-6 bg-dark-brand gap-8 pb-2">
+                                                    <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
+                                                        <div class="ml-4">
+                                                            <p class=" text-sm:text-base font-medium text-white">{{ title }}</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                {{ /posts }}
+                                            {{ /collection:articles }}
+                                        {{ /cache }}
                                     </div>
                                 </div>
                             {{ /if }}

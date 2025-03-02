@@ -21,7 +21,6 @@
             type="text/css"
         />
     </noscript>
-
     {{ yield:header_scripts }}
 </head>
 <a href="#content" class="sr-only focus:not-sr-only">
@@ -32,7 +31,11 @@
 <main id="content">
     {{ template_content }}
 </main>
+{{ cache key="footer" }}
 {{ partial src="partials/footer" }}
+{{ /cache }}
+
 {{ yield:footer_scripts }}
+
 </body>
 </html>
