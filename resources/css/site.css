@@ -36,7 +36,7 @@ p, article {
     font-optical-sizing: auto;
 }
 
-a:hover {
+a:not(.btn):hover {
     color: theme(--color-red-brand);
     text-decoration: underline;
 }

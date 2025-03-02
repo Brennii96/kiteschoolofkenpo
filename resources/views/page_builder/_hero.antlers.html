@@ -30,13 +30,13 @@
             <h1 class="hero-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
                 {{ title }}
             </h1>
-            <div class="hero-text text-lg sm:text-xl md:text-2xl">
+            <div class="hero-text text-xl md:text-2xl">
                 {{ content }}
             </div>
         </div>
         <div class="flex justify-center items-center">
             {{ if cta_link }}
-                <a href="{{ cta_link }}" class="btn px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl">
+                <a href="{{ cta_link }}" class="btn">
                     {{ cta_text ?? "Learn More" }}
                 </a>
             {{ /if }}
