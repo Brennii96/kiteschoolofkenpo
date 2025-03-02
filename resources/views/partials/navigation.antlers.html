@@ -23,7 +23,7 @@
                                 </g>
                             </svg>
                         </button>
-                        <div x-show="open"
+                        <div x-show="open" x-cloak style="display: none;"
                              class="bg-dark-brand absolute z-50 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2 normal-case"
                              x-transition.origin.top.left>
                             {{ if children }}
@@ -34,7 +34,7 @@
 
                             {{ if show_blog_items }}
                                 {{ cache key="articles_kenpo_karate_nav" }}
-                                    {{ collection:articles taxonomy:tags="about-kenpo-karate" limit="3" as="posts" }}
+                                    {{ collection:articles taxonomy:tags="about-kenpo-karate" limit="3" as="posts" fields="title,excerpt,url" }}
                                         {{ posts }}
                                         <div class="relative grid gap-6 bg-dark-brand px-5 py-6 sm:gap-8 sm:p-8">
                                             <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
@@ -56,7 +56,7 @@
                                             Get Motivated
                                         </a>
                                         {{ cache key="get_motivated_nav" }}
-                                            {{ collection:articles taxonomy:tags="get-motivated" limit="2" as="posts" }}
+                                            {{ collection:articles taxonomy:tags="get-motivated" limit="2" as="posts" fields="title,excerpt,url" }}
                                                 {{ posts }}
                                                 <div class="relative grid md:gap-6 bg-dark-brand gap-8 pb-2">
                                                     <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
@@ -118,7 +118,7 @@
                             </g>
                         </svg>
                     </button>
-                    <div x-show="open" class="bg-dark-brand text-white rounded-md mt-2 w-full"
+                    <div x-show="open" x-cloak style="display: none;" class="bg-dark-brand text-white rounded-md mt-2 w-full"
                          x-transition.origin.top.left>
                         {{ children }}
                         <a href="{{ url }}" class="uppercase block px-4 py-2 hover:bg-gray-800">{{ title }}</a>
