@@ -1,0 +1,48 @@
+{{ partial src="partials/flex_section" lighten="true" }}
+    <form method="POST" action="/register" class="max-w-md mx-auto bg-dark-brand p-6 rounded-2xl shadow-lg">
+        {{ csrf_field }}
+
+        <div class="mb-4">
+            <label for="name" class="block text-white text-sm font-montserrat mb-2">Name</label>
+            <input id="name" type="text" name="name" value="{{ old:name }}" required autofocus autocomplete="name"
+                   class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
+            {{ if errors:name }}
+                <p class="text-red-brand text-xs mt-1">{{ errors:name }}</p>
+            {{ /if }}
+        </div>
+
+        <div class="mb-4">
+            <label for="email" class="block text-white text-sm font-montserrat mb-2">Email</label>
+            <input id="email" type="email" name="email" value="{{ old:email }}" required autocomplete="username"
+                   class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
+            {{ if errors:email }}
+                <p class="text-red-brand text-xs mt-1">{{ errors:email }}</p>
+            {{ /if }}
+        </div>
+
+        <div class="mb-4">
+            <label for="password" class="block text-white text-sm font-montserrat mb-2">Password</label>
+            <input id="password" type="password" name="password" required autocomplete="new-password"
+                   class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
+            {{ if errors:password }}
+                <p class="text-red-brand text-xs mt-1">{{ errors:password }}</p>
+            {{ /if }}
+        </div>
+
+        <div class="mb-4">
+            <label for="password_confirmation" class="block text-white text-sm font-montserrat mb-2">Confirm Password</label>
+            <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password"
+                   class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
+            {{ if errors:password_confirmation }}
+                <p class="text-red-brand text-xs mt-1">{{ errors:password_confirmation }}</p>
+            {{ /if }}
+        </div>
+
+        <div>
+            <button type="submit"
+                    class="w-full bg-brand-500 hover:bg-brand-600 text-white py-2 px-4 rounded-lg font-montserrat text-lg transition-all">
+                Register
+            </button>
+        </div>
+    </form>
+{{ /partial }}

@@ -81,9 +81,15 @@
         </div>
 
         <div class="hidden md:flex items-center">
-            <a href="/account" class="py-2 px-4 bg-red-brand text-white hover:bg-red-brand-dark">
-                Account
-            </a>
+            {{ if {member:check} }}
+                <a href="/account" class="py-2 px-4 bg-red-brand text-white hover:bg-red-brand-dark">
+                    Account
+                </a>
+            {{ else }}
+                <a href="/login" class="py-2 px-4 bg-red-brand text-white hover:bg-red-brand-dark">
+                    Sign In
+                </a>
+            {{ /if }}
         </div>
 
         <!-- Mobile Menu Button -->
