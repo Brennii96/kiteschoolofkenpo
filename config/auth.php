@@ -40,6 +40,17 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'member' => [
+            'driver' => 'session',
+            'provider' => 'members',
+        ],
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -61,7 +72,13 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'statamic',
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+
+        'members' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Member::class,
         ],
 
         // 'users' => [
@@ -102,9 +119,23 @@ return [
             'throttle' => 60,
         ],
 
+        'members' => [
+            'provider' => 'members',
+            'table' => 'password_resets_members',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
         'activations' => [
             'provider' => 'users',
             'table' => env('AUTH_ACTIVATION_TOKEN_TABLE', 'password_activation_tokens'),
+            'expire' => 4320,
+            'throttle' => 60,
+        ],
+
+        'members_activations' => [
+            'provider' => 'members',
+            'table' => 'members_password_activation_tokens',
             'expire' => 4320,
             'throttle' => 60,
         ],
