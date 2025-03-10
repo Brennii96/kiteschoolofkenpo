@@ -1,6 +1,8 @@
-<article
-    class="flex bg-no-repeat bg-center bg-cover bg-light-dark-brand"
->
+{{ if {hero_enabled} }}
+    {{ partial:partials/article_hero }}
+{{ /if }}
+
+<article class="flex bg-no-repeat bg-center bg-cover bg-light-dark-brand">
     <div class="container mx-auto flex flex-col content-center items-center py-14">
         <div class="w-11/12 sm:w-2/3 lg:flex justify-center items-center flex-col md:mb-5 mb-10">
             <div class="mb-4">
@@ -22,7 +24,7 @@
             </div>
             <div
                 class="max-w-none prose prose-invert prose-headings:font-heading prose-h1:text-4xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-3xl prose-headings:tracking-tight prose-headings:font-normal prose-strong:text-white">
-                {{ content }}
+                {{ article_content }}
             </div>
             <div class="flex">
                 <a href="{{ url }}">
