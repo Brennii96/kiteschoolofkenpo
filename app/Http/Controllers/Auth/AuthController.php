@@ -8,9 +8,11 @@ use App\Models\Member;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Statamic\View\View;
 
 class AuthController extends Controller
@@ -50,6 +52,10 @@ class AuthController extends Controller
         ]);
 
         if (Auth::guard('member')->attempt($credentials)) {
+            //            $request->member()->update([
+            //                'last_login' => Carbon::now()->toDateTimeString(),
+            ////                'last_login_ip' => $request->getClientIp()
+            //            ]);
             $request->session()->regenerate();
             return redirect()->intended('/members/profile');
         }
@@ -65,7 +71,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return RedirectResponse
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function register(Request $request): RedirectResponse
     {
