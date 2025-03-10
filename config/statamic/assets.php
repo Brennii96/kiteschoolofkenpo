@@ -39,7 +39,7 @@ return [
         |
         */
 
-        'driver' => 'gd',
+        'driver' => extension_loaded('imagick') ? 'imagick' : 'gd',
 
         /*
         |--------------------------------------------------------------------------
@@ -53,7 +53,9 @@ return [
         */
 
         'additional_extensions' => [
-            // 'heic',
+            'webp',
+            'avif',
+            'heic'
         ],
 
         /*
@@ -76,13 +78,14 @@ return [
         |--------------------------------------------------------------------------
         |
         | You may define global defaults for all manipulation parameters, such as
-        | quality, format, and sharpness. These can and will be be overwritten
+        | quality, format, and sharpness. These can and will be overwritten
         | on the tag parameter level as well as the preset level.
         |
         */
 
         'defaults' => [
-            'quality' => 80,
+            'quality' => 85,
+            'format' => 'webp'
         ],
 
         /*
@@ -98,7 +101,12 @@ return [
         */
 
         'presets' => [
-            // 'small' => ['w' => 200, 'h' => 200, 'q' => 75, 'fit' => 'crop'],
+            'thumbnail' => ['w' => 250, 'h' => 250, 'q' => 80, 'fit' => 'crop'],  // Small previews, icons
+            'mobile' => ['w' => 640, 'q' => 85, 'fit' => 'max'],  // Phones
+            'tablet' => ['w' => 1024, 'q' => 85, 'fit' => 'max'],  // iPads, tablets
+            'desktop' => ['w' => 1600, 'q' => 80, 'fit' => 'max'],  // Standard 1080p screens
+            'large' => ['w' => 2560, 'q' => 80, 'fit' => 'max'],  // 1440p, 4K screens
+            'full' => ['w' => 3840, 'q' => 85, 'fit' => 'max'],  // 8K displays, ultra-wide banners
         ],
 
         /*
