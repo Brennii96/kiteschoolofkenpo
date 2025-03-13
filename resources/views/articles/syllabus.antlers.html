@@ -1,0 +1,46 @@
+{{ if {hero_enabled} }}
+    {{ partial:partials/article_hero }}
+{{ /if }}
+
+<article class="flex bg-no-repeat bg-center bg-cover bg-light-dark-brand">
+    <div class="container mx-auto flex flex-col content-center items-center py-14">
+        <div class="w-11/12 sm:w-2/3 lg:flex justify-center items-center flex-col md:mb-5 mb-10">
+            <div class="mb-4">
+                <h1 class="text-3xl text-white">{{title}}</h1>
+                {{ tags }}
+                    <a href="{{ url }}">{{ title }}</a>
+                {{ /tags }}
+                {{ if featured_image }}
+                    <div class="my-4 mx-0">
+                        <picture>
+                            <source srcset="{{ glide :src="featured_image" width="200" height="200" format="avif" }}" type="image/avif">
+                            <source srcset="{{ glide :src="featured_image" width="200" height="200" format="webp" }}" type="image/webp">
+                            <img
+                                class="mx-auto rounded-full"
+                                src="{{ glide :src="featured_image" width="200" height="200" }}"
+                                alt="{{ featured_image:alt }}"
+                                loading="lazy"
+                                width="200"
+                                height="200"
+                            />
+                        </picture>
+                    </div>
+                {{ /if }}
+            </div>
+            <div
+                class="max-w-none prose prose-invert prose-headings:font-heading prose-h1:text-4xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-3xl prose-headings:tracking-tight prose-headings:font-normal prose-strong:text-white">
+                {{ article_content }}
+            </div>
+
+            {{ cache }}
+                {{ partial:partials/syllabus }}
+            {{ /cache }}
+
+            <div class="flex">
+                <a href="{{ url }}">
+                    Back
+                </a>
+            </div>
+        </div>
+    </div>
+</article>
