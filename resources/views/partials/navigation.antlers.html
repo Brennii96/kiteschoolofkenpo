@@ -36,10 +36,10 @@
                                 {{ cache key="articles_kenpo_karate_nav" }}
                                     {{ collection:articles taxonomy:tags="about-kenpo-karate" limit="3" as="posts" fields="title,excerpt,url" }}
                                         {{ posts }}
-                                        <div class="relative grid gap-6 bg-dark-brand px-5 py-6 sm:gap-8 sm:p-8">
-                                            <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
+                                        <div class="relative grid md:gap-4 bg-dark-brand px-5 py-2 md:p-4 gap-8 p-8">
+                                            <a href="{{ url }}" class="-m-3 p-2 flex items-start rounded-lg">
                                                 <div class="ml-4">
-                                                    <p class=" text-sm:text-base font-medium text-white">{{ title }}</p>
+                                                    <p class="text-sm:text-base font-medium text-white">{{ title }}</p>
                                                     <p class="mt-1 text-sm text-white">{{ excerpt }}</p>
                                                 </div>
                                             </a>
