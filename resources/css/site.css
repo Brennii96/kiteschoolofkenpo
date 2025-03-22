@@ -24,13 +24,13 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-montserrat);
+    font-family: var(--font-montserrat), serif;
     font-style: normal;
     font-optical-sizing: auto;
 }
 
 p, article {
-    font-family: var(--font-roboto);
+    font-family: var(--font-roboto), serif;
     font-style: normal;
     line-height: 1.6;
     font-optical-sizing: auto;

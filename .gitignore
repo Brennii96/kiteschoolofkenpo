@@ -24,5 +24,4 @@ yarn-error.log
 /.zed
 
 **/caddy
-frankenphp
 frankenphp-worker.php

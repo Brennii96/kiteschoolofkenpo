@@ -1,0 +1,38 @@
+# Ignore node_modules directory to avoid copying local node dependencies into the image
+node_modules
+
+# Ignore temporary and build files
+*.log
+*.tmp
+*.swp
+*.bak
+*.DS_Store
+
+# Ignore Dockerfile and Docker-related files unless necessary for build context
+Dockerfile*
+.dockerignore
+
+# Ignore files from specific tools or editors
+.vscode
+.idea
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# Ignore local environment files
+.env
+.env.local
+.env.*.local
+
+# Ignore cached directories (depends on your editor or toolchain)
+.cache
+tmp
+build
+dist
+
+# Ignore any other development artifacts you don't need in the image
+tests
+
+# Ensure frankenphp is not ignored, and is included
+!frankenphp
+!frankenphp/**

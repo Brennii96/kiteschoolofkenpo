@@ -1,0 +1,35 @@
+# Development environment override
+services:
+  php:
+    build:
+      context: .
+      target: frankenphp_dev
+    volumes:
+      - ./:/app
+      - ./frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./frankenphp/conf.d/20-app.dev.ini:/usr/local/etc/php/app.conf.d/20-app.dev.ini:ro
+      - /app/node_modules
+    environment:
+      XDEBUG_MODE: "${XDEBUG_MODE:-on}"
+      APP_ENV: "${APP_ENV:-dev}"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    tty: true
+
+  database:
+    ports:
+      - "3306:3306"
+
+  vite:
+    image: node:lts-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_HMR_HOST=localhost
+      - VITE_HMR_PORT=5173

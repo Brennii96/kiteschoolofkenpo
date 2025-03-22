@@ -1,0 +1,60 @@
+{
+    {$CADDY_GLOBAL_OPTIONS}
+
+    frankenphp {
+        {$FRANKENPHP_CONFIG}
+    }
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+{$SERVER_NAME:localhost} {
+    log {
+        {$CADDY_SERVER_LOG_OPTIONS}
+        format filter {
+            request>uri query {
+                replace authorization REDACTED
+            }
+        }
+    }
+
+    root * /app/public
+    encode zstd br gzip
+
+    vulcain
+
+    {$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+    # Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
+    header ?Permissions-Policy "browsing-topics=()"
+
+    # Handle PHP requests
+    @phpRoute {
+        not file {path}
+    }
+    rewrite @phpRoute /index.php{uri}
+    php /index.php {
+        root /app/public
+    }
+
+    # File server for static files
+    file_server {
+        hide *.php
+    }
+
+    # Static assets (e.g., Vite build, storage)
+    @viteAssets path_regexp ^/build/.+$
+    handle @viteAssets {
+        file_server
+    }
+
+    @staticFiles {
+        path_regexp ^/storage/.+$
+    }
+    handle @staticFiles {
+        file_server
+    }
+
+    # Fallback for routes to be handled by index.php
+    try_files {path} /index.php?{query}
+}

@@ -18,4 +18,14 @@ export default defineConfig({
         }),
         tailwindcss()
     ],
+    server: {
+        host: '0.0.0.0',
+        watch: {
+            usePolling: true,
+        },
+        hmr: {
+            host: process.env.VITE_HMR_HOST || 'localhost',
+            port: parseInt(process.env.VITE_HMR_PORT || '5173', 10),
+        },
+    },
 });
