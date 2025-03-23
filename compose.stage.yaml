@@ -2,7 +2,7 @@
 services:
   php:
     environment:
-      SERVER_NAME: "kiteschoolofkenpo.co.uk, www.kiteschoolofkenpo.co.uk"
+      SERVER_NAME: "staging.kiteschoolofkenpo.co.uk"
     build:
       context: .
       target: frankenphp_prod
