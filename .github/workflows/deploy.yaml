@@ -48,7 +48,7 @@ jobs:
         if: contains(env.TAG_NAME, 'staging-')
         run: |
           ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "
-            cd $STAGING_PATH && git checkout staging && git pull origin staging && docker compose -f compose.yaml -f compose.stage.yaml up -d --remove-orphans
+            cd $STAGING_PATH && git fetch --tags && git checkout $TAG_NAME && docker compose -f compose.yaml -f compose.stage.yaml up -d --remove-orphans
           "
 
       - name: Deploy to Production
