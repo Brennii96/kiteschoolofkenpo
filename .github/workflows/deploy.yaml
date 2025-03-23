@@ -22,12 +22,17 @@ jobs:
       - name: Extract Tag Name
         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan ${{ secrets.HETZNER_HOST }} >> ~/.ssh/known_hosts
+
       - name: Debugging SSH connection
         run: |
-          echo "$HETZNER_SSH_PRIVATE_KEY" > /tmp/ssh_key
-          chmod 600 /tmp/ssh_key
           echo "Attempting SSH connection..."
-          ssh -v -o StrictHostKeyChecking=no -i /tmp/ssh_key ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
+          ssh -i ~/.ssh/id_rsa ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
 
       - name: Determine Deployment Target
         run: |
