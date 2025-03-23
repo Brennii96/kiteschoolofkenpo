@@ -1,0 +1,64 @@
+name: Deploy to Staging and Production
+
+on:
+  push:
+    tags:
+      - 'staging-*'
+      - 'v*'
+
+env:
+  DOCKER_IMAGE_NAME: brennii96/kiteschoolofkenpo
+  STAGING_PATH: /docker/sites/staging.kiteschoolofkenpo.co.uk
+  PRODUCTION_PATH: /docker/sites/www.kiteschoolofkenpo.co.uk
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Extract Tag Name
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Determine Deployment Target
+        run: |
+          if [[ $TAG_NAME == staging-* ]]; then
+            echo "DEPLOY_ENV=staging" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_ENV=production" >> $GITHUB_ENV
+          fi
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t $DOCKER_IMAGE_NAME:$TAG_NAME .
+          docker push $DOCKER_IMAGE_NAME:$TAG_NAME
+
+      - name: Deploy to Staging
+        if: contains(env.TAG_NAME, 'staging-')
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.HETZNER_SSH_PRIVATE_KEY }} ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "
+            cd $STAGING_PATH && docker pull $DOCKER_IMAGE_NAME:$TAG_NAME && docker compose -f compose.yaml -f compose.stage.yaml up -d --remove-orphans
+          "
+
+      - name: Deploy to Production
+        if: startsWith(env.TAG_NAME, 'v')
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.HETZNER_SSH_PRIVATE_KEY }} ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "
+            cd $PRODUCTION_PATH && docker pull $DOCKER_IMAGE_NAME:$TAG_NAME && docker compose -f compose.yaml -f compose.prod.yaml up -d --remove-orphans
+          "
