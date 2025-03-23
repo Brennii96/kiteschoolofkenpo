@@ -12,5 +12,8 @@ services:
       - "${REDIS_PORT:-6380}:6379"
 
   database:
+    environment:
+      MYSQL_TCP_PORT: 3307
+      MYSQL_UNIX_PORT: 3307
     ports:
-      - "${DB_PORT:-3307}:3306"
+      - "${DB_PORT:-3307}:3307"
