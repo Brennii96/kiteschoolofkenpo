@@ -32,7 +32,7 @@ jobs:
       - name: Debugging SSH connection
         run: |
           echo "Attempting SSH connection..."
-          ssh -i ~/.ssh/id_rsa ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
+          ssh -vvv -i ~/.ssh/id_rsa ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
 
       - name: Determine Deployment Target
         run: |
