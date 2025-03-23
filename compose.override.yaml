@@ -25,8 +25,18 @@ services:
       - ksk_network
 
   database:
+    image: mariadb:${MYSQL_VERSION:-lts}
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-app}
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-app}
     ports:
       - "3306:3306"
+    volumes:
+      - database_data:/var/lib/mysql
+    networks:
+      - ksk_network
 
   vite:
     image: node:lts-alpine
@@ -41,3 +51,6 @@ services:
       - NODE_ENV=development
       - VITE_HMR_HOST=localhost
       - VITE_HMR_PORT=5173
+
+volumes:
+  database_data:
