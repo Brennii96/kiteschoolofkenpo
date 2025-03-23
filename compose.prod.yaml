@@ -6,3 +6,7 @@ services:
     build:
       context: .
       target: frankenphp_prod
+
+  redis:
+    ports:
+      - "${REDIS_PORT:-6381}:6379"

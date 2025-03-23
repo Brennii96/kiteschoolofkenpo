@@ -16,6 +16,10 @@ services:
       - host.docker.internal:host-gateway
     tty: true
 
+  redis:
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+
   database:
     ports:
       - "3306:3306"
