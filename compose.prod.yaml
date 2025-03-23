@@ -16,4 +16,4 @@ services:
       MYSQL_TCP_PORT: ${DB_PORT:-3308}
       MYSQL_UNIX_PORT: ${DB_PORT:-3308}
     ports:
-      - "${DB_PORT:-3308}:3308"
+      - "${DB_PORT:-3308}:3306"
