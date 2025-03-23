@@ -7,10 +7,6 @@ services:
       context: .
       target: frankenphp_prod
 
-  redis:
-    ports:
-      - "${REDIS_PORT:-6381}:6379"
-
   database:
     environment:
       MYSQL_TCP_PORT: ${DB_PORT:-3308}

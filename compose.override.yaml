@@ -17,8 +17,12 @@ services:
     tty: true
 
   redis:
-    ports:
-      - "${REDIS_PORT:-6379}:6379"
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - ksk_network
 
   database:
     ports:

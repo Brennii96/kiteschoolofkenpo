@@ -40,14 +40,6 @@ services:
     networks:
       - ksk_network
 
-  redis:
-    image: redis:alpine
-    restart: unless-stopped
-    volumes:
-      - redis_data:/data
-    networks:
-      - ksk_network
-
 volumes:
   caddy_data:
   caddy_config:

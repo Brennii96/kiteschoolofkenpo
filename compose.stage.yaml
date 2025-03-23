@@ -7,9 +7,9 @@ services:
       context: .
       target: frankenphp_stage
 
-  redis:
-    ports:
-      - "${REDIS_PORT:-6380}:6379"
+#  redis:
+#    ports:
+#      - "${REDIS_PORT:-6380}:6379"
 
   database:
     environment:
