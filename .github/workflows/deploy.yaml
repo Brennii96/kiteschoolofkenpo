@@ -34,26 +34,26 @@ jobs:
       - name: Debugging SSH connection
         run: |
           echo "Attempting SSH connection..."
-          ssh -vvv -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
+          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
 
-#      - name: Determine Deployment Target
-#        run: |
-#          if [[ $TAG_NAME == staging-* ]]; then
-#            echo "DEPLOY_ENV=staging" >> $GITHUB_ENV
-#          else
-#            echo "DEPLOY_ENV=production" >> $GITHUB_ENV
-#          fi
-#
-#      - name: Deploy to Staging
-#        if: contains(env.TAG_NAME, 'staging-')
-#        run: |
-#          ssh -o -i ${{ secrets.HETZNER_SSH_PRIVATE_KEY }} ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "
-#            cd $STAGING_PATH && git pull origin staging && docker compose -f compose.yaml -f compose.stage.yaml up -d --remove-orphans
-#          "
-#
-#      - name: Deploy to Production
-#        if: startsWith(env.TAG_NAME, 'v')
-#        run: |
-#          ssh -o -i ${{ secrets.HETZNER_SSH_PRIVATE_KEY }} ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "
-#            cd $PRODUCTION_PATH && git pull origin main && docker compose -f compose.yaml -f compose.prod.yaml up -d --remove-orphans
-#          "
+      - name: Determine Deployment Target
+        run: |
+          if [[ $TAG_NAME == staging-* ]]; then
+            echo "DEPLOY_ENV=staging" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_ENV=production" >> $GITHUB_ENV
+          fi
+
+      - name: Deploy to Staging
+        if: contains(env.TAG_NAME, 'staging-')
+        run: |
+          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "
+            cd $STAGING_PATH && git pull origin staging && docker compose -f compose.yaml -f compose.stage.yaml up -d --remove-orphans
+          "
+
+      - name: Deploy to Production
+        if: startsWith(env.TAG_NAME, 'v')
+        run: |
+          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "
+            cd $PRODUCTION_PATH && git pull origin main && docker compose -f compose.yaml -f compose.prod.yaml up -d --remove-orphans
+          "
