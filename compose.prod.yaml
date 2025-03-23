@@ -10,3 +10,7 @@ services:
   redis:
     ports:
       - "${REDIS_PORT:-6381}:6379"
+
+  database:
+    ports:
+      - "${DB_PORT:-3308}:3306"

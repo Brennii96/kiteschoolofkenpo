@@ -45,20 +45,6 @@ services:
     networks:
       - ksk_network
 
-  minio:
-    image: minio/minio:latest
-    environment:
-      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-minio}
-      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-minio123}
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - minio_data:/data
-    command: server /data
-    networks:
-      - ksk_network
-
   redis:
     image: redis:alpine
     restart: unless-stopped
@@ -71,7 +57,6 @@ volumes:
   caddy_data:
   caddy_config:
 
-  minio_data:
   redis_data:
   database_data:
 
