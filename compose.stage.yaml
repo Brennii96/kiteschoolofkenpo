@@ -5,4 +5,4 @@ services:
       SERVER_NAME: "staging.kiteschoolofkenpo.co.uk"
     build:
       context: .
-      target: frankenphp_prod
+      target: frankenphp_stage

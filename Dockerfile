@@ -71,6 +71,34 @@ COPY --link frankenphp/conf.d/20-app.dev.ini $PHP_INI_DIR/app.conf.d/20-app.dev.
 
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
 
+# Stage for Staging Environment
+FROM frankenphp_base AS frankenphp_stage
+
+# Set environment variable for Staging
+ENV APP_ENV=staging
+ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
+
+# Set the appropriate PHP ini and Caddyfile settings for staging
+COPY --link frankenphp/conf.d/20-app.stage.ini $PHP_INI_DIR/app.conf.d/20-app.stage.ini
+COPY --link frankenphp/Caddyfile /etc/caddy/Caddyfile
+
+# Copy composer files
+COPY --link composer.* ./
+
+RUN set -eux; \
+	composer install --no-cache --prefer-dist --no-dev --optimize-autoloader --no-scripts --no-progress
+
+# Copy source files
+COPY --link . ./
+RUN rm -Rf frankenphp/
+
+# Run post-installation commands
+RUN set -eux; \
+	composer dump-autoload --classmap-authoritative --no-dev; \
+	composer dump-env prod; \
+	composer run-script --no-dev post-install-cmd; \
+	chmod +x artisan; sync;
+
 # Prod FrankenPHP image
 FROM frankenphp_base AS frankenphp_prod
 
