@@ -27,25 +27,24 @@ services:
     networks:
       - ksk_network
 
-  ###> doctrine/doctrine-bundle ###
-#  database:
-#    image: mariadb:${MYSQL_VERSION:-lts}
-#    environment:
-#      MYSQL_DATABASE: ${DB_DATABASE:-app}
-#      MYSQL_RANDOM_ROOT_PASSWORD: "true"
-#      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
-#      MYSQL_USER: ${DB_USERNAME:-app}
-#    volumes:
-#      - database_data:/var/lib/mysql
-#    networks:
-#      - ksk_network
+  database:
+    image: mariadb:${MYSQL_VERSION:-lts}
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-app}
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-app}
+    volumes:
+      - database_data:/var/lib/mysql
+    networks:
+      - ksk_network
 
 volumes:
   caddy_data:
   caddy_config:
 
 #  redis_data:
-#  database_data:
+  database_data:
 
 networks:
   ksk_network:

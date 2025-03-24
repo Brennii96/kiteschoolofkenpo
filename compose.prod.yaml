@@ -1,17 +1,17 @@
-# Production environment override
+# Prod environment override
 services:
   php:
     environment:
       SERVER_NAME: "kiteschoolofkenpo.co.uk, www.kiteschoolofkenpo.co.uk"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      DB_HOST: "database"
+      DB_PORT: ${DB_PORT:-3308}
     build:
       context: .
       target: frankenphp_prod
 
-#  database:
-#    environment:
-#      MYSQL_TCP_PORT: ${DB_PORT:-3308}
-#      MYSQL_UNIX_PORT: ${DB_PORT:-3308}
-#    ports:
-#      - "${DB_PORT:-3308}:3306"
+  database:
+    environment:
+      MYSQL_TCP_PORT: ${DB_PORT:-3308}
+      MYSQL_UNIX_PORT: ${DB_PORT:-3308}
+    ports:
+      - "${DB_PORT:-3308}:3306"

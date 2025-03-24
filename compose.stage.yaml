@@ -1,10 +1,13 @@
-# Production environment override
+# Staging environment override
 services:
   php:
     environment:
       SERVER_NAME: "staging.kiteschoolofkenpo.co.uk"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      DB_HOST: database
+      DB_PORT: ${DB_PORT:-3307}
+      DB_USERNAME: ${DB_USERNAME:-app}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      DB_DATABASE: ${DB_DATABASE:-app}
     build:
       context: .
       target: frankenphp_stage
@@ -13,9 +16,6 @@ services:
 #    ports:
 #      - "${REDIS_PORT:-6380}:6379"
 
-#  database:
-#    environment:
-#      MYSQL_TCP_PORT: 3307
-#      MYSQL_UNIX_PORT: 3307
-#    ports:
-#      - "${DB_PORT:-3307}:3307"
+  database:
+    ports:
+      - "${DB_PORT:-3307}:3307"
