@@ -3,6 +3,8 @@ services:
   php:
     environment:
       SERVER_NAME: "kiteschoolofkenpo.co.uk, www.kiteschoolofkenpo.co.uk"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     build:
       context: .
       target: frankenphp_prod
