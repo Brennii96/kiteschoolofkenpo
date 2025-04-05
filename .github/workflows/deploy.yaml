@@ -50,7 +50,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Composer Dependencies (Production Only)
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
 
       - name: Install NPM Dependencies (includes dev for build)
         run: npm ci
