@@ -6,16 +6,16 @@ on:
       - 'staging-*'
       - 'v*'
 
+env:
+  DEPLOY_HOST: ${{ secrets.HETZNER_HOST }}
+  DEPLOY_USER: ${{ secrets.HETZNER_SSH_USER }}
+  DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }}
+  ENVIRONMENT: production
+
 jobs:
   deploy:
     name: Deploy to Server
     runs-on: ubuntu-latest
-    env:
-      # Default to production, override if staging tag
-      DEPLOY_HOST: ${{ secrets.HETZNER_HOST }}
-      DEPLOY_USER: ${{ secrets.HETZNER_SSH_USER }}
-      DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }}
-      ENVIRONMENT: production
 
     steps:
       - name: Determine Environment from Tag
@@ -30,6 +30,21 @@ jobs:
       - name: Announce Production Deployment
         if: contains(github.ref_name, '-prod')
         run: echo "Deploying to Production environment..."
+
+      - name: Prepare SSH key
+        run: |
+          echo "${{ secrets.HETZNER_SSH_PRIVATE_KEY }}" | base64 -d > vps_key.pem
+          chmod 0600 vps_key.pem
+
+      - name: Prepare the known_hosts
+        run: |
+          mkdir ~/.ssh/ && touch ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_HOST_KEYS }}" | base64 -d >> ~/.ssh/known_hosts
+
+      - name: Debugging SSH connection
+        run: |
+          echo "Attempting SSH connection..."
+          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -91,21 +106,6 @@ jobs:
       - name: Create Release Artifact from Clean Directory
         run: |
           tar -czf release.tar.gz -C build .
-
-      - name: Prepare SSH key
-        run: |
-          echo "${{ secrets.HETZNER_SSH_PRIVATE_KEY }}" | base64 -d > vps_key.pem
-          chmod 0600 vps_key.pem
-
-      - name: Prepare the known_hosts
-        run: |
-          mkdir ~/.ssh/ && touch ~/.ssh/known_hosts
-          echo "${{ secrets.SSH_HOST_KEYS }}" | base64 -d >> ~/.ssh/known_hosts
-
-      - name: Debugging SSH connection
-        run: |
-          echo "Attempting SSH connection..."
-          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
 
       - name: Upload Artifact via SCP
         uses: appleboy/scp-action@v0.1.7
