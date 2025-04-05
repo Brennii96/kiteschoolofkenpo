@@ -70,22 +70,27 @@ jobs:
       - name: Build Frontend Assets (Vite)
         run: npm run build
 
-      - name: Prepare Release Artifact
+      - name: Prepare Clean Build Directory
         run: |
-          tar czf release.tar.gz \
-          --exclude='.git' \
-          --exclude='.github' \
-          --exclude='node_modules' \
-          --exclude='storage' \
-          --exclude='public/storage' \
-          --exclude='.env' \
-          --exclude='.env.*' \
-          --exclude='tests' \
-          --exclude='compose.yml' \
-          --exclude='Dockerfile' \
-          --exclude='*.lock' \
-          --exclude='README.md' \
-          .
+          rm -rf build
+          mkdir build
+          rsync -a ./ ./build \
+            --exclude=".git" \
+            --exclude=".github" \
+            --exclude="node_modules" \
+            --exclude="storage" \
+            --exclude="public/storage" \
+            --exclude=".env" \
+            --exclude=".env.*" \
+            --exclude="tests" \
+            --exclude="compose.yml" \
+            --exclude="Dockerfile" \
+            --exclude="*.lock" \
+            --exclude="README.md"
+
+      - name: Create Release Artifact from Clean Directory
+        run: |
+          tar -czf release.tar.gz -C build .
 
       - name: Upload Artifact via SCP
         uses: appleboy/scp-action@v0.1.7
