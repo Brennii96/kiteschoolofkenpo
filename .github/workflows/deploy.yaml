@@ -100,7 +100,6 @@ jobs:
             --exclude="tests" \
             --exclude="compose.yml" \
             --exclude="Dockerfile" \
-            --exclude="*.lock" \
             --exclude="README.md"
 
       - name: Create Release Artifact from Clean Directory
