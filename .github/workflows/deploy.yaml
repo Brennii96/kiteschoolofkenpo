@@ -112,7 +112,7 @@ jobs:
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: ${{ env.DEPLOY_USER }}
-          key: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_KEY }}
 #          key_path: vps_key.pem
           source: "release.tar.gz"
           target: "${{ env.DEPLOY_PATH }}"
@@ -122,7 +122,8 @@ jobs:
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: ${{ env.DEPLOY_USER }}
-          key_path: vps_key.pem
+          key: ${{ secrets.SSH_KEY }}
+#          key_path: vps_key.pem
           script: |
             set -e
 
