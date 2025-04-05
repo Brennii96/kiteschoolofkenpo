@@ -100,6 +100,7 @@ jobs:
           key: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
           source: "release.tar.gz"
           target: "${{ env.DEPLOY_PATH }}"
+          debug: true
 
       - name: Deploy Release via SSH
         uses: appleboy/ssh-action@v1.2.2
