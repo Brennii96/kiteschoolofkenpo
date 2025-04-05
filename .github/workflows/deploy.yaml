@@ -92,19 +92,20 @@ jobs:
         run: |
           tar -czf release.tar.gz -C build .
 
-      - name: Debugging SSH connection
-        run: |
-          echo "Attempting SSH connection..."
-          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
-
       - name: Prepare SSH key
         run: |
           echo "${{ secrets.HETZNER_SSH_PRIVATE_KEY }}" | base64 -d > vps_key.pem
           chmod 0600 vps_key.pem
+
       - name: Prepare the known_hosts
         run: |
           mkdir ~/.ssh/ && touch ~/.ssh/known_hosts
           echo "${{ secrets.SSH_HOST_KEYS }}" | base64 -d >> ~/.ssh/known_hosts
+
+      - name: Debugging SSH connection
+        run: |
+          echo "Attempting SSH connection..."
+          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
 
       - name: Upload Artifact via SCP
         uses: appleboy/scp-action@v0.1.7
