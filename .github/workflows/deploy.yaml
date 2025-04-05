@@ -95,8 +95,8 @@ jobs:
       - name: Upload Artifact via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ env.HETZNER_HOST }}
-          username: ${{ env.HETZNER_SSH_USER }}
+          host: ${{ env.DEPLOY_HOST }}
+          username: ${{ env.DEPLOY_USER }}
           key: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
           source: "release.tar.gz"
           target: "${{ env.DEPLOY_PATH }}"
@@ -104,8 +104,8 @@ jobs:
       - name: Deploy Release via SSH
         uses: appleboy/ssh-action@v1.2.2
         with:
-          host: ${{ env.HETZNER_HOST }}
-          username: ${{ env.HETZNER_SSH_USER }}
+          host: ${{ env.DEPLOY_HOST }}
+          username: ${{ env.DEPLOY_USER }}
           key: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
           script: |
             set -e
