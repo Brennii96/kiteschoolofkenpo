@@ -112,10 +112,10 @@ jobs:
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: ${{ env.DEPLOY_USER }}
-          key_path: vps_key.pem
+          key: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
+#          key_path: vps_key.pem
           source: "release.tar.gz"
           target: "${{ env.DEPLOY_PATH }}"
-          debug: true
 
       - name: Deploy Release via SSH
         uses: appleboy/ssh-action@v1.2.2
