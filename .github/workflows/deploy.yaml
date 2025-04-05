@@ -91,6 +91,7 @@ jobs:
           mkdir build
           rsync -a ./ ./build \
             --exclude=".git" \
+            --exclude=".editorconfig" \
             --exclude=".github" \
             --exclude="node_modules" \
             --exclude="storage" \
