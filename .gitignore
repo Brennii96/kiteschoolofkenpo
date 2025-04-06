@@ -22,7 +22,9 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+compose.override.yaml
 
 **/caddy
-frankenphp
 frankenphp-worker.php
+/.env.prod
+/.env.stage

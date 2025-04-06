@@ -180,8 +180,9 @@ jobs:
             # Needs correct web server user (e.g., www-data) and may require sudo
             # Ensure the DEPLOY_USER has permission or configure passwordless sudo for these commands
             echo " Setting permissions (adjust user/group and consider sudo)..."
-            sudo chown -R ${{ env.DEPLOY_USER }}:www-data . # Ownership change might be needed
+            sudo chown -R ${{ env.DEPLOY_USER }}:www-data .
             sudo chmod -R 775 storage bootstrap/cache content public/assets public/build # Writable dirs
+            sudo chown -R www-data:www-data storage bootstrap/cache
             sudo find . -type f -exec chmod 664 {} \;
             sudo find . -type d -exec chmod 775 {} \;
 
