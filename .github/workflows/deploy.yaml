@@ -41,47 +41,38 @@ jobs:
           echo "Creating database directory and file..."
           mkdir -p database
           touch database/database.sqlite
-          ls -la database/ # Add output to confirm file creation
+          ls -la database/
 
       - name: Create .env for Testing
         run: |
           echo "Creating .env file for testing..."
-          # Copy from .env.example if it exists, otherwise create a blank one
           php -r "file_exists('.env.example') && copy('.env.example', '.env');"
-          # Append/overwrite necessary testing variables
           echo "APP_ENV=testing" >> .env
           echo "DB_CONNECTION=sqlite" >> .env
-          # Ensure the path is absolute for the runner environment
           echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
-          # Generate a temporary key needed for bootstrapping potentially
           echo "APP_KEY=base64:$(php -r 'echo base64_encode(random_bytes(32));')" >> .env
           echo "Required .env variables set for testing."
-          # Optionally print the created .env for debugging (remove in production)
-          # cat .env
+          # cat .env # Uncomment for debugging if needed
 
       # --- Install Dependencies ---
       - name: Install Composer Dependencies (including dev)
-        # Now composer install runs AFTER .env and DB file exist
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
-        # Note: Removed --no-dev as tests usually need dev dependencies like PHPUnit
 
       - name: Install NPM Dependencies
         run: npm ci
 
-      # --- Run Tests ---
-      # Generate a fresh key if tests specifically rely on it AFTER discovery/install
-      # - name: Generate App Key (if needed post-install)
-      #  run: php artisan key:generate
+      # --- Build Frontend Assets ---
+      # Add this step to create the manifest file needed by tests
+      - name: Build Frontend Assets for Testing
+        run: npm run build
 
+      # --- Run Tests ---
       - name: Run Migrations (on test DB)
         run: php artisan migrate --force
 
       - name: Run PHPUnit Tests
+        # Tests should now pass as manifest.json will exist
         run: php artisan test
-
-      # Optional linters etc.
-      # - name: Run Linter (e.g., Pint)
-      #   run: ./vendor/bin/pint --test
 
 
 
