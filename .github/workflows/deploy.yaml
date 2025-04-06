@@ -18,7 +18,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        # Fetch all history needed for some test tooling potentially
         with:
           fetch-depth: 0
 
@@ -26,54 +25,64 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          # Include extensions needed for the app AND testing (e.g., sqlite)
           extensions: gd, bcmath, redis, intl, pdo, pdo_mysql, imagick, sqlite, pdo_sqlite
           tools: composer:v2
-          # Cache composer dependencies for faster runs
           cache: 'composer'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # Match version used for build
-          # Cache npm dependencies
+          node-version: '22'
           cache: 'npm'
 
+      # --- Setup Test Environment BEFORE Composer Install ---
+      - name: Create SQLite Database File
+        run: |
+          echo "Creating database directory and file..."
+          mkdir -p database
+          touch database/database.sqlite
+          ls -la database/ # Add output to confirm file creation
+
+      - name: Create .env for Testing
+        run: |
+          echo "Creating .env file for testing..."
+          # Copy from .env.example if it exists, otherwise create a blank one
+          php -r "file_exists('.env.example') && copy('.env.example', '.env');"
+          # Append/overwrite necessary testing variables
+          echo "APP_ENV=testing" >> .env
+          echo "DB_CONNECTION=sqlite" >> .env
+          # Ensure the path is absolute for the runner environment
+          echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
+          # Generate a temporary key needed for bootstrapping potentially
+          echo "APP_KEY=base64:$(php -r 'echo base64_encode(random_bytes(32));')" >> .env
+          echo "Required .env variables set for testing."
+          # Optionally print the created .env for debugging (remove in production)
+          # cat .env
+
+      # --- Install Dependencies ---
       - name: Install Composer Dependencies (including dev)
-        run: composer install --no-interaction --prefer-dist
+        # Now composer install runs AFTER .env and DB file exist
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        # Note: Removed --no-dev as tests usually need dev dependencies like PHPUnit
 
       - name: Install NPM Dependencies
         run: npm ci
 
-      # --- Test Environment Setup ---
-      - name: Create SQLite Database File
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
-
-      - name: Create .env for Testing
-        run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          echo "APP_ENV=testing" >> .env
-          echo "DB_CONNECTION=sqlite" >> .env
-          echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
-          # Add any other required env vars for testing here
-          php artisan key:generate
-
       # --- Run Tests ---
+      # Generate a fresh key if tests specifically rely on it AFTER discovery/install
+      # - name: Generate App Key (if needed post-install)
+      #  run: php artisan key:generate
+
       - name: Run Migrations (on test DB)
         run: php artisan migrate --force
-
-      # Add other test setup steps if needed (e.g., db:seed --class=TestSeeder)
 
       - name: Run PHPUnit Tests
         run: php artisan test
 
-      # Optional: Add linters or static analysis
+      # Optional linters etc.
       # - name: Run Linter (e.g., Pint)
       #   run: ./vendor/bin/pint --test
-      # - name: Run Static Analysis (e.g., PHPStan)
-      #   run: ./vendor/bin/phpstan analyse
+
 
 
   # =====================
