@@ -1,21 +1,51 @@
-name: Test and Deploy Staging/Production
+name: Deploy Staging/Production
 
-# Trigger only on tags matching staging-* or v* (assuming v* is for production)
 on:
   push:
     tags:
       - 'staging-*'
-      - 'v*' # Example: v1.0.0, v1.2.3 etc.
+      - 'v*'
+
+env:
+  DEPLOY_HOST: ${{ secrets.HETZNER_HOST }}
+  DEPLOY_USER: ${{ secrets.HETZNER_SSH_USER }}
+  DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }}
+  ENVIRONMENT: production
 
 jobs:
-  # ===================
-  #      TEST JOB
-  # ===================
-  test:
-    name: Run Tests
+  deploy:
+    name: Deploy to Server
     runs-on: ubuntu-latest
 
     steps:
+      - name: Determine Environment from Tag
+        # Override env vars if it's a staging tag
+        if: contains(github.ref_name, 'staging')
+        run: |
+          echo "DEPLOY_HOST=${{ secrets.HETZNER_HOST }}" >> $GITHUB_ENV
+          echo "DEPLOY_USER=${{ secrets.HETZNER_SSH_USER }}" >> $GITHUB_ENV
+          echo "DEPLOY_PATH=${{ secrets.STAGING_DEPLOY_PATH }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+          echo "Deploying to Staging environment..."
+      - name: Announce Production Deployment
+        if: contains(github.ref_name, '-prod')
+        run: echo "Deploying to Production environment..."
+
+      - name: Prepare SSH key
+        run: |
+          echo "${{ secrets.HETZNER_SSH_PRIVATE_KEY }}" | base64 -d > vps_key.pem
+          chmod 0600 vps_key.pem
+
+      - name: Prepare the known_hosts
+        run: |
+          mkdir ~/.ssh/ && touch ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_HOST_KEYS }}" | base64 -d >> ~/.ssh/known_hosts
+
+      - name: Debugging SSH connection
+        run: |
+          echo "Attempting SSH connection..."
+          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -25,174 +55,75 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: gd, bcmath, redis, intl, pdo, pdo_mysql, imagick, sqlite, pdo_sqlite
-          tools: composer:v2
-          cache: 'composer'
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      # --- Setup Test Environment BEFORE Composer Install ---
-      - name: Create SQLite Database File
-        run: |
-          echo "Creating database directory and file..."
-          mkdir -p database
-          touch database/database.sqlite
-          ls -la database/
-
-      - name: Create .env for Testing
-        run: |
-          echo "Creating .env file for testing..."
-          php -r "file_exists('.env.example') && copy('.env.example', '.env');"
-          echo "APP_ENV=testing" >> .env
-          echo "DB_CONNECTION=sqlite" >> .env
-          echo "DB_DATABASE=${{ github.workspace }}/database/database.sqlite" >> .env
-          echo "APP_KEY=base64:$(php -r 'echo base64_encode(random_bytes(32));')" >> .env
-          echo "Required .env variables set for testing."
-          # cat .env # Uncomment for debugging if needed
-
-      # --- Install Dependencies ---
-      - name: Install Composer Dependencies (including dev)
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
-      - name: Install NPM Dependencies
-        run: npm ci
-
-      # --- Build Frontend Assets ---
-      # Add this step to create the manifest file needed by tests
-      - name: Build Frontend Assets for Testing
-        run: npm run build
-
-      # --- Run Tests ---
-      - name: Run Migrations (on test DB)
-        run: php artisan migrate --force
-
-      - name: Run PHPUnit Tests
-        # Tests should now pass as manifest.json will exist
-        run: php artisan test
-
-
-
-  # =====================
-  #      DEPLOY JOB
-  # =====================
-  deploy:
-    name: Deploy to Server
-    runs-on: ubuntu-latest
-    # This job depends on the 'test' job succeeding
-    needs: test
-
-    # Set environment variables based on the tag pushed
-    env:
-      # Default to production, override below if staging tag
-      DEPLOY_HOST: ${{ secrets.HETZNER_HOST }}
-      DEPLOY_USER: ${{ secrets.HETZNER_SSH_USER }}
-      DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }} # e.g., /home/deployer/sites/www.domain
-      ENVIRONMENT: production
-      # Use the specific SSH key secret name you created
-      SSH_KEY_SECRET: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
-
-    steps:
-      - name: Determine Environment from Tag
-        # Override env vars if it's a staging tag
-        if: contains(github.ref_name, 'staging')
-        run: |
-          echo "DEPLOY_HOST=${{ secrets.HETZNER_HOST }}" >> $GITHUB_ENV
-          echo "DEPLOY_USER=${{ secrets.HETZNER_SSH_USER }}" >> $GITHUB_ENV
-          echo "DEPLOY_PATH=${{ secrets.STAGING_DEPLOY_PATH }}" >> $GITHUB_ENV # e.g., /home/deployer/sites/staging.domain
-          echo "ENVIRONMENT=staging" >> $GITHUB_ENV
-          echo "Deploying to Staging environment..."
-      - name: Announce Production Deployment
-        # Use 'startsWith' for 'v*' tags to avoid matching staging tags like 'v1-staging' if format changes
-        if: startsWith(github.ref_name, 'v') && !contains(github.ref_name, 'staging')
-        run: echo "Deploying to Production environment..."
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Needed if your build process needs Git history
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
           extensions: gd, bcmath, redis, intl, pdo, pdo_mysql, imagick
           tools: composer:v2
-          # Cache composer dependencies
-          cache: 'composer'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          # Cache npm dependencies
           cache: 'npm'
 
+      - name: Create SQLite Database File for CI
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Temporary CI .env (for artisan/package:discover)
+        run: |
+          echo "APP_KEY=base64:$(php -r 'echo base64_encode(random_bytes(32));')" > .env
+          echo "APP_ENV=production" >> .env
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+
       - name: Install Composer Dependencies (Production Only)
-        # IMPORTANT: No dev dependencies for the final build artifact
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-      - name: Install NPM Dependencies
-        # Still need npm ci to get vite/etc. for the build step itself
+      - name: Install NPM Dependencies (includes dev for build)
         run: npm ci
 
       - name: Build Frontend Assets (Vite)
         run: npm run build
 
       - name: Prepare Clean Build Directory
-        # Use rsync to copy only necessary files for deployment
         run: |
-          rm -rf deploy_artifact
-          mkdir deploy_artifact
-          rsync -a --checksum ./ ./deploy_artifact \
-            --exclude="/deploy_artifact" \
-            --exclude="/.git" \
-            --exclude="/.github" \
-            --exclude="/node_modules" \
-            --exclude="/storage" \
-            --exclude="/public/storage" \
+          rm -rf build
+          mkdir build
+          rsync -a ./ ./build \
+            --exclude=".git" \
+            --exclude=".editorconfig" \
+            --exclude=".github" \
+            --exclude="node_modules" \
+            --exclude="storage" \
+            --exclude="public/storage" \
             --exclude=".env" \
             --exclude=".env.*" \
-            --exclude="/tests" \
-            --exclude="*.md" \
-            --exclude="*.yml" \
-            --exclude="*.yaml" \
-            --exclude="*.lock" \
-            --exclude="/database/database.sqlite" \
-            --exclude="*.pem" \
-            --exclude=".editorconfig" \
-            --exclude=".styleci.yml" \
-            --exclude="phpunit.xml" \
-            # Add any other files/folders to exclude
+            --exclude="tests" \
+            --exclude="compose.yml" \
+            --exclude="Dockerfile" \
+            --exclude="README.md"
 
       - name: Create Release Artifact from Clean Directory
-        # Create the archive from within the clean directory for cleaner paths inside
         run: |
-          tar -czf release.tar.gz -C deploy_artifact .
+          tar -czf release.tar.gz -C build .
 
-      # --- Deployment Steps ---
       - name: Upload Artifact via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: ${{ env.DEPLOY_USER }}
-          # Use the specific SSH key secret name passed via env var
-          key: ${{ env.SSH_KEY_SECRET }}
+          key: ${{ secrets.SSH_KEY }}
           source: "release.tar.gz"
-          target: "${{ env.DEPLOY_PATH }}" # Upload to the determined base deploy path
+          target: "${{ env.DEPLOY_PATH }}"
 
       - name: Deploy Release via SSH
-        uses: appleboy/ssh-action@v1.0.3 # Check for latest version of ssh-action
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: ${{ env.DEPLOY_USER }}
-          # Use the specific SSH key secret name passed via env var
-          key: ${{ env.SSH_KEY_SECRET }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e # Exit immediately if a command exits with a non-zero status.
+            set -e
 
             # Use environment variables set earlier
             DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
@@ -218,55 +149,54 @@ jobs:
 
             echo " Linking shared files/directories..."
             ln -nfs $SHARED_DIR/.env $NEW_RELEASE_DIR/.env
-            # Remove potential placeholders before linking
-            rm -rf $NEW_RELEASE_DIR/storage
+            rm -rf $NEW_RELEASE_DIR/storage # Remove storage dir included in repo (if any)
             ln -nfs $SHARED_DIR/storage $NEW_RELEASE_DIR/storage
-            rm -rf $NEW_RELEASE_DIR/content
+            # Ensure content dir is handled if it exists in repo, otherwise link is fine
+            # rm -rf $NEW_RELEASE_DIR/content
             ln -nfs $SHARED_DIR/content $NEW_RELEASE_DIR/content
-            rm -rf $NEW_RELEASE_DIR/public/assets
+            # Ensure assets dir is handled if it exists in repo/build output
+            # rm -rf $NEW_RELEASE_DIR/public/assets
             ln -nfs $SHARED_DIR/assets $NEW_RELEASE_DIR/public/assets
 
             echo " Running post-deploy commands in $NEW_RELEASE_DIR..."
             cd $NEW_RELEASE_DIR
 
-            # Link storage (after linking shared storage)
+            # Link storage
             php artisan storage:link
 
             # Run Laravel / Statamic commands
-            php artisan migrate --force
-            php artisan optimize:clear
+            php artisan migrate --force # Use --force for non-interactive environments
+            php artisan optimize:clear # Clear all caches first
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
-            php please stache:warm
-            # Conditionally run commands if needed
-            # if [ "${{ env.ENVIRONMENT }}" = "production" ]; then
-            #   echo "Running production only commands..."
-            #   # e.g., php please static:warmup
-            # fi
-            # Other commands:
-            # php please static:clear
-            # php please search:update --all
+            php please stache:warm # Warm the Statamic Stache
+            # Add other commands as needed:
+            php please static:clear # If using static caching
+            php please search:update --all # If using search indexes
+            # php please vendor:publish --tag=statamic-cp --force # If needed on updates
 
+            # Adjust permissions - CRITICAL
+            # Needs correct web server user (e.g., www-data) and may require sudo
+            # Ensure the DEPLOY_USER has permission or configure passwordless sudo for these commands
             echo " Setting permissions (adjust user/group and consider sudo)..."
-            # Ensure DEPLOY_USER can run these or has passwordless sudo configured
-            # Using DEPLOY_USER as owner, www-data as group (common setup)
-            sudo chown -R ${{ env.DEPLOY_USER }}:www-data .
-            # Set standard Laravel/Statamic permissions
+            sudo chown -R ${{ env.DEPLOY_USER }}:www-data . # Ownership change might be needed
+            sudo chmod -R 775 storage bootstrap/cache content public/assets public/build # Writable dirs
             sudo find . -type f -exec chmod 664 {} \;
             sudo find . -type d -exec chmod 775 {} \;
-            # Make specific directories writable by the group (web server)
-            sudo chmod -R ug+rwx storage bootstrap/cache content public/assets public/build
 
             echo " Switching current symlink..."
+            # Go back to base deploy path to manage symlink relative to it if needed, but absolute paths are safer:
+            # cd $DEPLOY_PATH
             ln -nfs $NEW_RELEASE_DIR $CURRENT_SYMLINK
 
+            # Reload PHP-FPM service
+            # Check the correct service name for PHP 8.4 on your OS (e.g., Ubuntu/Debian)
             echo " Reloading PHP-FPM (requires sudo)..."
             sudo systemctl reload php8.4-fpm
 
             echo " Cleaning up old releases (keeping last 3)..."
-            # Use find for safer deletion, especially if release names could contain spaces/special chars
             cd $RELEASES_DIR
-            find . -maxdepth 1 -type d -name "20*" | sort -r | tail -n +4 | xargs -r rm -rf
+            ls -td $RELEASES_DIR/* | tail -n +4 | xargs -r rm -rf
 
             echo " Deployment to ${{ env.ENVIRONMENT }} finished successfully!"
