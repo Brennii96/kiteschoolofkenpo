@@ -1,10 +1,20 @@
-<div class="flex flex-wrap text-center items-center min-h-[300px] bg-dark-brand text-white">
+<div class="flex flex-wrap text-center items-stretch bg-dark-brand text-white min-h-[350]">
     {{ features }}
-    <div
-        class="w-full md:w-1/3 min-h-[200px] md:min-h-[300px] bg-cover bg-no-repeat bg-center"
-        style="background-image: url('{{ glide :src="background_image" }}')"
-    >
-        <div class="p-8">
+    <div class="w-full md:w-1/3 relative flex flex-col min-h-[auto]">
+        <picture class="absolute inset-0">
+            <source
+                srcset="{{ glide :src="background_image" width="600" height="400" fit="crop" quality="75" format="avif" }}"
+                type="image/avif">
+            <source
+                srcset="{{ glide :src="background_image" width="600" height="400" fit="crop" quality="70" format="webp" }}"
+                type="image/webp">
+            <img
+                src="{{ glide :src="background_image" width="600" height="400" fit="crop" quality="70" }}"
+                alt="{{ title }} background"
+                class="w-full h-full object-cover"
+            >
+        </picture>
+        <div class="z-1 p-8 flex flex-col items-center justify-center flex-grow">
             <h3 class="text-xl py-6">
                 {{ title }}
             </h3>

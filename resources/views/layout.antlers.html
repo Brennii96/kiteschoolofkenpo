@@ -9,8 +9,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
+        rel="preload"
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap"
-        rel="stylesheet">
+        as="style"
+        onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap"
+            rel="stylesheet"
+            type="text/css"
+        />
+    </noscript>
     {{ yield:header_scripts }}
 </head>
 <a href="#content" class="sr-only focus:not-sr-only">
@@ -21,7 +31,11 @@
 <main id="content">
     {{ template_content }}
 </main>
+{{ cache key="footer" }}
 {{ partial src="partials/footer" }}
+{{ /cache }}
+
 {{ yield:footer_scripts }}
+
 </body>
 </html>

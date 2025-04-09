@@ -36,6 +36,11 @@ p, article {
     font-optical-sizing: auto;
 }
 
+a:not(.btn):hover {
+    color: theme(--color-red-brand);
+    text-decoration: underline;
+}
+
 @layer components {
     #map {
         height: -moz-available;
@@ -82,11 +87,16 @@ p, article {
         @apply text-2xl font-bold mt-5 text-white;
     }
 
+    .content-block img {
+        margin: 0 auto 2rem;
+        max-width: 60%;
+    }
+
     .text-section {
         @apply text-off-white md:mt-5 mt-10 lg:w-10/12 font-normal text-base;
     }
 
-    footer .link {
+    .link {
         @apply hover:text-red-brand hover:underline text-off-white no-underline;
     }
 

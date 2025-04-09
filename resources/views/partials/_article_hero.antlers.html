@@ -6,7 +6,6 @@
                 {{ glide :src='background_image' format='avif' width='480' height='300' }} 480w,
                 {{ glide :src='background_image' format='avif' width='768' height='480' }} 768w,
                 {{ glide :src='background_image' format='avif' width='1024' height='600' }} 1024w,
-                {{ glide :src='background_image' format='avif' width='1280' height='800' }} 1280w,
                 {{ glide :src='background_image' format='avif' width='1920' height='1200' }} 1920w"
                     type="image/avif">
 
@@ -14,7 +13,6 @@
                 {{ glide :src='background_image' format='webp' width='480' height='300' }} 480w,
                 {{ glide :src='background_image' format='webp' width='768' height='480' }} 768w,
                 {{ glide :src='background_image' format='webp' width='1024' height='600' }} 1024w,
-                {{ glide :src='background_image' format='webp' width='1280' height='800' }} 1280w,
                 {{ glide :src='background_image' format='webp' width='1920' height='1200' }} 1920w"
                     type="image/webp">
 
@@ -28,10 +26,10 @@
         class="relative z-10 container max-w-screen-xl px-4 md:px-8 gap-y-6 m-auto flex flex-col content-center items-center py-12 sm:py-24">
         <div class="w-11/12 lg:flex justify-center items-center flex-col mb-5 sm:mb-10 text-center">
             <h1 class="hero-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
-                {{ title }}
+                {{ hero_title }}
             </h1>
             <div class="hero-text text-xl md:text-2xl">
-                {{ content }}
+                {{ hero_content }}
             </div>
         </div>
         <div class="flex justify-center items-center">

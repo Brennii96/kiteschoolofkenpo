@@ -1,22 +1,19 @@
-<section class="relative flex bg-cover bg-no-repeat bg-center w-full bg-light-dark-brand">
-    <div class="absolute inset-0">
-        <img
-            src="{{ glide :src='background_image' format='webp' width='1920' height='700' }}"
-            class="w-full object-center object-cover pointer-events-none bg-no-repeat bg-center bg-cover -z-10"
-        />
-    </div>
+<section
+    class="relative flex items-center justify-center bg-cover bg-no-repeat bg-center w-full bg-light-dark-brand min-h-[400px] sm:min-h-[500px] md:min-h-[600px]"
+    style="background-image: url('{{ glide :src='background_image' format='webp' width='1920' height='700' }}');"
+>
+    <div class="absolute inset-0"></div>
 
-    <div class="relative z-10 container mx-auto flex flex-col content-center items-center py-14">
-
-        <blockquote class="p-4 my-4 lg:w-10/12">
-            <p class="text-white mt-12 font-normal text-center text-2xl italic leading-relaxed">
+    <div class="relative z-10 container mx-auto flex flex-col items-center text-center max-w-4xl px-4 py-10">
+        <blockquote class="p-4 my-4">
+            <p class="text-white font-normal text-2xl italic leading-relaxed">
                 "{{ block_quote }}"
             </p>
         </blockquote>
 
         {{ partial src="partials/seperator" }}
 
-        <p class="font-bold my-10 lg:w-10/12 text-center text-white text-2xl">
+        <p class="font-bold my-6 text-white text-2xl">
             {{ quote_attribution }}
         </p>
     </div>

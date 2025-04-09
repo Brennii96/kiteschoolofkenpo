@@ -1,16 +1,21 @@
-{{ partial:flex_section }}
+{{ page_builder scope="block" }}
+    {{ partial src="page_builder/{type}" }}
+{{ /page_builder }}
+{{ partial:flex_section lighten="true" }}
     <section class="text-gray-600 body-font overflow-hidden">
         <div class="container px-5 py-24 mx-auto">
             <div class="-my-8 divide-y-2 divide-gray-100">
+
                 {{ collection:articles paginate="10" as="posts" }}
 
                     {{ if no_results }}
-                        <p>More articles coming soon. Please check our <a target="_blank" rel="nofollow noreferrer"
-                                                                          href="#">
-                            facebook page</a> in the meantime.
+                        <p>
+                            More articles coming soon. Please check our <a target="_blank" rel="nofollow noreferrer"
+                            href="{{ contact:facebook_link }}">facebook page</a> in the meantime.
                         </p>
                     {{ /if }}
                     {{ posts }}
+
                     <div class="py-8 flex flex-wrap md:flex-nowrap">
                         <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
                               <span class="font-semibold title-font text-white">
@@ -29,6 +34,9 @@
                                     {{ title }}
                                 </h3>
                             </a>
+                            <p class="text-section">
+                                {{ excerpt }}
+                            </p>
                             <a
                                 title="{{ title }}"
                                 class="text-white inline-flex items-center mt-4"
@@ -50,6 +58,7 @@
                     </div>
                     {{ /posts }}
                     {{ paginate }}
+
                     <a href="{{ prev_page }}">⬅ Previous</a>
 
                     {{ current_page }} of {{ total_pages }} pages
