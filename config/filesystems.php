@@ -64,6 +64,7 @@ return [
             'url' => '/assets',
             'visibility' => 'public',
             'throw' => false,
+            'links' => 'skip'
         ],
 
     ],
