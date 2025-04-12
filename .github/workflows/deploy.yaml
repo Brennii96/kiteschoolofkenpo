@@ -156,7 +156,7 @@ jobs:
             ln -nfs $SHARED_DIR/content $NEW_RELEASE_DIR/content
             # Ensure assets dir is handled if it exists in repo/build output
             # rm -rf $NEW_RELEASE_DIR/public/assets
-#            ln -nfs $SHARED_DIR/assets $NEW_RELEASE_DIR/public/assets
+            # ln -nfs $SHARED_DIR/assets $NEW_RELEASE_DIR/public/assets
 
             echo " Running post-deploy commands in $NEW_RELEASE_DIR..."
             cd $NEW_RELEASE_DIR
