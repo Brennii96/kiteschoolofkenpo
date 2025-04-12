@@ -61,7 +61,7 @@ return [
         'assets' => [
             'driver' => 'local',
             'root' => storage_path('app/public/assets'), //public_path('assets'),
-            'url' => '/assets',
+            'url' => '/storage/assets',
             'visibility' => 'public',
             'throw' => false
         ],
