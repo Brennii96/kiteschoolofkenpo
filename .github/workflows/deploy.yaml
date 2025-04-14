@@ -1,0 +1,203 @@
+name: Deploy Staging/Production
+
+on:
+  push:
+    tags:
+      - 'staging-*'
+      - 'v*'
+
+env:
+  DEPLOY_HOST: ${{ secrets.HETZNER_HOST }}
+  DEPLOY_USER: ${{ secrets.HETZNER_SSH_USER }}
+  DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }}
+  ENVIRONMENT: production
+
+jobs:
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine Environment from Tag
+        # Override env vars if it's a staging tag
+        if: contains(github.ref_name, 'staging')
+        run: |
+          echo "DEPLOY_HOST=${{ secrets.HETZNER_HOST }}" >> $GITHUB_ENV
+          echo "DEPLOY_USER=${{ secrets.HETZNER_SSH_USER }}" >> $GITHUB_ENV
+          echo "DEPLOY_PATH=${{ secrets.STAGING_DEPLOY_PATH }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+          echo "Deploying to Staging environment..."
+      - name: Announce Production Deployment
+        if: contains(github.ref_name, '-prod')
+        run: echo "Deploying to Production environment..."
+
+      - name: Prepare SSH key
+        run: |
+          echo "${{ secrets.HETZNER_SSH_PRIVATE_KEY }}" | base64 -d > vps_key.pem
+          chmod 0600 vps_key.pem
+
+      - name: Prepare the known_hosts
+        run: |
+          mkdir ~/.ssh/ && touch ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_HOST_KEYS }}" | base64 -d >> ~/.ssh/known_hosts
+
+      - name: Debugging SSH connection
+        run: |
+          echo "Attempting SSH connection..."
+          ssh -i vps_key.pem ${{ secrets.HETZNER_SSH_USER }}@${{ secrets.HETZNER_HOST }} "echo 'Connection successful!'"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: gd, bcmath, redis, intl, pdo, pdo_mysql, imagick
+          tools: composer:v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Create SQLite Database File for CI
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Temporary CI .env (for artisan/package:discover)
+        run: |
+          echo "APP_KEY=base64:$(php -r 'echo base64_encode(random_bytes(32));')" > .env
+          echo "APP_ENV=production" >> .env
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+
+      - name: Install Composer Dependencies (Production Only)
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+      - name: Install NPM Dependencies (includes dev for build)
+        run: npm ci
+
+      - name: Build Frontend Assets (Vite)
+        run: npm run build
+
+      - name: Prepare Clean Build Directory
+        run: |
+          rm -rf build
+          mkdir build
+          rsync -a ./ ./build \
+            --exclude=".git" \
+            --exclude=".editorconfig" \
+            --exclude=".github" \
+            --exclude="node_modules" \
+            --exclude="storage" \
+            --exclude="public/storage" \
+            --exclude=".env" \
+            --exclude=".env.*" \
+            --exclude="tests" \
+            --exclude="compose.yml" \
+            --exclude="Dockerfile" \
+            --exclude="README.md"
+
+      - name: Create Release Artifact from Clean Directory
+        run: |
+          tar -czf release.tar.gz -C build .
+
+      - name: Upload Artifact via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ env.DEPLOY_HOST }}
+          username: ${{ env.DEPLOY_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "release.tar.gz"
+          target: "${{ env.DEPLOY_PATH }}"
+
+      - name: Deploy Release via SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ env.DEPLOY_HOST }}
+          username: ${{ env.DEPLOY_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+
+            # Use environment variables set earlier
+            DEPLOY_PATH="${{ env.DEPLOY_PATH }}"
+            RELEASES_DIR="$DEPLOY_PATH/releases"
+            SHARED_DIR="$DEPLOY_PATH/shared"
+            CURRENT_SYMLINK="$DEPLOY_PATH/current"
+            RELEASE_ID=$(date +%Y%m%d%H%M%S)
+            NEW_RELEASE_DIR="$RELEASES_DIR/$RELEASE_ID"
+
+            echo "Starting deployment to ${{ env.ENVIRONMENT }}..."
+            echo " Deploy Path: $DEPLOY_PATH"
+            echo " Release ID: $RELEASE_ID"
+            echo " New Release Dir: $NEW_RELEASE_DIR"
+
+            # Create the new release directory
+            echo " Creating new release directory..."
+            mkdir -p $NEW_RELEASE_DIR
+
+            echo " Extracting artifact..."
+            # Artifact was uploaded to DEPLOY_PATH by scp-action
+            tar xzf $DEPLOY_PATH/release.tar.gz -C $NEW_RELEASE_DIR
+            rm $DEPLOY_PATH/release.tar.gz # Clean up uploaded archive
+
+            echo " Linking shared files/directories..."
+            ln -nfs $SHARED_DIR/.env $NEW_RELEASE_DIR/.env
+            rm -rf $NEW_RELEASE_DIR/storage # Remove storage dir included in repo (if any)
+            ln -nfs $SHARED_DIR/storage $NEW_RELEASE_DIR/storage
+            # Ensure content dir is handled if it exists in repo, otherwise link is fine
+            # rm -rf $NEW_RELEASE_DIR/content
+            ln -nfs $SHARED_DIR/content $NEW_RELEASE_DIR/content
+            # Ensure assets dir is handled if it exists in repo/build output
+            # rm -rf $NEW_RELEASE_DIR/public/assets
+            # ln -nfs $SHARED_DIR/assets $NEW_RELEASE_DIR/public/assets
+
+            echo " Running post-deploy commands in $NEW_RELEASE_DIR..."
+            cd $NEW_RELEASE_DIR
+
+            # Link storage
+            php artisan storage:link
+
+            # Run Laravel / Statamic commands
+            php artisan migrate --force # Use --force for non-interactive environments
+            php artisan optimize:clear # Clear all caches first
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php please stache:warm # Warm the Statamic Stache
+            # Add other commands as needed:
+            php please static:clear # If using static caching
+            php please search:update --all # If using search indexes
+            # php please vendor:publish --tag=statamic-cp --force # If needed on updates
+
+            # Adjust permissions - CRITICAL
+            # Needs correct web server user (e.g., www-data) and may require sudo
+            # Ensure the DEPLOY_USER has permission or configure passwordless sudo for these commands
+            echo " Setting permissions (adjust user/group and consider sudo)..."
+            sudo chown -R ${{ env.DEPLOY_USER }}:www-data .
+            sudo chmod -R 775 storage bootstrap/cache content public/build # Writable dirs
+            sudo chown -R www-data:www-data storage bootstrap/cache
+            sudo find . -type f -exec chmod 664 {} \;
+            sudo find . -type d -exec chmod 775 {} \;
+
+            echo " Switching current symlink..."
+            # Go back to base deploy path to manage symlink relative to it if needed, but absolute paths are safer:
+            # cd $DEPLOY_PATH
+            ln -nfs $NEW_RELEASE_DIR $CURRENT_SYMLINK
+
+            # Reload PHP-FPM service
+            # Check the correct service name for PHP 8.4 on your OS (e.g., Ubuntu/Debian)
+            echo " Reloading PHP-FPM (requires sudo)..."
+            sudo systemctl reload php8.4-fpm
+
+            echo " Cleaning up old releases (keeping last 3)..."
+            cd $RELEASES_DIR
+            ls -td $RELEASES_DIR/* | tail -n +4 | xargs -r rm -rf
+
+            echo " Deployment to ${{ env.ENVIRONMENT }} finished successfully!"
