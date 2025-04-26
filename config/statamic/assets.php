@@ -98,6 +98,19 @@ return [
         */
 
         'presets' => [
+            'xs' => ['w' => 320, 'q' => 70, 'fit' => 'crop'],
+            'sm' => ['w' => 480, 'q' => 70, 'fit' => 'crop'],
+            'md' => ['w' => 768, 'q' => 75, 'fit' => 'crop'],
+            'lg' => ['w' => 1024, 'q' => 80, 'fit' => 'crop'],
+            'xl' => ['w' => 1280, 'q' => 80, 'fit' => 'crop'],
+            '2xl' => ['w' => 1536, 'q' => 85, 'fit' => 'crop'],
+
+            'xs-webp' => ['w' => 320, 'q' => 70, 'fit' => 'crop', 'fm' => 'webp'],
+            'sm-webp' => ['w' => 480, 'q' => 70, 'fit' => 'crop', 'fm' => 'webp'],
+            'md-webp' => ['w' => 768, 'q' => 75, 'fit' => 'crop', 'fm' => 'webp'],
+            'lg-webp' => ['w' => 1024, 'q' => 80, 'fit' => 'crop', 'fm' => 'webp'],
+            'xl-webp' => ['w' => 1280, 'q' => 80, 'fit' => 'crop', 'fm' => 'webp'],
+            '2xl-webp' => ['w' => 1536, 'q' => 85, 'fit' => 'crop', 'fm' => 'webp'],
             // 'small' => ['w' => 200, 'h' => 200, 'q' => 75, 'fit' => 'crop'],
         ],
 
