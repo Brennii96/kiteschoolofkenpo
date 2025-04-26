@@ -3,20 +3,22 @@
     <div class="absolute inset-0 w-full h-full">
         <picture>
             <source srcset="
-                {{ glide :src='background_image' format='avif' width='480' height='300' }} 480w,
-                {{ glide :src='background_image' format='avif' width='768' height='480' }} 768w,
-                {{ glide :src='background_image' format='avif' width='1024' height='600' }} 1024w,
-                {{ glide :src='background_image' format='avif' width='1280' height='800' }} 1280w,
-                {{ glide :src='background_image' format='avif' width='1920' height='1200' }} 1920w"
-                    type="image/avif">
+                {{ glide :src='background_image' format='webp' preset='xs-webp' }} 320w,
+                {{ glide :src='background_image' format='webp' preset='sm-webp' }} 480w,
+                {{ glide :src='background_image' format='webp' preset='md-webp' }} 768w,
+                {{ glide :src='background_image' format='webp' preset='lg-webp' }} 1280w,
+                {{ glide :src='background_image' format='webp' preset='xl-webp' }} 1440w,
+                {{ glide :src='background_image' format='webp' preset='2xl-webp' }} 1680w"
+                    type="image/webp">
 
             <source srcset="
-                {{ glide :src='background_image' format='webp' width='480' height='300' }} 480w,
-                {{ glide :src='background_image' format='webp' width='768' height='480' }} 768w,
-                {{ glide :src='background_image' format='webp' width='1024' height='600' }} 1024w,
-                {{ glide :src='background_image' format='webp' width='1280' height='800' }} 1280w,
-                {{ glide :src='background_image' format='webp' width='1920' height='1200' }} 1920w"
-                    type="image/webp">
+                {{ glide :src='background_image' preset='xs' }} 320w,
+                {{ glide :src='background_image' preset='sm' }} 480w,
+                {{ glide :src='background_image' preset='md' }} 768w,
+                {{ glide :src='background_image' preset='lg' }} 1280w,
+                {{ glide :src='background_image' preset='xl' }} 1440w,
+                {{ glide :src='background_image' preset='2xl' }} 1680w"
+                    type="{{ background_image.mime_type }}">
 
             <img src="{{ glide :src='background_image' format='jpg' width='1920' height='1200' }}"
                  class="w-full h-full object-cover object-center absolute inset-0"
