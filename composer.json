@@ -17,7 +17,7 @@
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
         "spatie/statamic-responsive-images": "^5.2",
-        "statamic/cms": "^5.0",
+        "statamic/cms": "^v5.57.0",
         "statamic/eloquent-driver": "^4.19"
     },
     "require-dev": {
