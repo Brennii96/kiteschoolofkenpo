@@ -101,19 +101,20 @@ return [
         */
 
         'presets' => [
-            'xs' => ['w' => 320, 'q' => 70, 'fit' => 'crop'],
-            'sm' => ['w' => 480, 'q' => 70, 'fit' => 'crop'],
-            'md' => ['w' => 768, 'q' => 75, 'fit' => 'crop'],
-            'lg' => ['w' => 1024, 'q' => 80, 'fit' => 'crop'],
-            'xl' => ['w' => 1280, 'q' => 80, 'fit' => 'crop'],
-            '2xl' => ['w' => 1536, 'q' => 85, 'fit' => 'crop'],
-
-            'xs-webp' => ['w' => 320, 'q' => 70, 'fit' => 'crop', 'fm' => 'webp'],
-            'sm-webp' => ['w' => 480, 'q' => 70, 'fit' => 'crop', 'fm' => 'webp'],
-            'md-webp' => ['w' => 768, 'q' => 75, 'fit' => 'crop', 'fm' => 'webp'],
-            'lg-webp' => ['w' => 1024, 'q' => 80, 'fit' => 'crop', 'fm' => 'webp'],
-            'xl-webp' => ['w' => 1280, 'q' => 80, 'fit' => 'crop', 'fm' => 'webp'],
-            '2xl-webp' => ['w' => 1536, 'q' => 85, 'fit' => 'crop', 'fm' => 'webp'],
+            'xs-webp' => ['w' => 320, 'h' => 10000, 'q' => 75, 'fit' => 'contain', 'fm' => 'webp'],
+            'sm-webp' => ['w' => 480, 'h' => 10000, 'q' => 75, 'fit' => 'contain', 'fm' => 'webp'],
+            'md-webp' => ['w' => 768, 'h' => 10000, 'q' => 75, 'fit' => 'contain', 'fm' => 'webp'],
+            'lg-webp' => ['w' => 1280, 'h' => 10000, 'q' => 85, 'fit' => 'contain', 'fm' => 'webp'],
+            'xl-webp' => ['w' => 1440, 'h' => 10000, 'q' => 85, 'fit' => 'contain', 'fm' => 'webp'],
+            '2xl-webp' => ['w' => 1680, 'h' => 10000, 'q' => 85, 'fit' => 'contain', 'fm' => 'webp'],
+            '3xl-webp' => ['w' => 2000, 'h' => 10000, 'q' => 85, 'fit' => 'contain', 'fm' => 'webp'],
+            'xs' => ['w' => 320, 'h' => 10000, 'q' => 75, 'fit' => 'contain'],
+            'sm' => ['w' => 480, 'h' => 10000, 'q' => 75, 'fit' => 'contain'],
+            'md' => ['w' => 768, 'h' => 10000, 'q' => 75, 'fit' => 'contain'],
+            'lg' => ['w' => 1280, 'h' => 10000, 'q' => 85, 'fit' => 'contain'],
+            'xl' => ['w' => 1440, 'h' => 10000, 'q' => 85, 'fit' => 'contain'],
+            '2xl' => ['w' => 1680, 'h' => 10000, 'q' => 85, 'fit' => 'contain'],
+            '3xl' => ['w' => 2000, 'h' => 10000, 'q' => 85, 'fit' => 'contain'],
 
             'thumbnail' => ['w' => 250, 'h' => 250, 'q' => 80, 'fit' => 'crop'],  // Small previews, icons
             'mobile' => ['w' => 640, 'q' => 85, 'fit' => 'max'],  // Phones
