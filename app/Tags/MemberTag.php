@@ -3,6 +3,7 @@
 namespace App\Tags;
 
 use App\Models\Member;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Statamic\Tags\Tags;
 
@@ -15,7 +16,9 @@ class MemberTag extends Tags
      */
     public function index(): Member
     {
-        return Auth::guard('member')->user();
+        /** @var StatefulGuard $memberGuard */
+        $memberGuard = Auth::guard('member');
+        return $memberGuard->user();
     }
 
     /**
@@ -25,6 +28,6 @@ class MemberTag extends Tags
      */
     public function check(): bool
     {
-        return (bool) Auth::guard('member')->check();
+        return (bool)Auth::guard('member')->check();
     }
 }
