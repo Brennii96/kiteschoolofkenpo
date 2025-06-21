@@ -170,6 +170,7 @@ jobs:
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
+            php please stache:clear
             php please stache:warm # Warm the Statamic Stache
             # Add other commands as needed:
             php please static:clear # If using static caching
