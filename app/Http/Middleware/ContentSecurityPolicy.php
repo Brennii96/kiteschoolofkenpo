@@ -28,7 +28,7 @@ class ContentSecurityPolicy extends Policy
         //            ->addDirective(Directive::BLOCK_ALL_MIXED_CONTENT, Value::NO_VALUE);
     }
 
-    protected function addDirectivesForGoogleFonts(): self
+    protected function addDirectivesForGoogleFonts(): Policy
     {
         return $this
             ->addDirective(Directive::FONT, 'fonts.gstatic.com')
