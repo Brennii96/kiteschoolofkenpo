@@ -2,12 +2,20 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Members\ProfileController;
 use App\Http\Controllers\Members\SubscriptionController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:member')->group(function () {
     Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
         ->middleware(['signed', 'throttle:6,1'])
         ->name('members.verification.verify');
+
+    Route::get('/members/profile', [ProfileController::class, 'show'])->name('members.profile');
+    Route::get('/members/choose-your-plan', [ProfileController::class, 'chooseYourPlan'])->name('members.choose-your-plan');
+    Route::patch('/members/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/members/password', [ProfileController::class, 'updatePassword'])->name('password.update');
+    Route::delete('/members/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/members/{member}/subscribe', [SubscriptionController::class, 'subscribe']);
     Route::post('/members/{member}/cancel', [SubscriptionController::class, 'cancel']);

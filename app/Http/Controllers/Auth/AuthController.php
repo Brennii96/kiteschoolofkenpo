@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Member;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
 use Statamic\View\View;
 
 class AuthController extends Controller
@@ -20,7 +19,7 @@ class AuthController extends Controller
     /**
      * Display the login view.
      */
-    public function loginView()
+    public function loginView(): View
     {
         return (new View)
             ->template('auth.login')
@@ -31,7 +30,7 @@ class AuthController extends Controller
     /**
      * Display the registration view.
      */
-    public function registerView()
+    public function registerView(): View
     {
         return (new View)
             ->template('auth.register')
@@ -44,18 +43,22 @@ class AuthController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if (Auth::guard('member')->attempt($credentials)) {
-            //            $request->member()->update([
-            //                'last_login' => Carbon::now()->toDateTimeString(),
-            ////                'last_login_ip' => $request->getClientIp()
-            //            ]);
+        /** @var StatefulGuard $memberGuard */
+        $memberGuard = Auth::guard('member');
+        if ($memberGuard->attempt($credentials)) {
+            /** @var Member $member */
+            $member = $memberGuard->user();
+            $member->update([
+                'last_login' => Carbon::now()->toDateTimeString(),
+//                'last_login_ip' => $request->getClientIp()
+            ]);
             $request->session()->regenerate();
             return redirect()->intended('/members/profile');
         }
@@ -71,7 +74,6 @@ class AuthController extends Controller
      * @param Request $request
      * @return RedirectResponse
      *
-     * @throws ValidationException
      */
     public function register(Request $request): RedirectResponse
     {
@@ -82,14 +84,15 @@ class AuthController extends Controller
         ]);
 
         $member = Member::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
         ]);
 
         event(new Registered($member));
-
-        Auth::guard('member')->login($member);
+        /** @var StatefulGuard $memberGuard */
+        $memberGuard = Auth::guard('member');
+        $memberGuard->login($member);
 
         return redirect("/members/profile");
     }
@@ -100,7 +103,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::guard('member')->logout();
 

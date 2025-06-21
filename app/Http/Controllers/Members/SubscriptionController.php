@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Members;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Stripe\Exception\InvalidRequestException;
 
 class SubscriptionController extends Controller
 {
-    public function subscribe(Request $request, Member $member)
+    /**
+     * @param Request $request
+     * @param Member $member
+     * @return JsonResponse
+     */
+    public function subscribe(Request $request, Member $member): JsonResponse
     {
         $request->validate([
             'payment_method' => 'required|string',
@@ -36,7 +42,11 @@ class SubscriptionController extends Controller
         }
     }
 
-    public function cancel(Member $member)
+    /**
+     * @param Member $member
+     * @return JsonResponse
+     */
+    public function cancel(Member $member): JsonResponse
     {
         if ($member->subscribed('default')) {
             $member->subscription('default')->cancel();
@@ -46,7 +56,11 @@ class SubscriptionController extends Controller
         return response()->json(['message' => 'No active subscription.']);
     }
 
-    public function resume(Member $member)
+    /**
+     * @param Member $member
+     * @return JsonResponse
+     */
+    public function resume(Member $member): JsonResponse
     {
         if ($member->subscription('default') && $member->subscription('default')->onGracePeriod()) {
             $member->subscription('default')->resume();
@@ -56,7 +70,11 @@ class SubscriptionController extends Controller
         return response()->json(['message' => 'Cannot resume subscription.']);
     }
 
-    public function subscriptionStatus(Member $member)
+    /**
+     * @param Member $member
+     * @return JsonResponse
+     */
+    public function subscriptionStatus(Member $member): JsonResponse
     {
         $subscription = $member->subscription('default');
 
@@ -73,7 +91,12 @@ class SubscriptionController extends Controller
         return response()->json(['message' => 'No active subscription.']);
     }
 
-    public function updatePaymentMethod(Request $request, Member $member)
+    /**
+     * @param Request $request
+     * @param Member $member
+     * @return JsonResponse
+     */
+    public function updatePaymentMethod(Request $request, Member $member): JsonResponse
     {
         $request->validate([
             'payment_method' => 'required|string',
