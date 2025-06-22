@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd35ece644de6e97afff61bc5e1b4b0f",
+    "content-hash": "a7540b672840146526539e8ec2b63d4f",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -3202,16 +3202,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.10.0",
+            "version": "3.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CarbonPHP/carbon.git",
-                "reference": "c1397390dd0a7e0f11660f0ae20f753d88c1f3d9"
+                "reference": "1fd1935b2d90aef2f093c5e35f7ae1257c448d00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/c1397390dd0a7e0f11660f0ae20f753d88c1f3d9",
-                "reference": "c1397390dd0a7e0f11660f0ae20f753d88c1f3d9",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/1fd1935b2d90aef2f093c5e35f7ae1257c448d00",
+                "reference": "1fd1935b2d90aef2f093c5e35f7ae1257c448d00",
                 "shasum": ""
             },
             "require": {
@@ -3303,7 +3303,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-06-12T10:24:28+00:00"
+            "time": "2025-06-21T15:19:35+00:00"
         },
         {
             "name": "nette/schema",
@@ -5112,16 +5112,16 @@
         },
         {
             "name": "statamic/cms",
-            "version": "v5.58.0",
+            "version": "v5.57.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/statamic/cms.git",
-                "reference": "c2c5ccd8efdf106f7c3563a037355dcfb595de3a"
+                "reference": "eba307923eb5fe9ce7b0954bf6ceecc0357be8c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/statamic/cms/zipball/c2c5ccd8efdf106f7c3563a037355dcfb595de3a",
-                "reference": "c2c5ccd8efdf106f7c3563a037355dcfb595de3a",
+                "url": "https://api.github.com/repos/statamic/cms/zipball/eba307923eb5fe9ce7b0954bf6ceecc0357be8c1",
+                "reference": "eba307923eb5fe9ce7b0954bf6ceecc0357be8c1",
                 "shasum": ""
             },
             "require": {
@@ -5206,7 +5206,7 @@
             ],
             "support": {
                 "issues": "https://github.com/statamic/cms/issues",
-                "source": "https://github.com/statamic/cms/tree/v5.58.0"
+                "source": "https://github.com/statamic/cms/tree/v5.57.0"
             },
             "funding": [
                 {
@@ -5214,7 +5214,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-06-20T14:19:24+00:00"
+            "time": "2025-06-04T17:04:56+00:00"
         },
         {
             "name": "statamic/eloquent-driver",
