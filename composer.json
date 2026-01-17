@@ -15,6 +15,7 @@
         "laravel/framework": "^12.0",
         "laravel/octane": "^2.8",
         "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "spatie/statamic-responsive-images": "^5.2",
         "statamic/cms": "^5.0",
         "statamic/eloquent-driver": "^4.19"
