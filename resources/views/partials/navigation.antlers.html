@@ -2,12 +2,19 @@
     <div class="container mx-auto px-4 flex items-center justify-between md:justify-center gap-6">
         <div class="flex items-center">
             <a href="/" class="flex items-center py-2 px-2 text-white">
-                {{ svg :src="brand:logo" title="{{ site:name }}" height="110" width="110" class="cursor-pointer" }}
+                    <img
+                        src="{{ glide:brand:logo height="110" width="110"  }}"
+                        alt="{{ site:name }}"
+                        class="cursor-pointer"
+                        height="110"
+                        width="110"
+                    />
+{{#                 {{ svg :src="brand:logo" title="{{ site:name }}" height="110" width="110" class="cursor-pointer" }} #}}
             </a>
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="hidden md:flex flex-grow justify-center space-x-12">
+        <div class="hidden md:flex grow justify-center space-x-12">
             {{ nav:main }}
                 {{ if children or show_blog_items }}
                     <div class="relative" x-data="{ open: false }">
