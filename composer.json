@@ -21,7 +21,8 @@
         "spatie/laravel-csp": "^3.21.0",
         "spatie/statamic-responsive-images": "^5.2",
         "statamic/cms": "^5.0",
-        "statamic/eloquent-driver": "^4.19"
+        "statamic/eloquent-driver": "^4.19",
+        "ext-intl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",

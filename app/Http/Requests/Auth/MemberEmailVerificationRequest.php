@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Member;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class MemberEmailVerificationRequest extends FormRequest
 {
@@ -12,19 +12,16 @@ class MemberEmailVerificationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $member = Auth::guard('member')->user();
+        $member = Member::findOrFail($this->route('id'));
 
-        if (!$member) {
+        if (! hash_equals(
+            (string) $this->route('hash'),
+            sha1($member->getEmailForVerification())
+        )) {
             return false;
         }
 
-        return hash_equals(
-                (string)$this->route('id'),
-                (string)$member->getKey()
-            ) && hash_equals(
-                (string)$this->route('hash'),
-                sha1($member->getEmailForVerification())
-            );
+        return true;
     }
 
     /**
@@ -34,13 +31,14 @@ class MemberEmailVerificationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
-    public function member()
+    /**
+     * Get the member from the route parameter.
+     */
+    public function member(): Member
     {
-        return Auth::guard('member')->user();
+        return Member::findOrFail($this->route('id'));
     }
 }

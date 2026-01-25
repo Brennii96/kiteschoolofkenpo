@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\MemberEmailVerificationRequest;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
-class VerifyEmailController extends Controller
+final class VerifyEmailController extends Controller
 {
     /**
      * Mark the authenticated user's email address as verified.
@@ -16,18 +19,20 @@ class VerifyEmailController extends Controller
     {
         $member = $request->member();
 
-        if ($member && $member->hasVerifiedEmail()) {
-            return redirect()->intended(
-                config('app.frontend_url') . '/members/dashboard?verified=1'
-            );
+        if ($member->hasVerifiedEmail()) {
+            Auth::guard('member')->login($member);
+
+            return redirect()->route('members.profile')
+                ->with('status', 'Your email is already verified.');
         }
 
-        if ($member && $member->markEmailAsVerified()) {
+        if ($member->markEmailAsVerified()) {
             event(new Verified($member));
         }
 
-        return redirect()->intended(
-            config('app.frontend_url') . '/members/dashboard?verified=1'
-        );
+        Auth::guard('member')->login($member);
+
+        return redirect()->route('members.choose-your-plan')
+            ->with('status', 'Your email has been verified! Please choose a plan to get started.');
     }
 }

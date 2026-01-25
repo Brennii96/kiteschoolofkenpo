@@ -7,18 +7,18 @@
             <label for="email" class="block text-brand-300 text-sm font-montserrat mb-2">Email</label>
             <input id="email" type="email" name="email" value="{{ old:email }}" required autofocus
                    class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
-            {{ if errors:email }}
-                <p class="text-red-brand text-xs mt-1">{{ errors:email }}</p>
-            {{ /if }}
+            {{ get_error:email }}
+                <p class="text-red-brand text-xs mt-1">{{ message }}</p>
+            {{ /get_error:email }}
         </div>
 
         <div class="mb-4">
             <label for="password" class="block text-brand-300 text-sm font-montserrat mb-2">Password</label>
             <input id="password" type="password" name="password" required autocomplete="current-password"
                    class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
-            {{ if errors:password }}
-                <p class="text-red-brand text-xs mt-1">{{ errors:password }}</p>
-            {{ /if }}
+            {{ get_error:password }}
+                <p class="text-red-brand text-xs mt-1">{{ message }}</p>
+            {{ /get_error:password }}
         </div>
 
         <div class="mb-4 flex items-center">

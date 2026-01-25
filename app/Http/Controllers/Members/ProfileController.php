@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Members;
 
+use App\Contracts\StripeServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use Illuminate\Http\RedirectResponse;
@@ -11,11 +14,16 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Statamic\View\View;
 
-class ProfileController extends Controller
+final class ProfileController extends Controller
 {
+    public function __construct(
+        private readonly StripeServiceInterface $stripeService
+    ) {}
+
     public function show(): View
     {
         $member = Auth::guard('member')->user();
+
         return (new View)
             ->template('members.profile')
             ->layout('layout')
@@ -34,7 +42,7 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:members,email,' . $user->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:members,email,'.$user->id],
         ]);
 
         if ($request->input('email') !== $user->email) {
@@ -47,7 +55,6 @@ class ProfileController extends Controller
         return redirect()->route('members.profile')
             ->with('status', 'Profile information updated successfully.');
     }
-
 
     public function updatePassword(Request $request): RedirectResponse
     {
@@ -92,12 +99,17 @@ class ProfileController extends Controller
         return redirect('/')->with('status', 'Your account has been deleted.');
     }
 
-    public function chooseYourPlan()
+    public function chooseYourPlan(): View
     {
+        $member = Auth::guard('member')->user();
+        $plans = $this->stripeService->getActivePrices();
+
         return (new View)
             ->template('members.choose-your-plan')
             ->layout('layout')
             ->with([
+                'plans' => $plans->toArray(),
+                'member' => $member,
             ]);
     }
 }
