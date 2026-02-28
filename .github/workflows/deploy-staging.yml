@@ -1,0 +1,30 @@
+name: Deploy Staging
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - develop
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag' && (github.event.base_ref == 'refs/heads/develop' || github.event.base_ref == 'refs/heads/staging')
+
+    environment:
+      name: staging
+      url: https://staging.kiteschoolofkenpo.co.uk
+
+    steps:
+      - name: Deploy to staging
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: deploy
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          envs: GITHUB_REF_NAME
+          script: |
+            export DEPLOY_TAG="${GITHUB_REF_NAME}"
+            /usr/local/bin/deploy kiteschoolofkenpo.co.uk staging
