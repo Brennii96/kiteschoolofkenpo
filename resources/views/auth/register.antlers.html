@@ -1,54 +1,115 @@
 {{ partial src="partials/flex_section" lighten="true" }}
-    <form method="POST" action="/register" class="max-w-md mx-auto bg-dark-brand p-6 rounded-2xl shadow-lg">
-        {{ csrf_field }}
 
-        {{ if {session:status} }}
-            <div class="mb-6 p-4 bg-green-900/50 border border-green-700 rounded-lg">
-                <p class="text-green-200 text-sm">{{ session:status }}</p>
-            </div>
-        {{ /if }}
+<div class="w-full max-w-md">
+    <div class="bg-dark-brand rounded-sm overflow-hidden shadow-2xl border-l-4 border-red-brand relative">
 
-        <div class="mb-4">
-            <label for="name" class="block text-white text-sm font-montserrat mb-2">Name</label>
-            <input id="name" type="text" name="name" value="{{ old:name }}" required autofocus autocomplete="name"
-                   class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
-            {{ get_error:name }}
-                <p class="text-red-brand text-xs mt-1">{{ message }}</p>
-            {{ /get_error:name }}
+        <div class="absolute top-0 right-0 w-0 h-0 border-t-40 border-r-40 border-t-transparent border-r-red-brand opacity-30"></div>
+
+        <div class="px-8 pt-8 pb-6 border-b border-white/5 relative">
+            <div class="absolute bottom-0 left-8 w-12 h-0.5 bg-red-brand"></div>
+            <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Members Portal</p>
+            <h1 class="font-montserrat text-3xl font-black text-white leading-tight tracking-tight">
+                Create your<br><span class="text-red-brand">Account.</span>
+            </h1>
         </div>
 
-        <div class="mb-4">
-            <label for="email" class="block text-white text-sm font-montserrat mb-2">Email</label>
-            <input id="email" type="email" name="email" value="{{ old:email }}" required autocomplete="username"
-                   class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
-            {{ get_error:email }}
-                <p class="text-red-brand text-xs mt-1">{{ message }}</p>
-            {{ /get_error:email }}
+        <div class="px-8 pt-7 pb-8">
+            {{ if {session:status} }}
+                <div class="mb-6 p-4 bg-green-900/50 border border-green-700 rounded-sm">
+                    <p class="text-green-200 text-sm font-roboto">{{ session:status }}</p>
+                </div>
+            {{ /if }}
+
+            <form method="POST" action="/register">
+                {{ csrf_field }}
+
+                <div class="mb-7 group">
+                    <label for="name" class="block font-montserrat text-2xs font-bold tracking-[0.15em] uppercase text-off-white group-focus-within:text-brand-300 transition-colors duration-200 mb-2">
+                        Name
+                    </label>
+                    <input
+                        id="name"
+                        type="text"
+                        name="name"
+                        value="{{ old:name }}"
+                        required
+                        autofocus
+                        autocomplete="name"
+                        class="w-full bg-transparent border-0 border-b border-white/15 focus:border-red-brand pb-2 text-white font-roboto font-light text-base outline-none transition-colors duration-200"
+                    >
+                    {{ get_error:name }}
+                    <p class="text-brand-300 text-xs mt-1 font-roboto">{{ message }}</p>
+                    {{ /get_error:name }}
+                </div>
+
+                <div class="mb-7 group">
+                    <label for="email" class="block font-montserrat text-2xs font-bold tracking-[0.15em] uppercase text-off-white group-focus-within:text-brand-300 transition-colors duration-200 mb-2">
+                        Email Address
+                    </label>
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value="{{ old:email }}"
+                        required
+                        autocomplete="username"
+                        class="w-full bg-transparent border-0 border-b border-white/15 focus:border-red-brand pb-2 text-white font-roboto font-light text-base outline-none transition-colors duration-200"
+                    >
+                    {{ get_error:email }}
+                    <p class="text-brand-300 text-xs mt-1 font-roboto">{{ message }}</p>
+                    {{ /get_error:email }}
+                </div>
+
+                <div class="mb-7 group">
+                    <label for="password" class="block font-montserrat text-2xs font-bold tracking-[0.15em] uppercase text-off-white group-focus-within:text-brand-300 transition-colors duration-200 mb-2">
+                        Password
+                    </label>
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        required
+                        autocomplete="new-password"
+                        class="w-full bg-transparent border-0 border-b border-white/15 focus:border-red-brand pb-2 text-white font-roboto font-light text-base outline-none transition-colors duration-200"
+                    >
+                    {{ get_error:password }}
+                    <p class="text-brand-300 text-xs mt-1 font-roboto">{{ message }}</p>
+                    {{ /get_error:password }}
+                </div>
+
+                <div class="mb-8 group">
+                    <label for="password_confirmation" class="block font-montserrat text-2xs font-bold tracking-[0.15em] uppercase text-off-white group-focus-within:text-brand-300 transition-colors duration-200 mb-2">
+                        Confirm Password
+                    </label>
+                    <input
+                        id="password_confirmation"
+                        type="password"
+                        name="password_confirmation"
+                        required
+                        autocomplete="new-password"
+                        class="w-full bg-transparent border-0 border-b border-white/15 focus:border-red-brand pb-2 text-white font-roboto font-light text-base outline-none transition-colors duration-200"
+                    >
+                    {{ get_error:password_confirmation }}
+                    <p class="text-brand-300 text-xs mt-1 font-roboto">{{ message }}</p>
+                    {{ /get_error:password_confirmation }}
+                </div>
+
+                <button
+                    type="submit"
+                    class="w-full bg-red-brand hover:bg-red-brand-dark active:scale-[0.99] text-white font-montserrat font-bold text-[0.8rem] tracking-[0.15em] uppercase py-3.5 px-6 rounded-sm transition-all duration-200"
+                >
+                    Create Account
+                </button>
+            </form>
         </div>
 
-        <div class="mb-4">
-            <label for="password" class="block text-white text-sm font-montserrat mb-2">Password</label>
-            <input id="password" type="password" name="password" required autocomplete="new-password"
-                   class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
-            {{ get_error:password }}
-                <p class="text-red-brand text-xs mt-1">{{ message }}</p>
-            {{ /get_error:password }}
+        <div class="px-8 py-4 border-t border-white/5 flex justify-end">
+            <a href="/login" class="text-xs text-off-white font-roboto hover:text-brand-300 transition-colors duration-200">
+                Already have an account? &nbsp;Sign In
+            </a>
         </div>
 
-        <div class="mb-4">
-            <label for="password_confirmation" class="block text-white text-sm font-montserrat mb-2">Confirm Password</label>
-            <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password"
-                   class="w-full px-4 py-2 rounded-lg bg-dark-brand text-white border border-brand-500 focus:ring-2 focus:ring-brand-400 focus:outline-none">
-            {{ get_error:password_confirmation }}
-                <p class="text-red-brand text-xs mt-1">{{ message }}</p>
-            {{ /get_error:password_confirmation }}
-        </div>
+    </div>
+</div>
 
-        <div>
-            <button type="submit"
-                    class="w-full bg-brand-500 hover:bg-brand-600 text-white py-2 px-4 rounded-lg font-montserrat text-lg transition-all">
-                Register
-            </button>
-        </div>
-    </form>
 {{ /partial }}
