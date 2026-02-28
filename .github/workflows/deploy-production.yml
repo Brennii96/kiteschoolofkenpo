@@ -1,0 +1,29 @@
+name: Deploy Production
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag' && github.event.base_ref == 'refs/heads/main'
+
+    environment:
+      name: production
+      url: https://kiteschoolofkenpo.co.uk
+
+    steps:
+      - name: Deploy to production
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: deploy
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          envs: GITHUB_REF_NAME
+          script: |
+            export DEPLOY_TAG="${GITHUB_REF_NAME}"
+            /usr/local/bin/deploy kiteschoolofkenpo.co.uk production

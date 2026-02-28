@@ -1,0 +1,24 @@
+<div x-data="{ showMessage: false, message: '', type: '' }"
+     x-init="
+        showMessage = '{{ session:status }}' ? true : false;
+        message = '{{ session:status }}';
+        type = 'success';
+{{#         if (!showMessage && '{{ errors }}' !== '') { #}}
+{{#             showMessage = true; #}}
+{{#             message = '{{ errors.first }}'; #}}
+{{#             type = 'error'; #}}
+{{#         } #}}
+
+        if (showMessage) {
+            setTimeout(() => showMessage = false, 3000);
+        }
+     "
+     x-show="showMessage"
+     x-transition
+     :class="{
+         'bg-green-100 text-green-700 border-green-300': type === 'success',
+         'bg-red-100 text-red-700 border-red-300': type === 'error'
+     }"
+     class="border rounded-md p-4 text-sm mb-6">
+    <span x-text="message"></span>
+</div>

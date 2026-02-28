@@ -2,12 +2,18 @@
     <div class="container mx-auto px-4 flex items-center justify-between md:justify-center gap-6">
         <div class="flex items-center">
             <a href="/" class="flex items-center py-2 px-2 text-white">
-                {{ svg :src="brand:logo" title="{{ site:name }}" height="110" width="110" class="cursor-pointer" }}
+                    <img
+                        src="{{ glide:brand:logo height="110" width="110"  }}"
+                        alt="{{ site:name }}"
+                        class="cursor-pointer"
+                        height="110"
+                        width="110"
+                    />
             </a>
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="hidden md:flex flex-grow justify-center space-x-12">
+        <div class="hidden md:flex grow justify-center space-x-12">
             {{ nav:main }}
                 {{ if children or show_blog_items }}
                     <div class="relative" x-data="{ open: false }">
@@ -81,9 +87,15 @@
         </div>
 
         <div class="hidden md:flex items-center">
-            <a href="/account" class="py-2 px-4 bg-red-brand text-white hover:bg-red-brand-dark">
-                Account
-            </a>
+            {{ if {member:check} }}
+                <a href="/account" class="py-2 px-4 bg-red-brand text-white hover:bg-red-brand-dark">
+                    Account
+                </a>
+            {{ else }}
+                <a href="/login" class="py-2 px-4 bg-red-brand text-white hover:bg-red-brand-dark">
+                    Sign In
+                </a>
+            {{ /if }}
         </div>
 
         <!-- Mobile Menu Button -->
