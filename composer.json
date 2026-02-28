@@ -10,8 +10,9 @@
         "laravel"
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^8.5",
         "ext-pdo": "*",
+        "ext-intl": "*",
         "laravel/cashier": "^15.6",
         "laravel/framework": "^12.0",
         "laravel/octane": "^2.8",
@@ -19,10 +20,8 @@
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
         "spatie/laravel-csp": "^3.21.0",
-        "spatie/statamic-responsive-images": "^5.2",
-        "statamic/cms": "^5.0",
-        "statamic/eloquent-driver": "^4.19",
-        "ext-intl": "*"
+        "statamic/cms": "^6.0",
+        "statamic/eloquent-driver": "^5.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
@@ -33,7 +32,7 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "nunomaduro/larastan": "^3.4",
+        "larastan/larastan": "^3.4",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^11.0.1",
         "rector/rector": "^2.0",
