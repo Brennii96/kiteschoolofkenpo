@@ -1,24 +1,22 @@
-<div x-data="{ showMessage: false, message: '', type: '' }"
-     x-init="
-        showMessage = '{{ session:status }}' ? true : false;
-        message = '{{ session:status }}';
-        type = 'success';
-{{#         if (!showMessage && '{{ errors }}' !== '') { #}}
-{{#             showMessage = true; #}}
-{{#             message = '{{ errors.first }}'; #}}
-{{#             type = 'error'; #}}
-{{#         } #}}
-
-        if (showMessage) {
-            setTimeout(() => showMessage = false, 3000);
-        }
-     "
-     x-show="showMessage"
-     x-transition
-     :class="{
-         'bg-green-100 text-green-700 border-green-300': type === 'success',
-         'bg-red-100 text-red-700 border-red-300': type === 'error'
-     }"
-     class="border rounded-md p-4 text-sm mb-6">
-    <span x-text="message"></span>
-</div>
+{{ if {session:status} }}
+    <div x-data="{ show: true }"
+         x-show="show"
+         x-init="setTimeout(() => show = false, 3000)"
+         x-transition
+         class="border border-green-500 bg-green-500/10 text-green-400 rounded-sm p-4 font-roboto text-sm mb-6">
+        {{ session:status }}
+    </div>
+{{ /if }}
+{{ get_errors:all }}
+    <div x-data="{ show: true }"
+         x-show="show"
+         x-init="setTimeout(() => show = false, 3000)"
+         x-transition
+         class="border border-red-500 bg-red-500/10 text-brand-300 rounded-sm p-4 font-roboto text-sm mb-6">
+        <ul class="space-y-1">
+            {{ messages }}
+            <li>{{ message }}</li>
+            {{ /messages }}
+        </ul>
+    </div>
+{{ /get_errors:all }}

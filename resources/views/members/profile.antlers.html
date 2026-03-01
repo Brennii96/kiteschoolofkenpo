@@ -1,17 +1,62 @@
 {{ partial src="partials/flex_section" lighten="true" id="profile-settings" }}
 
-<div class="w-full max-w-2xl mx-auto p-8 bg-white rounded-2xl shadow-lg space-y-10">
+<div class="w-full max-w-lg">
+<div class="bg-dark-brand rounded-sm overflow-hidden shadow-2xl border-l-4 border-red-brand relative">
 
-    {{ partial src="partials/notification" }}
+    <div class="absolute top-0 right-0 w-0 h-0 border-t-40 border-r-40 border-t-transparent border-r-red-brand opacity-30"></div>
 
-    {{ partial src="members/forms/profile" }}
-
-    <hr class="border-gray-200">
-
-    {{ partial src="members/forms/password" }}
-
-    <hr class="border-gray-200">
-
-    {{ partial src="members/forms/delete" }}
+    <div class="px-8 pt-8 pb-6 border-b border-white/5 relative">
+        <div class="absolute bottom-0 left-8 w-12 h-0.5 bg-red-brand"></div>
+        <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Members Portal</p>
+        <h1 class="font-montserrat text-3xl font-black text-white leading-tight tracking-tight">
+            Your<br><span class="text-red-brand">Account.</span>
+        </h1>
     </div>
+
+<div x-data="{ tab: 'profile' }">
+
+    <div class="flex border-b border-white/5">
+        <button
+            @click="tab = 'profile'"
+            :class="tab === 'profile' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
+            class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
+            Profile
+        </button>
+        <button
+            @click="tab = 'password'"
+            :class="tab === 'password' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
+            class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
+            Password
+        </button>
+        <button
+            @click="tab = 'delete'"
+            :class="tab === 'delete' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
+            class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
+            Delete Account
+        </button>
+    </div>
+
+<div class="px-8 pt-7 pb-8">
+
+{{ partial src="partials/notification" }}
+
+    <div x-show="tab === 'profile'" x-transition>
+        {{ partial src="members/forms/profile" }}
+    </div>
+
+    <div x-show="tab === 'password'" x-transition>
+        {{ partial src="members/forms/password" }}
+    </div>
+
+<div x-show="tab === 'delete'" x-transition>
+{{ partial src="members/forms/delete" }}
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+    </div>
+
 {{ /partial }}
