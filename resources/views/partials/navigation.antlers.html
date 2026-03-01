@@ -2,13 +2,13 @@
     <div class="container mx-auto px-4 flex items-center justify-between md:justify-center gap-6">
         <div class="flex items-center">
             <a href="/" class="flex items-center py-2 px-2 text-white">
-                    <img
-                        src="{{ glide:brand:logo height="110" width="110"  }}"
-                        alt="{{ site:name }}"
-                        class="cursor-pointer"
-                        height="110"
-                        width="110"
-                    />
+                <img
+                    src="{{ glide:brand:logo height="110" width="110" }}"
+                    alt="{{ site:name }}"
+                    class="cursor-pointer"
+                    height="110"
+                    width="110"
+                />
             </a>
         </div>
 
@@ -40,7 +40,7 @@
 
                             {{ if show_blog_items }}
                                 {{ cache key="articles_kenpo_karate_nav" }}
-                                    {{ collection:articles taxonomy:tags="about-kenpo-karate" limit="3" as="posts" fields="title,excerpt,url" }}
+                                    {{ collection:articles taxonomy:tags = "about-kenpo-karate" limit="3" as="posts" fields="title,excerpt,url" }}
                                         {{ posts }}
                                         <div class="relative grid md:gap-4 bg-dark-brand px-5 py-2 md:p-4 gap-8 p-8">
                                             <a href="{{ url }}" class="-m-3 p-2 flex items-start rounded-lg">
@@ -62,7 +62,7 @@
                                             Get Motivated
                                         </a>
                                         {{ cache key="get_motivated_nav" }}
-                                            {{ collection:articles taxonomy:tags="get-motivated" limit="2" as="posts" fields="title,excerpt,url" }}
+                                            {{ collection:articles taxonomy:tags = "get-motivated" limit="2" as="posts" fields="title,excerpt,url" }}
                                                 {{ posts }}
                                                 <div class="relative grid md:gap-6 bg-dark-brand gap-8 pb-2">
                                                     <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
@@ -87,12 +87,12 @@
         </div>
 
         <div class="hidden md:flex items-center">
-            {{ if {member:check} }}
-                <a href="/account" class="py-2 px-4 bg-red-brand text-white hover:bg-red-brand-dark">
+            {{ if member }}
+                <a href="/members/profile" class="py-2 px-4 bg-red-brand text-white! hover:bg-red-brand-dark">
                     Account
                 </a>
             {{ else }}
-                <a href="/login" class="py-2 px-4 bg-red-brand text-white hover:bg-red-brand-dark">
+                <a href="/login" class="py-2 px-4 bg-red-brand text-white! hover:bg-red-brand-dark">
                     Sign In
                 </a>
             {{ /if }}
@@ -130,7 +130,8 @@
                             </g>
                         </svg>
                     </button>
-                    <div x-show="open" x-cloak style="display: none;" class="bg-dark-brand text-white rounded-md mt-2 w-full"
+                    <div x-show="open" x-cloak style="display: none;"
+                         class="bg-dark-brand text-white rounded-md mt-2 w-full"
                          x-transition.origin.top.left>
                         {{ children }}
                         <a href="{{ url }}" class="uppercase block px-4 py-2 hover:bg-gray-800">{{ title }}</a>
