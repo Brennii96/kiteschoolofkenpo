@@ -39,7 +39,7 @@ return [
         |
         */
 
-        'driver' => 'gd',
+        'driver' => extension_loaded('imagick') ? 'imagick' : 'gd',
 
         /*
         |--------------------------------------------------------------------------
@@ -53,7 +53,9 @@ return [
         */
 
         'additional_extensions' => [
-            // 'heic',
+            'webp',
+            'avif',
+            'heic'
         ],
 
         /*
@@ -76,13 +78,14 @@ return [
         |--------------------------------------------------------------------------
         |
         | You may define global defaults for all manipulation parameters, such as
-        | quality, format, and sharpness. These can and will be be overwritten
+        | quality, format, and sharpness. These can and will be overwritten
         | on the tag parameter level as well as the preset level.
         |
         */
 
         'defaults' => [
-            'quality' => 80,
+            'quality' => 85,
+            'format' => 'webp'
         ],
 
         /*
@@ -98,7 +101,27 @@ return [
         */
 
         'presets' => [
-            // 'small' => ['w' => 200, 'h' => 200, 'q' => 75, 'fit' => 'crop'],
+            'xs-webp' => ['w' => 320, 'h' => 10000, 'q' => 75, 'fit' => 'contain', 'fm' => 'webp'],
+            'sm-webp' => ['w' => 480, 'h' => 10000, 'q' => 75, 'fit' => 'contain', 'fm' => 'webp'],
+            'md-webp' => ['w' => 768, 'h' => 10000, 'q' => 75, 'fit' => 'contain', 'fm' => 'webp'],
+            'lg-webp' => ['w' => 1280, 'h' => 10000, 'q' => 85, 'fit' => 'contain', 'fm' => 'webp'],
+            'xl-webp' => ['w' => 1440, 'h' => 10000, 'q' => 85, 'fit' => 'contain', 'fm' => 'webp'],
+            '2xl-webp' => ['w' => 1680, 'h' => 10000, 'q' => 85, 'fit' => 'contain', 'fm' => 'webp'],
+            '3xl-webp' => ['w' => 2000, 'h' => 10000, 'q' => 85, 'fit' => 'contain', 'fm' => 'webp'],
+            'xs' => ['w' => 320, 'h' => 10000, 'q' => 75, 'fit' => 'contain'],
+            'sm' => ['w' => 480, 'h' => 10000, 'q' => 75, 'fit' => 'contain'],
+            'md' => ['w' => 768, 'h' => 10000, 'q' => 75, 'fit' => 'contain'],
+            'lg' => ['w' => 1280, 'h' => 10000, 'q' => 85, 'fit' => 'contain'],
+            'xl' => ['w' => 1440, 'h' => 10000, 'q' => 85, 'fit' => 'contain'],
+            '2xl' => ['w' => 1680, 'h' => 10000, 'q' => 85, 'fit' => 'contain'],
+            '3xl' => ['w' => 2000, 'h' => 10000, 'q' => 85, 'fit' => 'contain'],
+
+            'thumbnail' => ['w' => 250, 'h' => 250, 'q' => 80, 'fit' => 'crop'],  // Small previews, icons
+            'mobile' => ['w' => 640, 'q' => 85, 'fit' => 'max'],  // Phones
+            'tablet' => ['w' => 1024, 'q' => 85, 'fit' => 'max'],  // iPads, tablets
+            'desktop' => ['w' => 1600, 'q' => 80, 'fit' => 'max'],  // Standard 1080p screens
+            'large' => ['w' => 2560, 'q' => 80, 'fit' => 'max'],  // 1440p, 4K screens
+            'full' => ['w' => 3840, 'q' => 85, 'fit' => 'max'],  // 8K displays, ultra-wide banners
         ],
 
         /*

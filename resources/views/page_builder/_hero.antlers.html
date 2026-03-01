@@ -1,27 +1,7 @@
 <section
     class="hero-section relative flex items-center justify-center w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
     <div class="absolute inset-0 w-full h-full">
-        <picture>
-            <source srcset="
-                {{ glide :src='background_image' format='avif' width='480' height='300' }} 480w,
-                {{ glide :src='background_image' format='avif' width='768' height='480' }} 768w,
-                {{ glide :src='background_image' format='avif' width='1024' height='600' }} 1024w,
-                {{ glide :src='background_image' format='avif' width='1280' height='800' }} 1280w,
-                {{ glide :src='background_image' format='avif' width='1920' height='1200' }} 1920w"
-                    type="image/avif">
-
-            <source srcset="
-                {{ glide :src='background_image' format='webp' width='480' height='300' }} 480w,
-                {{ glide :src='background_image' format='webp' width='768' height='480' }} 768w,
-                {{ glide :src='background_image' format='webp' width='1024' height='600' }} 1024w,
-                {{ glide :src='background_image' format='webp' width='1280' height='800' }} 1280w,
-                {{ glide :src='background_image' format='webp' width='1920' height='1200' }} 1920w"
-                    type="image/webp">
-
-            <img src="{{ glide :src='background_image' format='jpg' width='1920' height='1200' }}"
-                 class="w-full h-full object-cover object-center absolute inset-0"
-                 alt="Hero Image Background">
-        </picture>
+        {{ partial:partials/picture :image="background_image" cover="true" lazy="true" sizes="(min-width: 1280px) 100vw, (min-width: 768px) 100vw, 100vw" class="w-full h-full object-cover object-center absolute inset-0" }}
     </div>
 
     <div
