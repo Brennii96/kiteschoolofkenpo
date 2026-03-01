@@ -1,21 +1,30 @@
-<section class="space-y-6">
-    <h2 class="text-2xl font-bold">Delete Account</h2>
+<p class="font-roboto text-off-white text-sm mb-7">
+    Once your account is deleted, all data will be permanently removed. This cannot be undone.
+</p>
 
-    <form method="POST" action="{{ route:profile.destroy }}" class="space-y-4">
-        {{ csrf_field }}
-        <input type="hidden" name="_method" value="DELETE"/>
+<form method="POST" action="{{ route:profile.destroy }}" class="space-y-7">
+    {{ csrf_field }}
+    <input type="hidden" name="_method" value="DELETE"/>
 
-        <div class="space-y-2 input">
-            <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
-            <input type="password" name="password"
-                   class="w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"/>
-        </div>
+    <div class="group">
+        <label
+            class="block font-montserrat text-2xs font-bold tracking-[0.15em] uppercase text-off-white group-focus-within:text-brand-300 transition-colors duration-200 mb-2">
+            Confirm Password
+        </label>
+        <input
+            type="password"
+            name="password"
+            class="w-full bg-transparent border-0 border-b border-white/15 focus:border-red-brand pb-2 text-white font-roboto font-light text-base outline-none transition-colors duration-200"/>
+        {{ get_error:password }}
+            <p class="text-brand-300 text-xs mt-1 font-roboto">{{ message }}</p>
+        {{ /get_error:password }}
+    </div>
 
-        <div class="flex justify-end">
-            <button type="submit"
-                    class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-md transition">
-                Delete Account
-            </button>
-        </div>
-    </form>
-</section>
+    <div class="flex justify-end pt-2">
+        <button
+            type="submit"
+            class="bg-red-700 hover:bg-red-800 active:scale-[0.99] text-white font-montserrat font-bold text-[0.8rem] tracking-[0.15em] uppercase py-3.5 px-6 rounded-sm transition-all duration-200">
+            Delete Account
+        </button>
+    </div>
+</form>
