@@ -25,6 +25,7 @@ jobs:
           username: deploy
           key: ${{ secrets.SSH_DEPLOY_KEY }}
           envs: GITHUB_REF_NAME
+          command_timeout: 15m
           script: |
             export DEPLOY_TAG="${GITHUB_REF_NAME}"
             /usr/local/bin/deploy kiteschoolofkenpo.co.uk staging
