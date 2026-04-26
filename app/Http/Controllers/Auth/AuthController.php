@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Statamic\View\View;
@@ -24,7 +26,7 @@ class AuthController extends Controller
      */
     public function loginView(): View
     {
-        return (new View)
+        return (new View())
             ->template('auth.login')
             ->layout('layout');
     }
@@ -34,7 +36,7 @@ class AuthController extends Controller
      */
     public function registerView(): View
     {
-        return (new View)
+        return (new View())
             ->template('auth.register')
             ->layout('layout');
     }
@@ -49,10 +51,25 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
+        $throttleKey = Str::transliterate(Str::lower($request->input('email')).'|'.$request->ip());
+
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+
+            return back()->withErrors([
+                'email' => trans('auth.throttle', [
+                    'seconds' => $seconds,
+                    'minutes' => ceil($seconds / 60),
+                ]),
+            ])->withInput($request->only('email'));
+        }
+
         /** @var StatefulGuard $memberGuard */
         $memberGuard = Auth::guard('member');
 
         if ($memberGuard->attempt($credentials, $request->boolean('remember'))) {
+            RateLimiter::clear($throttleKey);
+
             /** @var Member $member */
             $member = $memberGuard->user();
             $member->update([
@@ -63,6 +80,8 @@ class AuthController extends Controller
 
             return redirect()->intended('/members/profile');
         }
+
+        RateLimiter::hit($throttleKey);
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

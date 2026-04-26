@@ -53,16 +53,21 @@
                     {{ /get_error:password }}
                 </div>
 
-                <div class="flex items-center gap-3 mb-8">
-                    <input
-                        id="remember_me"
-                        type="checkbox"
-                        name="remember"
-                        class="w-4 h-4 accent-red-brand cursor-pointer"
-                    >
-                    <label for="remember_me" class="text-sm text-off-white font-roboto font-light cursor-pointer select-none">
-                        Keep me signed in
-                    </label>
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center gap-3">
+                        <input
+                            id="remember_me"
+                            type="checkbox"
+                            name="remember"
+                            class="w-4 h-4 accent-red-brand cursor-pointer"
+                        >
+                        <label for="remember_me" class="text-sm text-off-white font-roboto font-light cursor-pointer select-none">
+                            Keep me signed in
+                        </label>
+                    </div>
+                    <a href="/forgot-password" class="text-xs text-off-white font-roboto hover:text-brand-300 transition-colors duration-200">
+                        Forgot password?
+                    </a>
                 </div>
 
                 <button

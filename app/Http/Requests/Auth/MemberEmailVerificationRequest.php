@@ -16,7 +16,7 @@ class MemberEmailVerificationRequest extends FormRequest
 
         if (! hash_equals(
             (string) $this->route('hash'),
-            sha1($member->getEmailForVerification())
+            hash_hmac('sha256', $member->getEmailForVerification(), config('app.key'))
         )) {
             return false;
         }

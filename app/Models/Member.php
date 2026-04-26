@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Notifications\MemberVerifyEmail;
 use Database\Factories\MemberFactory;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -15,7 +16,11 @@ use Laravel\Cashier\Billable;
 class Member extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<MemberFactory> */
-    use Billable, HasFactory, MustVerifyEmailTrait, Notifiable;
+    use Billable;
+
+    use HasFactory;
+    use MustVerifyEmailTrait;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -50,5 +55,10 @@ class Member extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new MemberVerifyEmail());
     }
 }
