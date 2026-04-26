@@ -1,4 +1,4 @@
-<nav class="bg-dark-brand text-white" x-data="{ mobileOpen: false }">
+<nav class="bg-dark-brand text-white" x-data="{ mobileOpen: false }" @keydown.escape.window="mobileOpen = false">
     <div class="container mx-auto px-4 flex items-center justify-between md:justify-center gap-6">
         <div class="flex items-center">
             <a href="/" class="flex items-center py-2 px-2 text-white">
@@ -16,22 +16,27 @@
         <div class="hidden md:flex grow justify-center space-x-12">
             {{ nav:main }}
                 {{ if children or show_blog_items }}
-                    <div class="relative" x-data="{ open: false }">
-                        <button @click="open = !open" @click.away="open = false"
-                                class="uppercase p-2 flex items-center gap-2 text-sm lg:text-base font-medium text-white hover:text-red-brand">
+                    <div class="relative" x-data="{ open: false }" @keydown.escape="open = false" @click.outside="open = false">
+                        <button
+                            @click="open = !open"
+                            :aria-expanded="open.toString()"
+                            aria-haspopup="true"
+                            class="uppercase p-2 flex items-center gap-2 text-sm lg:text-base font-medium hover:text-red-brand {{ is_current or is_parent ? 'text-red-brand' : 'text-white' }}"
+                        >
                             {{ title }}
-                            <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                 viewBox="0 0 24 24">
+                            <svg class="w-3 h-3 transition-transform duration-150" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <title>chevron-down</title>
                                 <g fill="none">
-                                    <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.5"
-                                          stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                 </g>
                             </svg>
                         </button>
-                        <div x-show="open" x-cloak style="display: none;"
-                             class="bg-dark-brand absolute z-50 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2 normal-case"
-                             x-transition.origin.top.left>
+                        <div
+                            x-show="open"
+                            x-cloak
+                            class="bg-dark-brand absolute z-50 -ml-4 mt-3 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2 normal-case"
+                            x-transition.origin.top.left
+                        >
                             {{ if children }}
                                 {{ children }}
                                 <a href="{{ url }}" class="uppercase block px-4 py-2 hover:bg-gray-800">{{ title }}</a>
@@ -54,11 +59,9 @@
                                     {{ /collection:articles }}
                                 {{ /cache }}
                                 <hr/>
-                                <div
-                                    class="px-5 py-5 bg-dark-brand space-y-6 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
+                                <div class="px-5 py-5 bg-dark-brand space-y-6 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
                                     <div class="flex flex-col">
-                                        <a href="/get-motivated"
-                                           class="-m-3 p-3 pb-6 flex items-center rounded-md text-sm lg:text-base font-medium text-white">
+                                        <a href="/get-motivated" class="-m-3 p-3 pb-6 flex items-center rounded-md text-sm lg:text-base font-medium text-white">
                                             Get Motivated
                                         </a>
                                         {{ cache key="get_motivated_nav" }}
@@ -67,7 +70,7 @@
                                                 <div class="relative grid md:gap-6 bg-dark-brand gap-8 pb-2">
                                                     <a href="{{ url }}" class="-m-3 p-3 flex items-start rounded-lg">
                                                         <div class="ml-4">
-                                                            <p class=" text-sm:text-base font-medium text-white">{{ title }}</p>
+                                                            <p class="text-sm:text-base font-medium text-white">{{ title }}</p>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -80,19 +83,22 @@
                         </div>
                     </div>
                 {{ else }}
-                    <a href="{{ url }}"
-                       class="uppercase p-2 text-sm lg:text-base font-medium text-white hover:text-red-brand">{{ title }}</a>
+                    <a
+                        href="{{ url }}"
+                        class="uppercase p-2 text-sm lg:text-base font-medium hover:text-red-brand {{ is_current ? 'text-red-brand border-b border-red-brand' : 'text-white' }}"
+                        {{ is_current ? 'aria-current="page"' : '' }}
+                    >{{ title }}</a>
                 {{ /if }}
             {{ /nav:main }}
         </div>
 
         <div class="hidden md:flex items-center">
             {{ if member }}
-                <a href="/members/profile" class="py-2 px-4 bg-red-brand text-white! hover:bg-red-brand-dark">
+                <a href="/members/profile" class="py-2 px-4 bg-red-brand text-white! hover:bg-red-brand-dark transition duration-150 ease-in-out">
                     Account
                 </a>
             {{ else }}
-                <a href="/login" class="py-2 px-4 bg-red-brand text-white! hover:bg-red-brand-dark">
+                <a href="/login" class="py-2 px-4 bg-red-brand text-white! hover:bg-red-brand-dark transition duration-150 ease-in-out">
                     Sign In
                 </a>
             {{ /if }}
@@ -100,12 +106,16 @@
 
         <!-- Mobile Menu Button -->
         <div class="md:hidden flex items-center">
-            <button @click="mobileOpen = !mobileOpen" class="mobile-menu-button">
+            <button
+                @click="mobileOpen = !mobileOpen"
+                :aria-expanded="mobileOpen.toString()"
+                aria-label="Toggle navigation menu"
+                class="mobile-menu-button p-1"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <title>bars-3-bottom-left</title>
                     <g fill="none">
-                        <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" stroke="currentColor" stroke-width="1.5"
-                              stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                     </g>
                 </svg>
             </button>
@@ -113,33 +123,46 @@
     </div>
 
     <!-- Mobile Navigation -->
-    <div x-show="mobileOpen" class="md:hidden flex flex-col items-center pb-3 bg-dark-brand w-full"
-         x-transition.origin.top.left>
+    <div
+        x-show="mobileOpen"
+        x-cloak
+        class="md:hidden flex flex-col items-center pb-3 bg-dark-brand w-full max-h-[80vh] overflow-y-auto"
+        x-transition.origin.top.left
+    >
         {{ nav:main_mobile }}
             {{ if children }}
-                <div class="relative w-full text-center" x-data="{ open: false }">
-                    <button @click="open = !open"
-                            class="uppercase py-2 px-3 hover:text-red-brand w-full flex justify-center items-center gap-2">
+                <div class="relative w-full text-center border-t border-gray-800 first:border-t-0" x-data="{ open: false }" @keydown.escape="open = false">
+                    <button
+                        @click="open = !open"
+                        :aria-expanded="open.toString()"
+                        aria-haspopup="true"
+                        class="uppercase py-2 px-3 hover:text-red-brand w-full flex justify-center items-center gap-2 {{ is_current or is_parent ? 'text-red-brand' : '' }}"
+                    >
                         {{ title }}
-                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24">
+                        <svg class="w-3 h-3 transition-transform duration-150" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <title>chevron-down</title>
                             <g fill="none">
-                                <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                             </g>
                         </svg>
                     </button>
-                    <div x-show="open" x-cloak style="display: none;"
-                         class="bg-dark-brand text-white rounded-md mt-2 w-full"
-                         x-transition.origin.top.left>
+                    <div
+                        x-show="open"
+                        x-cloak
+                        class="bg-dark-brand text-white rounded-md mt-2 w-full"
+                        x-transition.origin.top.left
+                    >
                         {{ children }}
                         <a href="{{ url }}" class="uppercase block px-4 py-2 hover:bg-gray-800">{{ title }}</a>
                         {{ /children }}
                     </div>
                 </div>
             {{ else }}
-                <a href="{{ url }}" class="uppercase py-2 px-3 block hover:text-red-brand text-center">{{ title }}</a>
+                <a
+                    href="{{ url }}"
+                    class="uppercase py-2 px-3 block hover:text-red-brand text-center w-full border-t border-gray-800 first:border-t-0 {{ is_current ? 'text-red-brand' : '' }}"
+                    {{ is_current ? 'aria-current="page"' : '' }}
+                >{{ title }}</a>
             {{ /if }}
         {{ /nav:main_mobile }}
     </div>
