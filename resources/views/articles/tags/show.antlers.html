@@ -1,6 +1,7 @@
-<section class="bg-dark-brand border-b border-white/10">
-    <div class="container mx-auto px-4 md:px-8 py-14">
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-tight">{{ title }}</h1>
+<section class="border-b border-white/10 bg-dark-brand">
+    <div class="container mx-auto px-4 py-14 md:px-8">
+        <p class="section-kicker">Tagged Articles</p>
+        <h1 class="text-3xl font-black uppercase tracking-normal text-white md:text-4xl lg:text-5xl">{{ title }}</h1>
     </div>
 </section>
 
@@ -9,7 +10,7 @@
         {{ if entries }}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
                 {{ entries }}
-                    <article class="bg-dark-brand flex flex-col group">
+                    <article class="panel flex flex-col overflow-hidden group">
                         {{ if featured_image }}
                             <a href="{{ url }}" class="block overflow-hidden aspect-video">
                                 <img
@@ -21,7 +22,7 @@
                             </a>
                         {{ /if }}
 
-                        <div class="flex flex-col flex-1 p-5">
+                        <div class="flex flex-1 flex-col p-5">
                             <div class="flex items-center gap-2 text-xs text-off-white mb-3 uppercase tracking-wide">
                                 <time datetime="{{ date | format:'Y-m-d' }}">{{ date | format:'M j, Y' }}</time>
                                 {{ if author:name }}
@@ -31,7 +32,7 @@
                             </div>
 
                             <a href="{{ url }}" class="block mb-3">
-                                <h2 class="text-lg font-bold text-white uppercase tracking-tight leading-snug group-hover:text-red-brand transition-colors duration-150">{{ title }}</h2>
+                                <h2 class="text-lg font-black uppercase leading-snug tracking-normal text-white transition-colors duration-150 group-hover:text-gold-brand">{{ title }}</h2>
                             </a>
 
                             {{ if excerpt }}

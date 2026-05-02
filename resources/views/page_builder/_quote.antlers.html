@@ -1,19 +1,20 @@
 <section
-    class="relative flex items-center justify-center bg-cover bg-no-repeat bg-center w-full bg-light-dark-brand min-h-[400px] sm:min-h-[500px] md:min-h-[600px]"
+    class="relative flex min-h-[460px] w-full items-center justify-center bg-light-dark-brand bg-cover bg-center bg-no-repeat sm:min-h-[560px]"
     style="background-image: url('{{ glide :src='background_image' format='webp' width='1920' height='700' }}');"
 >
-    <div class="absolute inset-0"></div>
+    <div class="absolute inset-0 bg-ink-brand/70"></div>
 
-    <div class="relative z-10 container mx-auto flex flex-col items-center text-center max-w-4xl px-4 py-10">
-        <blockquote class="p-4 my-4">
-            <p class="text-white font-normal text-2xl italic leading-relaxed">
+    <div class="relative z-10 container mx-auto flex max-w-4xl flex-col items-center px-4 py-16 text-center">
+        <p class="section-kicker">Words to Train By</p>
+        <blockquote class="my-4 p-4">
+            <p class="font-montserrat text-2xl font-bold italic leading-relaxed text-white md:text-4xl">
                 "{{ block_quote }}"
             </p>
         </blockquote>
 
         {{ partial src="partials/seperator" }}
 
-        <p class="font-bold my-6 text-white text-2xl">
+        <p class="my-6 font-montserrat text-sm font-bold uppercase tracking-[0.18em] text-gold-brand">
             {{ quote_attribution }}
         </p>
     </div>

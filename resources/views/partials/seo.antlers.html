@@ -6,7 +6,7 @@
 <meta property="twitter:title"
       content="{{ (seo_title ?? title) + " " + (site:attributes:title_seperator ?? "-") + " " + site:name }}"/>
 {{ if description }}
-    <meta property="description" content="{{ description }}"/>
+    <meta name="description" content="{{ description }}"/>
     <meta property="og:description" content="{{ description }}"/>
     <meta property="twitter:description" content="{{ description }}"/>
 {{ /if }}

@@ -1,16 +1,17 @@
 {{ partial src="partials/flex_section" id="faq" lighten="{{lighten}}" }}
-<h3 class="text-2xl font-bold mt-5 text-center text-white">
+<p class="section-kicker">Questions</p>
+<h3 class="section-heading">
     {{ title }}
 </h3>
 {{ partial src="partials/seperator" }}
     {{ collection:faqs limit="{limit}" }}
-        <div class="md:w-8/12 w-10/12 mb-2 mx-auto faq-item">
-            <div class="w-full rounded-sm bg-white p-2">
+        <div class="faq-item mx-auto mb-3 w-full max-w-3xl">
+            <div class="w-full border border-white/10 bg-cream-brand p-2 shadow-xl shadow-black/20">
                 <div>
                     <button
-                        class="flex w-full justify-between rounded-lg px-4 py-2 text-left text-lg font-medium text-red-dark-brand hover:bg-red-brand-dark/30 focus:outline-none focus-visible:ring focus-visible:ring-red-brand-dark focus-visible:ring-opacity-75 toggle-accordion">
+                        class="toggle-accordion flex w-full justify-between gap-4 px-4 py-3 text-left text-base font-bold text-ink-brand hover:bg-red-brand/10 focus:outline-none focus-visible:ring focus-visible:ring-red-brand-dark focus-visible:ring-opacity-75">
                         <span>{{question}}</span>
-                        <span class="faq-icon text-red-dark-brand transition-transform duration-300">
+                        <span class="faq-icon shrink-0 text-red-brand transition-transform duration-300">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                  class="w-5 h-5">
                                 <path
@@ -20,7 +21,7 @@
                     </button>
 
                     <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                        <div class="px-4 pt-4 pb-2 text-md text-gray-800 prose min-w-full">
+                        <div class="prose min-w-full px-4 pb-4 pt-3 text-base text-gray-800">
                             <div class="prose max-w-none prose:text-gray-800">
                                 {{ answer | markdown }}
                             </div>

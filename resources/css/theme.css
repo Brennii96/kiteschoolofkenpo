@@ -1,6 +1,6 @@
 @theme {
-    --font-montserrat: "Montserrat", serif;
-    --font-roboto: "Roboto", serif;
+    --font-montserrat: "Montserrat", sans-serif;
+    --font-roboto: "Roboto", sans-serif;
 
     --text-2xs: 0.7rem;
     --text-xs: 0.8rem;
@@ -27,9 +27,13 @@
     --color-brand-800: #670809;
     --color-brand-900: #3e0505;
 
-    --color-dark-brand: #1e2123;
-    --color-light-dark-brand: #25292b;
-    --color-red-brand: #e31213;
-    --color-red-brand-dark: #850808;
-    --color-off-white: #999999;
+    --color-dark-brand: #151719;
+    --color-light-dark-brand: #22272b;
+    --color-red-brand: #d71920;
+    --color-red-brand-dark: #9f1117;
+    --color-off-white: #d6d0c8;
+    --color-ink-brand: #0f1113;
+    --color-steel-brand: #30363a;
+    --color-gold-brand: #d9a441;
+    --color-cream-brand: #f4efe6;
 }

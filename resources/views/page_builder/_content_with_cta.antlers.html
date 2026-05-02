@@ -1,14 +1,15 @@
-{{ partial src="partials/flex_section" lighten="{{lighten}}" }}
-    <div class="relative container mx-auto flex flex-col content-center items-center">
-        <h2 class="md:text-3xl text-2xl font-bold my-12 text-center text-white">
+{{ partial src="partials/flex_section" lighten="{{ lighten }}" }}
+    <div class="relative container mx-auto flex max-w-5xl flex-col content-center items-center text-center">
+        <p class="section-kicker">Training With Purpose</p>
+        <h2 class="section-heading">
             {{title}}
         </h2>
-        <div class="text-off-white md:mt-5 my-12 lg:w-10/12 font-normal text-center text-base leading-relaxed">
+        <div class="mt-7 max-w-3xl text-center text-lg leading-relaxed text-off-white">
             {{ content }}
         </div>
         {{ if cta_link }}
-            <div class="flex justify-center items-center">
-                <a href="{{ cta_link }}">
+            <div class="mt-9 flex justify-center items-center">
+                <a href="{{ cta_link }}" class="btn-secondary">
                     {{ cta_text ?? "Read more" }}
                 </a>
             </div>

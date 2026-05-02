@@ -1,6 +1,6 @@
-<div class="flex flex-wrap text-center items-stretch bg-dark-brand text-white min-h-[350]">
+<div class="grid min-h-[350px] grid-cols-1 bg-dark-brand text-center text-white md:grid-cols-3">
     {{ features }}
-    <div class="w-full md:w-1/3 relative flex flex-col min-h-[auto]">
+    <div class="group relative flex min-h-[320px] flex-col overflow-hidden">
         <picture class="absolute inset-0">
             <source
                 srcset="{{ glide :src="background_image" width="600" height="400" fit="crop" quality="75" format="avif" }}"
@@ -14,11 +14,14 @@
                 class="w-full h-full object-cover"
             >
         </picture>
-        <div class="z-1 p-8 flex flex-col items-center justify-center flex-grow">
-            <h3 class="text-xl py-6">
+        <div class="absolute inset-0 bg-gradient-to-b from-ink-brand/35 via-ink-brand/60 to-ink-brand/85 transition duration-300 group-hover:from-red-brand/20"></div>
+        <div class="relative z-10 flex grow flex-col items-center justify-center p-8">
+            <h3 class="font-montserrat text-2xl font-black uppercase">
                 {{ title }}
             </h3>
-            {{ highlight }}
+            <div class="mt-4 max-w-sm text-off-white">
+                {{ highlight }}
+            </div>
         </div>
     </div>
     {{ /features }}

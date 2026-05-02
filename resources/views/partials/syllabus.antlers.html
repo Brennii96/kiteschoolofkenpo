@@ -1,25 +1,45 @@
-{{ collection:grades }}
-    <img src="{{ belt_image }}" alt="{{ title }} belt image" height="100" width="100" loading="lazy">
-    <h3 class="text-xl text-white">{{ title }}</h3>
-    <ul class="text-white uppercase text-center">
-        {{ if techniques }}
-            {{ techniques }}
-            <li class="my-2 last:mb-6">
-                {{ title }}<br/>
-                <span class="text-sm">{{ attack }}</span>
-            </li>
-            {{ /techniques }}
-        {{ /if }}
+<div class="mt-12 grid w-full grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+    {{ collection:grades }}
+        <section class="panel flex h-full flex-col p-6">
+            {{ if belt_image }}
+                <img
+                    src="{{ belt_image }}"
+                    alt="{{ title }} belt image"
+                    height="100"
+                    width="100"
+                    loading="lazy"
+                    class="mb-5 h-16 w-auto object-contain"
+                >
+            {{ /if }}
 
-        {{ if forms_and_sets }}
-            {{ forms_and_sets }}
-            <li class="text-white mt-4">
-                <h4>Forms and Sets Required</h4>
-            </li>
-            <li class="my-2 last:mb-6 font-bold">
-                {{ title }}
-            </li>
-            {{ /forms_and_sets }}
-        {{ /if }}
-    </ul>
-{{ /collection:grades }}
+            <h3 class="font-montserrat text-2xl font-black uppercase text-white">{{ title }}</h3>
+
+            {{ if techniques }}
+                <div class="mt-6">
+                    <h4 class="eyebrow mb-3">Techniques</h4>
+                    <ul class="space-y-3 text-white">
+                        {{ techniques }}
+                            <li class="border-l-2 border-red-brand pl-4">
+                                <span class="block font-montserrat text-sm font-bold uppercase tracking-[0.12em]">{{ title }}</span>
+                                <span class="text-sm text-off-white">{{ attack }}</span>
+                            </li>
+                        {{ /techniques }}
+                    </ul>
+                </div>
+            {{ /if }}
+
+            {{ if forms_and_sets }}
+                <div class="mt-6 border-t border-white/10 pt-6">
+                    <h4 class="eyebrow mb-3">Forms and Sets</h4>
+                    <ul class="space-y-2 text-white">
+                        {{ forms_and_sets }}
+                            <li class="font-montserrat text-sm font-bold uppercase tracking-[0.12em] text-gold-brand">
+                                {{ title }}
+                            </li>
+                        {{ /forms_and_sets }}
+                    </ul>
+                </div>
+            {{ /if }}
+        </section>
+    {{ /collection:grades }}
+</div>

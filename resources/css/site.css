@@ -14,6 +14,16 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+    }
+
     *,
     ::after,
     ::before,
@@ -33,19 +43,26 @@ h1, h2, h3, h4, h5, h6 {
     font-optical-sizing: auto;
 }
 
-p, article {
+body, p, article {
     font-family: var(--font-roboto);
     font-style: normal;
     line-height: 1.6;
     font-optical-sizing: auto;
 }
 
-a:not(.btn):hover {
+a:not(.btn):not(.btn-secondary):hover {
     color: theme(--color-red-brand);
     text-decoration: underline;
 }
 
 @layer components {
+    .site-shell {
+        background:
+            radial-gradient(circle at 20% 0%, rgb(217 164 65 / 0.12), transparent 28rem),
+            radial-gradient(circle at 85% 18%, rgb(215 25 32 / 0.16), transparent 26rem),
+            linear-gradient(180deg, var(--color-ink-brand), var(--color-dark-brand) 36rem, var(--color-light-dark-brand));
+    }
+
     #map {
         height: -moz-available;
         height: -webkit-fill-available;
@@ -63,28 +80,53 @@ a:not(.btn):hover {
         transition: max-height 0.3s ease-in-out;
     }
 
+    .eyebrow {
+        @apply font-montserrat text-2xs font-bold uppercase tracking-[0.18em] text-gold-brand;
+    }
+
+    .section-kicker {
+        @apply mb-3 inline-flex items-center gap-3 font-montserrat text-2xs font-bold uppercase tracking-[0.18em] text-gold-brand;
+    }
+
+    .section-kicker::before {
+        content: "";
+        @apply block h-px w-8 bg-red-brand;
+    }
+
+    .section-heading {
+        @apply max-w-3xl text-center font-montserrat text-3xl font-black uppercase leading-tight tracking-normal text-white md:text-4xl;
+    }
+
+    .panel {
+        @apply border border-white/10 bg-ink-brand/70 shadow-2xl shadow-black/30 backdrop-blur-sm;
+    }
+
     .hero-title {
-        @apply font-bold text-3xl py-12 md:text-4xl lg:text-5xl xl:text-6xl text-center text-white leading-7 md:leading-10;
+        @apply max-w-5xl py-0 text-center font-black uppercase leading-tight tracking-normal text-white text-4xl md:text-5xl lg:text-6xl xl:text-7xl;
     }
 
     .hero-text {
-        @apply md:mt-8 mt-12 lg:w-10/12 font-normal text-center text-white text-xl;
+        @apply mx-auto mt-6 max-w-3xl text-center text-lg font-normal text-cream-brand md:text-xl;
     }
 
     .btn {
-        @apply bg-red-brand border border-red-brand px-4 py-2 uppercase text-white transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 sm:px-8 sm:py-3 lg:text-xl lg:font-bold hover:bg-red-brand-dark hover:border-red-brand-dark;
+        @apply inline-flex items-center justify-center border border-red-brand bg-red-brand px-5 py-3 font-montserrat text-xs font-bold uppercase tracking-[0.16em] text-white transition duration-150 ease-in-out hover:border-red-brand-dark hover:bg-red-brand-dark focus:outline-none focus:ring-2 focus:ring-red-brand focus:ring-offset-2 focus:ring-offset-ink-brand sm:px-7;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center border border-white/20 bg-white/5 px-5 py-3 font-montserrat text-xs font-bold uppercase tracking-[0.16em] text-white transition duration-150 ease-in-out hover:border-gold-brand hover:bg-gold-brand hover:text-ink-brand focus:outline-none focus:ring-2 focus:ring-gold-brand focus:ring-offset-2 focus:ring-offset-ink-brand sm:px-7;
     }
 
     .btn-dark {
-        @apply bg-brand-800 border border-brand-800 px-4 py-2 uppercase text-white transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 sm:px-8 sm:py-3 lg:text-xl lg:font-bold hover:bg-red-brand-dark hover:border-red-brand-dark;
+        @apply border border-white/10 bg-steel-brand px-5 py-3 font-montserrat text-xs font-bold uppercase tracking-[0.16em] text-white transition duration-150 ease-in-out hover:border-red-brand hover:bg-red-brand-dark focus:outline-none focus:ring-2 focus:ring-red-brand focus:ring-offset-2 focus:ring-offset-ink-brand sm:px-7;
     }
 
     .content-block p {
-        @apply text-off-white md:mt-5 mt-10 lg:w-10/12 font-normal text-base;
+        @apply mt-5 text-base font-normal text-off-white;
     }
 
     .content-block a {
-        @apply text-white underline hover:text-red-brand;
+        @apply text-cream-brand underline decoration-red-brand underline-offset-4 hover:text-gold-brand;
     }
 
     .content-block h3 {
@@ -97,23 +139,23 @@ a:not(.btn):hover {
     }
 
     .text-section {
-        @apply text-off-white md:mt-5 mt-10 lg:w-10/12 font-normal text-base;
+        @apply mt-5 max-w-3xl text-base font-normal text-off-white;
     }
 
     .link {
-        @apply hover:text-red-brand hover:underline text-off-white no-underline;
+        @apply text-off-white no-underline transition-colors hover:text-gold-brand hover:underline;
     }
 
     .input input {
-        @apply w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out;
+        @apply w-full border border-white/10 bg-white px-3 py-2 text-base leading-8 text-gray-900 outline-none transition-colors duration-200 ease-in-out focus:border-red-brand focus:ring-2 focus:ring-red-brand/20;
     }
 
     .select select {
-        @apply appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none;
+        @apply m-0 block w-full appearance-none border border-white/10 bg-white bg-clip-padding bg-no-repeat px-3 py-2 text-base font-normal text-gray-900 transition ease-in-out focus:border-red-brand focus:bg-white focus:text-gray-900 focus:outline-none;
     }
 
     .textarea textarea {
-        @apply appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none;
+        @apply m-0 block w-full appearance-none border border-white/10 bg-white bg-clip-padding bg-no-repeat px-3 py-2 text-base font-normal text-gray-900 transition ease-in-out focus:border-red-brand focus:bg-white focus:text-gray-900 focus:outline-none;
     }
 
     .loader {

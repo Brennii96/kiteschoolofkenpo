@@ -2,18 +2,18 @@
     {{ partial:partials/article_hero }}
 {{ /if }}
 
-<article class="flex bg-no-repeat bg-center bg-cover bg-light-dark-brand">
-    <div class="container mx-auto flex flex-col content-center items-center py-14">
-        <div class="w-11/12 sm:w-2/3 lg:flex justify-center items-center flex-col md:mb-5 mb-10">
+<article class="flex bg-light-dark-brand bg-cover bg-center bg-no-repeat">
+    <div class="container mx-auto flex flex-col content-center items-center px-4 py-16 lg:py-24">
+        <div class="w-full max-w-3xl lg:flex justify-center items-center flex-col md:mb-5 mb-10">
             <div class="mb-4">
-                <h1 class="text-3xl text-white">{{title}}</h1>
+                <h1 class="font-montserrat text-4xl font-black uppercase text-white">{{title}}</h1>
                 {{ tags }}
-                <a href="{{ url }}">{{ title }}</a>
+                <a class="text-gold-brand" href="{{ url }}">{{ title }}</a>
                 {{ /tags }}
                 {{ if featured_image }}
                     <div class="my-4 mx-0">
                         <img
-                            class="mx-auto rounded-full"
+                            class="mx-auto border border-white/10"
                             src="{{ glide :src="featured_image" height="200" width="200" }}"
                             alt="{{ featured_image:alt }}"
                         />
@@ -23,11 +23,11 @@
                 </div>
             </div>
             <div
-                class="max-w-none prose prose-invert prose-headings:font-heading prose-h1:text-4xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-3xl prose-headings:tracking-tight prose-headings:font-normal prose-strong:text-white">
+                class="prose prose-invert max-w-none prose-headings:font-heading prose-headings:font-black prose-headings:uppercase prose-headings:tracking-normal prose-h1:text-4xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-3xl prose-strong:text-white">
                 {{ article_content }}
             </div>
-            <div class="flex">
-                <a href="{{ url }}">
+            <div class="mt-8 flex">
+                <a href="{{ url }}" class="btn-secondary">
                     Back
                 </a>
             </div>

@@ -1,9 +1,16 @@
 {{ partial:flex_section }}
-    <section class="text-gray-600 body-font overflow-hidden">
-        <div class="container px-5 py-24 mx-auto">
-            <div class="-my-8 divide-y-2 divide-gray-100">
+    <section class="body-font w-full overflow-hidden text-gray-600">
+        <div class="container mx-auto">
+            <div class="mb-10 text-center">
+                <p class="section-kicker justify-center">Browse</p>
+                <h1 class="section-heading mx-auto">Article Tags</h1>
+            </div>
+
+            <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {{ tags }}
-                <a href="{{ url }}">{{ title }}</a>
+                    <a href="{{ url }}" class="panel block p-5 font-montserrat text-sm font-bold uppercase tracking-[0.14em] text-white transition-colors hover:text-gold-brand">
+                        {{ title }}
+                    </a>
                 {{ /tags }}
             </div>
         </div>

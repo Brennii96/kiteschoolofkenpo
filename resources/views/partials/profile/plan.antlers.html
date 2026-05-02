@@ -1,25 +1,25 @@
-<div class="rounded-lg shadow-sm divide-y divide-zinc-600 {{ if featured }}ring-2 ring-brand-400{{ else }}bg-zinc-900{{ /if }} relative">
+<div class="panel relative flex h-full flex-col divide-y divide-white/10 overflow-hidden {{ if featured }}ring-2 ring-gold-brand{{ /if }}">
     {{ if featured }}
-        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-            <span class="bg-brand-500 text-white px-4 py-1 rounded-full text-sm font-montserrat">Most Popular</span>
+        <div class="absolute right-4 top-4">
+            <span class="bg-gold-brand px-3 py-1 font-montserrat text-2xs font-bold uppercase tracking-[0.16em] text-ink-brand">Most Popular</span>
         </div>
     {{ /if }}
 
-    <div class="p-6 {{ if featured }}bg-zinc-900{{ /if }}">
-        <h2 class="text-2xl leading-6 font-semibold text-white">
+    <div class="flex h-full flex-col p-6">
+        <h2 class="pr-24 font-montserrat text-2xl font-black uppercase leading-tight text-white">
             {{ title }}
         </h2>
-        <p class="mt-4 text-zinc-300">
+        <p class="mt-4 text-sm text-off-white">
             {{ description }}
         </p>
         <p class="mt-8">
-            <span class="text-5xl font-extrabold text-white">{{ price }}</span>
-            <span class="text-base font-medium text-zinc-100">/ {{ term }}</span>
+            <span class="font-montserrat text-5xl font-black text-white">{{ price }}</span>
+            <span class="text-base font-medium text-gold-brand">/ {{ term }}</span>
         </p>
         <button
             type="button"
             @click="$dispatch('plan:selected', { priceId: '{{ price_id }}', title: '{{ title }}', price: '{{ price }}', term: '{{ term }}' })"
-            class="ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 mt-8 rounded-none whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border shadow-sm text-base font-medium text-white bg-red-brand focus:ring-bg-red-brand-dark hover:bg-red-brand-dark hover:border-red-brand-dark border-red-brand hover:text-white hover:no-underline w-full"
+            class="btn mt-auto w-full"
         >Subscribe</button>
     </div>
 </div>

@@ -1,7 +1,7 @@
 {{ partial src="partials/flex_section" lighten="true" id="profile-settings" }}
 
-<div class="w-full max-w-lg">
-<div class="bg-dark-brand rounded-sm overflow-hidden shadow-2xl border-l-4 border-red-brand relative">
+<div class="w-full max-w-4xl">
+<div class="panel relative overflow-hidden border-l-4 border-red-brand">
 
     <div class="absolute top-0 right-0 w-0 h-0 border-t-40 border-r-40 border-t-transparent border-r-red-brand opacity-30"></div>
 
@@ -15,34 +15,34 @@
 
 <div x-data="{ tab: 'profile' }">
 
-    <div class="flex border-b border-white/5">
+    <div class="flex overflow-x-auto border-b border-white/5 md:grid md:grid-cols-4">
         <button
             @click="tab = 'profile'"
             :class="tab === 'profile' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
-            class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
+            class="shrink-0 px-6 py-4 font-montserrat text-2xs font-bold uppercase tracking-[0.15em] transition-colors duration-200 md:px-4">
             Profile
         </button>
         <button
             @click="tab = 'password'"
             :class="tab === 'password' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
-            class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
+            class="shrink-0 px-6 py-4 font-montserrat text-2xs font-bold uppercase tracking-[0.15em] transition-colors duration-200 md:px-4">
             Password
         </button>
         <button
             @click="tab = 'subscription'"
             :class="tab === 'subscription' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
-            class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
+            class="shrink-0 px-6 py-4 font-montserrat text-2xs font-bold uppercase tracking-[0.15em] transition-colors duration-200 md:px-4">
             Subscription
         </button>
         <button
             @click="tab = 'delete'"
             :class="tab === 'delete' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
-            class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
+            class="shrink-0 px-6 py-4 font-montserrat text-2xs font-bold uppercase tracking-[0.15em] transition-colors duration-200 md:px-4">
             Delete Account
         </button>
     </div>
 
-<div class="px-8 pt-7 pb-8">
+<div class="px-5 pb-8 pt-7 sm:px-8">
 
 {{ partial src="partials/notification" }}
 
@@ -60,14 +60,14 @@
             <p class="text-white font-roboto mb-6">You have an active subscription.</p>
             <a
                 href="{{ route:members.billing-portal }}"
-                class="inline-block bg-red-brand hover:bg-red-brand-dark text-white font-montserrat font-bold text-[0.8rem] tracking-[0.15em] uppercase py-3.5 px-6 rounded-sm transition-all duration-200"
+                class="btn"
             >Manage Subscription</a>
         {{ else }}
             <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Status</p>
             <p class="text-off-white font-roboto mb-6">No active subscription.</p>
             <a
                 href="{{ route:members.choose-your-plan }}"
-                class="inline-block bg-red-brand hover:bg-red-brand-dark text-white font-montserrat font-bold text-[0.8rem] tracking-[0.15em] uppercase py-3.5 px-6 rounded-sm transition-all duration-200"
+                class="btn"
             >Choose a Plan</a>
         {{ /if }}
     </div>

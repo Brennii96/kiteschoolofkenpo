@@ -1,14 +1,15 @@
-{{ partial src="partials/flex_section" lighten="{{lighten}}" }}
-<div class="relative z-10 container mx-auto flex flex-col content-center items-center py-14">
-    <h2 class="text-2xl font-bold md:mt-2 mt-5 text-center text-white">
+{{ partial src="partials/flex_section" lighten="{{ lighten }}" }}
+<div class="relative z-10 container mx-auto flex flex-col content-center items-center">
+    <p class="section-kicker">Details</p>
+    <h2 class="section-heading">
         {{ title }}
     </h2>
     {{ partial src="partials/seperator" }}
-        <div class="flex flex-row flex-wrap">
-            <div class="content-block flex flex-col md:w-1/2 w-full md:pl-12 md:px-2 px-4">
+        <div class="grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2">
+            <div class="content-block panel flex flex-col p-6 md:p-8">
                 {{ col_one_content }}
             </div>
-            <div class="content-block flex flex-col md:w-1/2 w-full md:pl-12 md:px-2 px-4">
+            <div class="content-block panel flex flex-col p-6 md:p-8">
                 {{ col_two_content }}
             </div>
         </div>

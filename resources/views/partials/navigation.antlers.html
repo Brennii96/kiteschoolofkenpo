@@ -2,8 +2,8 @@
     x-data="{ mobileOpen: false, scrolled: false }"
     @keydown.escape.window="mobileOpen = false"
     @scroll.window="scrolled = window.scrollY > 20"
-    :class="scrolled ? 'shadow-xl shadow-black/50' : 'border-b border-white/5'"
-    class="bg-dark-brand text-white sticky top-0 z-50 transition-shadow duration-300"
+    :class="scrolled ? 'bg-ink-brand/95 shadow-xl shadow-black/50' : 'bg-ink-brand/80 border-b border-white/5'"
+    class="sticky top-0 z-50 text-white backdrop-blur-md transition-all duration-300"
 >
     <div class="container mx-auto px-4 md:px-8 h-16 md:h-20 flex items-center justify-between">
 
@@ -31,13 +31,13 @@
                             @click="open = !open"
                             :aria-expanded="open.toString()"
                             aria-haspopup="true"
-                            class="group relative uppercase px-3 lg:px-5 py-2 text-sm lg:text-base font-medium whitespace-nowrap flex items-center gap-1.5 transition-colors duration-150 {{ is_current or is_parent ? 'text-red-brand' : 'text-white hover:text-red-brand' }}"
+                            class="group relative flex items-center gap-1.5 whitespace-nowrap px-3 py-2 font-montserrat text-xs font-bold uppercase tracking-[0.12em] transition-colors duration-150 lg:px-4 {{ is_current or is_parent ? 'text-gold-brand' : 'text-white hover:text-gold-brand' }}"
                         >
                             {{ title }}
                             <svg class="w-3 h-3 transition-transform duration-200" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                                 <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-brand transition-transform duration-200 origin-left {{ is_current or is_parent ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100' }}"></span>
+                            <span class="absolute bottom-0 left-0 h-0.5 w-full origin-left bg-red-brand transition-transform duration-200 {{ is_current or is_parent ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100' }}"></span>
                         </button>
 
                         <div
@@ -49,13 +49,13 @@
                             x-transition:leave="transition ease-in duration-150"
                             x-transition:leave-start="opacity-100 translate-y-0"
                             x-transition:leave-end="opacity-0 -translate-y-1"
-                            class="absolute left-0 top-full mt-1 bg-light-dark-brand border border-white/10 z-50 {{ show_blog_items ? 'w-72' : 'w-56' }}"
+                            class="absolute left-0 top-full z-50 mt-2 border border-white/10 bg-ink-brand/95 shadow-2xl shadow-black/40 backdrop-blur-md {{ show_blog_items ? 'w-72' : 'w-56' }}"
                         >
                             <div class="h-0.5 bg-red-brand"></div>
 
                             {{ if children }}
                                 {{ children }}
-                                    <a href="{{ url }}" class="block px-4 py-3 text-sm font-medium uppercase tracking-wide text-white hover:text-red-brand hover:bg-dark-brand transition-colors duration-150 border-b border-white/5 last:border-0">{{ title }}</a>
+                                    <a href="{{ url }}" class="block border-b border-white/5 px-4 py-3 text-sm font-medium uppercase tracking-wide text-white transition-colors duration-150 last:border-0 hover:bg-dark-brand hover:text-gold-brand">{{ title }}</a>
                                 {{ /children }}
                             {{ /if }}
 
@@ -65,8 +65,8 @@
                                     {{ cache key="articles_kenpo_karate_nav" }}
                                         {{ collection:articles taxonomy:tags="about-kenpo-karate" limit="3" as="posts" fields="title,excerpt,url" }}
                                             {{ posts }}
-                                                <a href="{{ url }}" class="group/post block px-4 py-2.5 hover:bg-dark-brand transition-colors duration-150 border-t border-white/5">
-                                                    <p class="text-xs font-medium text-white group-hover/post:text-red-brand leading-snug transition-colors duration-150">{{ title }}</p>
+                                                <a href="{{ url }}" class="group/post block border-t border-white/5 px-4 py-2.5 transition-colors duration-150 hover:bg-dark-brand">
+                                                    <p class="text-xs font-medium leading-snug text-white transition-colors duration-150 group-hover/post:text-gold-brand">{{ title }}</p>
                                                     <p class="text-2xs text-off-white mt-0.5 line-clamp-1">{{ excerpt }}</p>
                                                 </a>
                                             {{ /posts }}
@@ -75,12 +75,12 @@
                                 </div>
 
                                 <div class="border-t border-white/10 pt-3 pb-2">
-                                    <a href="/get-motivated" class="block px-4 pb-2 text-2xs uppercase tracking-widest text-off-white font-semibold hover:text-red-brand transition-colors duration-150">Get Motivated &rarr;</a>
+                                    <a href="/get-motivated" class="block px-4 pb-2 text-2xs font-semibold uppercase tracking-widest text-off-white transition-colors duration-150 hover:text-gold-brand">Get Motivated &rarr;</a>
                                     {{ cache key="get_motivated_nav" }}
                                         {{ collection:articles taxonomy:tags="get-motivated" limit="2" as="posts" fields="title,url" }}
                                             {{ posts }}
-                                                <a href="{{ url }}" class="group/post block px-4 py-2.5 hover:bg-dark-brand transition-colors duration-150 border-t border-white/5">
-                                                    <p class="text-xs font-medium text-white group-hover/post:text-red-brand leading-snug transition-colors duration-150">{{ title }}</p>
+                                                <a href="{{ url }}" class="group/post block border-t border-white/5 px-4 py-2.5 transition-colors duration-150 hover:bg-dark-brand">
+                                                    <p class="text-xs font-medium leading-snug text-white transition-colors duration-150 group-hover/post:text-gold-brand">{{ title }}</p>
                                                 </a>
                                             {{ /posts }}
                                         {{ /collection:articles }}
@@ -92,11 +92,11 @@
                 {{ else }}
                     <a
                         href="{{ url }}"
-                        class="group relative uppercase px-3 lg:px-5 py-2 text-sm lg:text-base font-medium whitespace-nowrap transition-colors duration-150 {{ is_current ? 'text-red-brand' : 'text-white hover:text-red-brand' }}"
+                        class="group relative whitespace-nowrap px-3 py-2 font-montserrat text-xs font-bold uppercase tracking-[0.12em] transition-colors duration-150 lg:px-4 {{ is_current ? 'text-gold-brand' : 'text-white hover:text-gold-brand' }}"
                         {{ is_current ? 'aria-current="page"' : '' }}
                     >
                         {{ title }}
-                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-brand transition-transform duration-200 origin-left {{ is_current ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100' }}"></span>
+                        <span class="absolute bottom-0 left-0 h-0.5 w-full origin-left bg-red-brand transition-transform duration-200 {{ is_current ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100' }}"></span>
                     </a>
                 {{ /if }}
             {{ /nav:main }}
@@ -106,14 +106,14 @@
         <div class="flex items-center gap-3">
             <div class="hidden md:block">
                 {{ if member }}
-                    <a href="{{ route:members.profile }}" class="inline-flex items-center gap-2 px-4 py-2 bg-red-brand text-white! text-sm font-medium uppercase tracking-wide hover:bg-red-brand-dark transition-colors duration-150">
+                    <a href="{{ route:members.profile }}" class="btn gap-2 px-4 py-2">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
                         </svg>
                         Account
                     </a>
                 {{ else }}
-                    <a href="/login" class="inline-flex items-center gap-2 px-4 py-2 bg-red-brand text-white! text-sm font-medium uppercase tracking-wide hover:bg-red-brand-dark transition-colors duration-150">
+                    <a href="/login" class="btn px-4 py-2">
                         Sign In
                     </a>
                 {{ /if }}
@@ -123,7 +123,7 @@
                 @click="mobileOpen = !mobileOpen"
                 :aria-expanded="mobileOpen.toString()"
                 aria-label="Toggle navigation menu"
-                class="md:hidden p-2 text-white hover:text-red-brand transition-colors duration-150"
+                class="p-2 text-white transition-colors duration-150 hover:text-gold-brand md:hidden"
             >
                 <svg x-show="!mobileOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -145,7 +145,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-2"
-        class="absolute left-0 right-0 top-full md:hidden bg-light-dark-brand border-t border-white/10 max-h-[80vh] overflow-y-auto shadow-xl shadow-black/50"
+        class="absolute left-0 right-0 top-full max-h-[80vh] overflow-y-auto border-t border-white/10 bg-ink-brand/95 shadow-xl shadow-black/50 backdrop-blur-md md:hidden"
     >
         {{ nav:main_mobile }}
             {{ if children }}
@@ -158,7 +158,7 @@
                     <button
                         @click="open = !open"
                         :aria-expanded="open.toString()"
-                        class="w-full flex justify-between items-center px-6 py-3.5 uppercase text-sm font-medium tracking-wide hover:text-red-brand transition-colors duration-150 {{ is_current or is_parent ? 'text-red-brand' : 'text-white' }}"
+                        class="flex w-full items-center justify-between px-6 py-3.5 text-sm font-medium uppercase tracking-wide transition-colors duration-150 hover:text-gold-brand {{ is_current or is_parent ? 'text-gold-brand' : 'text-white' }}"
                     >
                         {{ title }}
                         <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
@@ -167,14 +167,14 @@
                     </button>
                     <div x-show="open" x-cloak class="bg-dark-brand">
                         {{ children }}
-                            <a href="{{ url }}" class="block px-8 py-3 text-sm text-off-white hover:text-red-brand uppercase tracking-wide border-t border-white/5 transition-colors duration-150">{{ title }}</a>
+                            <a href="{{ url }}" class="block border-t border-white/5 px-8 py-3 text-sm uppercase tracking-wide text-off-white transition-colors duration-150 hover:text-gold-brand">{{ title }}</a>
                         {{ /children }}
                     </div>
                 </div>
             {{ else }}
                 <a
                     href="{{ url }}"
-                    class="block px-6 py-3.5 uppercase text-sm font-medium tracking-wide border-b border-white/5 hover:text-red-brand transition-colors duration-150 {{ is_current ? 'text-red-brand' : 'text-white' }}"
+                    class="block border-b border-white/5 px-6 py-3.5 text-sm font-medium uppercase tracking-wide transition-colors duration-150 hover:text-gold-brand {{ is_current ? 'text-gold-brand' : 'text-white' }}"
                     {{ is_current ? 'aria-current="page"' : '' }}
                 >{{ title }}</a>
             {{ /if }}
@@ -182,14 +182,14 @@
 
         <div class="px-6 py-4 border-t border-white/10">
             {{ if member }}
-                <a href="{{ route:members.profile }}" class="flex items-center justify-center gap-2 w-full py-3 bg-red-brand text-white! text-sm font-medium uppercase tracking-wide hover:bg-red-brand-dark transition-colors duration-150">
+                <a href="{{ route:members.profile }}" class="btn w-full gap-2 py-3">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
                     </svg>
                     Account
                 </a>
             {{ else }}
-                <a href="/login" class="flex items-center justify-center w-full py-3 bg-red-brand text-white! text-sm font-medium uppercase tracking-wide hover:bg-red-brand-dark transition-colors duration-150">
+                <a href="/login" class="btn w-full py-3">
                     Sign In
                 </a>
             {{ /if }}

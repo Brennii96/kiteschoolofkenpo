@@ -1,14 +1,15 @@
 {{ partial src='partials/flex_section' id="mapSection" lighten="true" }}
-<h2 class="text-2xl font-bold md:mt-2 mt-5 text-center text-white">
+<p class="section-kicker">Visit Us</p>
+<h2 class="section-heading">
     Where are we?
 </h2>
 {{ partial src="partials/seperator" }}
 
-<div class="flex flex-col md:flex-row items-stretch w-full space-x-12 px-12 mx-12">
-    <div class="w-full md:w-1/2 lg:w-3/5 flex-2">
+<div class="grid w-full max-w-6xl grid-cols-1 items-start gap-8 md:grid-cols-2 lg:grid-cols-5">
+    <div class="h-[clamp(32rem,70vh,44rem)] w-full self-start overflow-hidden lg:col-span-3">
         {{ partial:map latitude="{{latitude}}" longitude="{{longitude}}" }}
     </div>
-    <div class="w-full md:w-1/2 lg:w-2/5 flex-1">
+    <div id="bookAClass" class="panel scroll-mt-28 p-6 lg:col-span-2">
         {{ partial:book_a_class_form }}
     </div>
 </div>

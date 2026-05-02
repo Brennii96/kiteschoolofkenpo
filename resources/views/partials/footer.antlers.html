@@ -1,7 +1,7 @@
-<footer class="text-center lg:text-left bg-dark-brand text-off-white">
-    <div class="flex justify-center items-center lg:justify-between p-6 border-b border-gray-300">
+<footer class="border-t border-white/10 bg-ink-brand text-center text-off-white lg:text-left">
+    <div class="container mx-auto flex items-center justify-center border-b border-white/10 px-4 py-6 lg:justify-between">
         <div class="mr-12 hidden lg:block">
-            <span>Get connected with us on social networks:</span>
+            <span class="eyebrow">Get connected with us</span>
         </div>
         <div class="flex justify-center">
             <a
@@ -29,10 +29,10 @@
             </a>
         </div>
     </div>
-    <div class="mx-6 py-10 text-center md:text-left">
-        <div class="grid grid-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div>
-                <h3 class="uppercase font-semibold mb-4 flex items-center justify-center md:justify-start">
+    <div class="container mx-auto px-4 py-12 text-center md:text-left">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div class="panel p-6">
+                <h3 class="mb-4 flex items-center justify-center gap-2 font-semibold uppercase text-white md:justify-start">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path fill-rule="evenodd"
                               d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
@@ -49,15 +49,15 @@
                     {{ contact:address | nl2br }}
                 </a>
             </div>
-            <div class="text-off-white">
-                <h3 class="uppercase font-semibold mb-4 flex justify-center md:justify-start">
+            <div class="panel p-6 text-off-white">
+                <h3 class="mb-4 flex justify-center font-semibold uppercase text-white md:justify-start">
                     Opening Times
                 </h3>
                 <p class="mb-4">Wednesday: 18:00 - 19:00</p>
                 <p class="mb-4">Saturday: 11:00 - 12:00 (no class on last Saturday of the month)</p>
             </div>
-            <div class="text-off-white">
-                <h3 class="uppercase font-semibold mb-4 flex justify-center md:justify-start">
+            <div class="panel p-6 text-off-white">
+                <h3 class="mb-4 flex justify-center font-semibold uppercase text-white md:justify-start">
                     Useful links
                 </h3>
                 {{ nav:footer }}
@@ -66,8 +66,8 @@
                     </p>
                 {{ /nav:footer }}
             </div>
-            <div>
-                <h3 class="uppercase font-semibold mb-4 flex justify-center md:justify-start">
+            <div class="panel p-6">
+                <h3 class="mb-4 flex justify-center font-semibold uppercase text-white md:justify-start">
                     Contact
                 </h3>
                 <p class="flex items-center justify-center md:justify-start mb-4">
@@ -91,7 +91,7 @@
             </div>
         </div>
     </div>
-    <div class="text-center p-6 bg-dark-brand">
+    <div class="bg-dark-brand p-6 text-center">
         <span>&copy; {{ now | format("Y") }} Copyright: </span>
         <a
             target="_blank"

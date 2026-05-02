@@ -1,16 +1,17 @@
 {{ partial src="partials/flex_section" lighten="true" }}
-    <div class="my-20">
-        <h1 class="text-9xl font-extrabold text-white tracking-widest">404</h1>
-        <div class="bg-[#FF6A3D] px-2 text-sm rounded rotate-12 relative bottom-12">
-            Page Not Found
+    <section class="flex min-h-[60vh] w-full items-center justify-center px-4 text-center">
+        <div class="panel max-w-2xl border-l-4 border-red-brand p-8 sm:p-12">
+            <p class="eyebrow mb-4 justify-center">Error 404</p>
+            <h1 class="font-montserrat text-6xl font-black uppercase leading-none text-white sm:text-7xl">
+                Page Not Found
+            </h1>
+            <p class="mx-auto mt-6 max-w-lg text-off-white">
+                This page is not available. Return home or use the navigation to find your next step.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <a href="/" class="btn">Go Home</a>
+                <a href="/contact-us" class="btn-secondary">Contact Us</a>
+            </div>
         </div>
-        <div class="text-center mt-4">
-            <a
-                href="/"
-                class="link"
-            >
-            Go to Homepage
-            </a>
-        </div>
-    </div>
+    </section>
 {{ /partial }}

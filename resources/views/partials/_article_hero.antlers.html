@@ -1,5 +1,5 @@
 <section
-    class="hero-section relative flex items-center justify-center w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
+    class="hero-section relative flex min-h-[620px] w-full items-center justify-center overflow-hidden bg-ink-brand sm:min-h-[680px] lg:min-h-[760px]">
     <div class="absolute inset-0 w-full h-full">
         <picture>
             <source srcset="
@@ -21,18 +21,21 @@
                  alt="Hero Image Background">
         </picture>
     </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-brand/45 via-ink-brand/60 to-dark-brand"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-brand to-transparent"></div>
 
     <div
-        class="relative z-10 container max-w-screen-xl px-4 md:px-8 gap-y-6 m-auto flex flex-col content-center items-center py-12 sm:py-24">
-        <div class="w-11/12 lg:flex justify-center items-center flex-col mb-5 sm:mb-10 text-center">
-            <h1 class="hero-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+        class="relative z-10 container mx-auto flex max-w-screen-xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-8">
+        <p class="eyebrow mb-5">Peterborough Kenpo Karate</p>
+        <div class="flex w-full flex-col items-center">
+            <h1 class="hero-title">
                 {{ hero_title }}
             </h1>
-            <div class="hero-text text-xl md:text-2xl">
+            <div class="hero-text">
                 {{ hero_content }}
             </div>
         </div>
-        <div class="flex justify-center items-center">
+        <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
             {{ if cta_link }}
                 <a href="{{ cta_link }}" class="btn">
                     {{ cta_text ?? "Learn More" }}
