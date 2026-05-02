@@ -29,6 +29,12 @@
             Password
         </button>
         <button
+            @click="tab = 'subscription'"
+            :class="tab === 'subscription' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
+            class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
+            Subscription
+        </button>
+        <button
             @click="tab = 'delete'"
             :class="tab === 'delete' ? 'text-white border-b-2 border-red-brand' : 'text-off-white hover:text-white border-b-2 border-transparent'"
             class="font-montserrat text-2xs font-bold tracking-[0.15em] uppercase px-8 py-4 transition-colors duration-200">
@@ -48,7 +54,25 @@
         {{ partial src="members/forms/password" }}
     </div>
 
-<div x-show="tab === 'delete'" x-transition>
+    <div x-show="tab === 'subscription'" x-transition>
+        {{ if is_subscribed }}
+            <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Status</p>
+            <p class="text-white font-roboto mb-6">You have an active subscription.</p>
+            <a
+                href="{{ route:members.billing-portal }}"
+                class="inline-block bg-red-brand hover:bg-red-brand-dark text-white font-montserrat font-bold text-[0.8rem] tracking-[0.15em] uppercase py-3.5 px-6 rounded-sm transition-all duration-200"
+            >Manage Subscription</a>
+        {{ else }}
+            <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Status</p>
+            <p class="text-off-white font-roboto mb-6">No active subscription.</p>
+            <a
+                href="{{ route:members.choose-your-plan }}"
+                class="inline-block bg-red-brand hover:bg-red-brand-dark text-white font-montserrat font-bold text-[0.8rem] tracking-[0.15em] uppercase py-3.5 px-6 rounded-sm transition-all duration-200"
+            >Choose a Plan</a>
+        {{ /if }}
+    </div>
+
+    <div x-show="tab === 'delete'" x-transition>
 {{ partial src="members/forms/delete" }}
     </div>
 

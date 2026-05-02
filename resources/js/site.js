@@ -1,6 +1,8 @@
 import Alpine from 'alpinejs';
+import { subscriptionPayment } from './components/subscription-payment.js';
 
 window.Alpine = Alpine;
+Alpine.data('subscriptionPayment', subscriptionPayment);
 Alpine.start();
 
 

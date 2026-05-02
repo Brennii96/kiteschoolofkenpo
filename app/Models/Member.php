@@ -32,6 +32,7 @@ class Member extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'last_login',
+        'approved_at',
     ];
 
     /**
@@ -53,8 +54,14 @@ class Member extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
+            'approved_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->approved_at !== null;
     }
 
     public function sendEmailVerificationNotification(): void

@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Members;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Stripe\Exception\InvalidRequestException;
 
-class SubscriptionController extends Controller
+final class SubscriptionController extends Controller
 {
-    /**
-     * @param Request $request
-     * @param Member $member
-     * @return JsonResponse
-     */
-    public function subscribe(Request $request, Member $member): JsonResponse
+    public function subscribe(Request $request): JsonResponse
     {
+        /** @var Member $member */
+        $member = $request->user('member');
+
         $request->validate([
             'payment_method' => 'required|string',
             'price_id' => 'required|string',
@@ -34,48 +35,44 @@ class SubscriptionController extends Controller
                 'payment' => $exception->payment->client_secret,
             ], 426);
         } catch (InvalidRequestException $exception) {
-            return response()->json([
-                'message' => 'Invalid Request. Check price id.',
-            ], 400);
+            return response()->json(['message' => 'Invalid Request. Check price id.'], 400);
         } catch (\Exception $exception) {
             return response()->json(['message' => 'Subscription failed.'], 500);
         }
     }
 
-    /**
-     * @param Member $member
-     * @return JsonResponse
-     */
-    public function cancel(Member $member): JsonResponse
+    public function cancel(Request $request): JsonResponse
     {
+        /** @var Member $member */
+        $member = $request->user('member');
+
         if ($member->subscribed('default')) {
             $member->subscription('default')->cancel();
+
             return response()->json(['message' => 'Subscription cancelled.']);
         }
 
         return response()->json(['message' => 'No active subscription.']);
     }
 
-    /**
-     * @param Member $member
-     * @return JsonResponse
-     */
-    public function resume(Member $member): JsonResponse
+    public function resume(Request $request): JsonResponse
     {
-        if ($member->subscription('default') && $member->subscription('default')->onGracePeriod()) {
+        /** @var Member $member */
+        $member = $request->user('member');
+
+        if ($member->subscription('default')?->onGracePeriod()) {
             $member->subscription('default')->resume();
+
             return response()->json(['message' => 'Subscription resumed.']);
         }
 
         return response()->json(['message' => 'Cannot resume subscription.']);
     }
 
-    /**
-     * @param Member $member
-     * @return JsonResponse
-     */
-    public function subscriptionStatus(Member $member): JsonResponse
+    public function subscriptionStatus(Request $request): JsonResponse
     {
+        /** @var Member $member */
+        $member = $request->user('member');
         $subscription = $member->subscription('default');
 
         if ($subscription) {
@@ -91,13 +88,19 @@ class SubscriptionController extends Controller
         return response()->json(['message' => 'No active subscription.']);
     }
 
-    /**
-     * @param Request $request
-     * @param Member $member
-     * @return JsonResponse
-     */
-    public function updatePaymentMethod(Request $request, Member $member): JsonResponse
+    public function billingPortal(Request $request): RedirectResponse
     {
+        /** @var Member $member */
+        $member = $request->user('member');
+
+        return $member->redirectToBillingPortal(route('members.profile'));
+    }
+
+    public function updatePaymentMethod(Request $request): JsonResponse
+    {
+        /** @var Member $member */
+        $member = $request->user('member');
+
         $request->validate([
             'payment_method' => 'required|string',
         ]);
@@ -106,5 +109,4 @@ class SubscriptionController extends Controller
 
         return response()->json(['message' => 'Payment method updated.']);
     }
-
 }

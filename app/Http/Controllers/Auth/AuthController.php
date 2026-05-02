@@ -127,7 +127,7 @@ class AuthController extends Controller
         $memberGuard = Auth::guard('member');
         $memberGuard->login($member);
 
-        return redirect('/members/profile');
+        return redirect()->route('members.pending-approval');
     }
 
     /**

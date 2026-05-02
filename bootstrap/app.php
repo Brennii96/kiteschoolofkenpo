@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Middleware\ContentSecurityPolicy;
 use App\Http\Middleware\EnsureMemberEmailIsVerified;
+use App\Http\Middleware\EnsureMemberIsApproved;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //        $middleware->append(Spatie\Csp\AddCspHeaders::class . ':' . ContentSecurityPolicy::class);
         $middleware->alias([
             'verified.member' => EnsureMemberEmailIsVerified::class,
+            'approved.member' => EnsureMemberIsApproved::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

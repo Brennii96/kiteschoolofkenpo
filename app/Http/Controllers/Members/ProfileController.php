@@ -23,11 +23,15 @@ final class ProfileController extends Controller
 
     public function show(): View
     {
+        /** @var \App\Models\Member $member */
+        $member = Auth::guard('member')->user();
+
         return new View()
             ->template('members.profile')
             ->layout('layout')
             ->with([
-                'member' => Auth::guard('member')->user(),
+                'member' => $member,
+                'is_subscribed' => $member->subscribed('default'),
             ]);
     }
 
@@ -89,17 +93,39 @@ final class ProfileController extends Controller
         return redirect('/')->with('status', 'Your account has been deleted.');
     }
 
-    public function chooseYourPlan(): View
+    public function pendingApproval(Request $request): View|RedirectResponse
     {
+        /** @var Member $member */
+        $member = $request->user('member');
+
+        if ($member->isApproved()) {
+            return redirect()->route('members.choose-your-plan')
+                ->with('status', 'Your account has been approved! Choose a plan to get started.');
+        }
+
+        return (new View())
+            ->template('members.pending-approval')
+            ->layout('layout');
+    }
+
+    public function chooseYourPlan(): View|RedirectResponse
+    {
+        /** @var \App\Models\Member $member */
         $member = Auth::guard('member')->user();
+
+        if ($member->subscribed()) {
+            return $member->redirectToBillingPortal(route('members.profile'));
+        }
+
         $plans = $this->stripeService->getActivePrices();
 
-        return (new View)
+        return (new View())
             ->template('members.choose-your-plan')
             ->layout('layout')
             ->with([
                 'plans' => $plans->toArray(),
                 'member' => $member,
+                'stripe_key' => config('cashier.key'),
             ]);
     }
 }

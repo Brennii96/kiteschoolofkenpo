@@ -1,18 +1,20 @@
 <?php
 
+use App\Http\Controllers\Auth\ApproveMemberController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Members\ProfileController;
 use App\Http\Controllers\Members\SubscriptionController;
 use Illuminate\Support\Facades\Route;
+use Statamic\View\View;
 
 Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
 
 Route::get('/email/verify', function () {
-    return (new \Statamic\View\View())
+    return (new View())
         ->template('auth.verify-email')
         ->layout('layout');
 })->middleware('auth:member')->name('verification.notice');
@@ -23,19 +25,29 @@ Route::post('/email/verification-notification', function (\Illuminate\Http\Reque
     return back()->with('status', 'verification-link-sent');
 })->middleware(['auth:member', 'throttle:6,1'])->name('verification.send');
 
-Route::middleware(['auth:member', 'verified.member'])->group(function () {
+Route::get('/members/approve/{id}/{hash}', ApproveMemberController::class)
+    ->name('member.approve');
 
+Route::get('/members/pending-approval', [ProfileController::class, 'pendingApproval'])
+    ->middleware(['auth:member', 'verified.member'])
+    ->name('members.pending-approval');
+
+Route::middleware(['auth:member', 'verified.member'])->group(function () {
     Route::get('/members/profile', [ProfileController::class, 'show'])->name('members.profile');
-    Route::get('/members/choose-your-plan', [ProfileController::class, 'chooseYourPlan'])->name('members.choose-your-plan');
     Route::patch('/members/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/members/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::delete('/members/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-    Route::post('/members/{member}/subscribe', [SubscriptionController::class, 'subscribe']);
-    Route::post('/members/{member}/cancel', [SubscriptionController::class, 'cancel']);
-    Route::post('/members/{member}/resume', [SubscriptionController::class, 'resume']);
-    Route::get('/members/{member}/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
-    Route::post('/members/{member}/update-payment-method', [SubscriptionController::class, 'updatePaymentMethod']);
+Route::middleware(['auth:member', 'verified.member', 'approved.member'])->group(function () {
+    Route::get('/members/choose-your-plan', [ProfileController::class, 'chooseYourPlan'])->name('members.choose-your-plan');
+
+    Route::post('/members/subscribe', [SubscriptionController::class, 'subscribe']);
+    Route::post('/members/cancel', [SubscriptionController::class, 'cancel']);
+    Route::post('/members/resume', [SubscriptionController::class, 'resume']);
+    Route::get('/members/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
+    Route::post('/members/update-payment-method', [SubscriptionController::class, 'updatePaymentMethod']);
+    Route::get('/members/billing-portal', [SubscriptionController::class, 'billingPortal'])->name('members.billing-portal');
 });
 
 Route::get('/login', [AuthController::class, 'loginView'])

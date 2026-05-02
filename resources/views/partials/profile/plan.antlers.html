@@ -16,13 +16,10 @@
             <span class="text-5xl font-extrabold text-white">{{ price }}</span>
             <span class="text-base font-medium text-zinc-100">/ {{ term }}</span>
         </p>
-        <form method="POST" action="/members/subscribe">
-            {{ csrf_field }}
-            <input type="hidden" name="price_id" value="{{ price_id }}">
-            <button
-                class="ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 mt-8 rounded-none whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border shadow-sm text-base font-medium text-white bg-red-brand focus:ring-bg-red-brand-dark hover:bg-red-brand-dark hover:border-red-brand-dark border-red-brand hover:text-white hover:no-underline"
-                type="submit">Subscribe
-            </button>
-        </form>
+        <button
+            type="button"
+            @click="$dispatch('plan:selected', { priceId: '{{ price_id }}', title: '{{ title }}', price: '{{ price }}', term: '{{ term }}' })"
+            class="ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 mt-8 rounded-none whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border shadow-sm text-base font-medium text-white bg-red-brand focus:ring-bg-red-brand-dark hover:bg-red-brand-dark hover:border-red-brand-dark border-red-brand hover:text-white hover:no-underline w-full"
+        >Subscribe</button>
     </div>
 </div>
