@@ -10,7 +10,7 @@
     >
         {{ partial src="partials/notification" }}
 
-        <p class="section-kicker justify-center">Membership</p>
+        <p class="intro_label justify-center">Membership</p>
         <h1 class="section-heading mx-auto">Choose your plan</h1>
         <p class="mx-auto mt-5 max-w-2xl text-center text-lg text-off-white">
             From here you can choose which plan suites you.
@@ -33,7 +33,7 @@
             <div class="panel overflow-hidden border-l-4 border-red-brand">
                 <div class="relative border-b border-white/5 px-6 pb-6 pt-8 sm:px-8">
                     <div class="absolute bottom-0 left-8 w-12 h-0.5 bg-red-brand"></div>
-                    <p class="eyebrow mb-2">Payment Details</p>
+                    <p class="intro_label mb-2">Payment Details</p>
                     <h2 class="font-montserrat text-2xl font-black leading-tight text-white">
                         <span x-text="selectedPlan?.title"></span>
                         <span class="text-red-brand" x-text="' — ' + selectedPlan?.price + ' / ' + selectedPlan?.term"></span>

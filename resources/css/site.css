@@ -80,15 +80,11 @@ a:not(.btn):not(.btn-secondary):hover {
         transition: max-height 0.3s ease-in-out;
     }
 
-    .eyebrow {
-        @apply font-montserrat text-2xs font-bold uppercase tracking-[0.18em] text-gold-brand;
-    }
-
-    .section-kicker {
+    .intro_label {
         @apply mb-3 inline-flex items-center gap-3 font-montserrat text-2xs font-bold uppercase tracking-[0.18em] text-gold-brand;
     }
 
-    .section-kicker::before {
+    .intro_label::before {
         content: "";
         @apply block h-px w-8 bg-red-brand;
     }
