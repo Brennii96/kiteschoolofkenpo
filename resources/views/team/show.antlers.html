@@ -3,7 +3,7 @@
         <div class="w-full max-w-3xl lg:flex justify-center items-center flex-col md:mb-5 mb-10">
             <div class="mb-4 text-center">
                 <p class="intro_label justify-center">{{ intro_label }}</p>
-                <h2 class="font-montserrat text-4xl font-black uppercase text-white">{{ title }}</h2>
+                <h1 class="font-montserrat text-4xl font-black uppercase text-white">{{ title }}</h1>
 
                 {{ if profile_image }}
                     <div class="my-4">
@@ -13,7 +13,7 @@
                             <img
                                 class="mx-auto border border-white/10"
                                 src="{{ glide :src="profile_image" height="200" width="200" format="jpg" }}"
-                                alt="{{ profile_image:alt }}"
+                                alt="{{ profile_image:alt ?? title }}"
                                 loading="lazy"
                             />
                         </picture>

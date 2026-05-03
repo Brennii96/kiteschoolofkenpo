@@ -23,11 +23,7 @@
                     {{ posts }}
                         <article class="panel grid gap-6 p-6 md:grid-cols-[14rem_1fr]">
                             <div class="flex flex-col gap-2">
-                                <span class="title-font font-semibold text-gold-brand">
-                                    <a href="{{ author:slug }}">
-                                        {{ author:name }}
-                                    </a>
-                                </span>
+                                <span class="title-font font-semibold text-gold-brand">{{ author:name }}</span>
                                 {{ tags }}
                                     <a class="text-sm uppercase tracking-wide text-off-white" href="{{ url }}">{{ title }}</a>
                                 {{ /tags }}
