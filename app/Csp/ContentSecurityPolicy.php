@@ -9,6 +9,7 @@ use Spatie\Csp\Keyword;
 use Spatie\Csp\Policy;
 use Spatie\Csp\Preset;
 use Spatie\Csp\Presets\Basic;
+use Spatie\Csp\Presets\CloudflareWebAnalytics;
 use Spatie\Csp\Presets\GoogleFonts;
 use Spatie\Csp\Presets\GoogleMaps;
 use Spatie\Csp\Presets\Stripe;
@@ -48,7 +49,13 @@ final class ContentSecurityPolicy implements Preset
     private function applyPackagePresets(Policy $policy): void
     {
         /** @var array<class-string<Preset>> $presets */
-        $presets = [Basic::class, GoogleFonts::class, GoogleMaps::class, Stripe::class];
+        $presets = [
+            Basic::class,
+            CloudflareWebAnalytics::class,
+            GoogleFonts::class,
+            GoogleMaps::class,
+            Stripe::class,
+        ];
 
         foreach ($presets as $preset) {
             new $preset()->configure($policy);

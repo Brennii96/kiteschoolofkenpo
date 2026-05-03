@@ -6,6 +6,7 @@ use Spatie\Csp\Nonce\RandomString;
 
 $environment = (string) env('APP_ENV', 'production');
 $isProduction = $environment === 'production';
+$allowsViteDevServer = (bool) env('CSP_ALLOW_VITE_DEV_SERVER', $environment === 'local');
 
 $vitePort = (int) env('VITE_DEV_SERVER_PORT', 5173);
 $viteHost = trim((string) env('VITE_DEV_SERVER_HOST', 'localhost'));
@@ -36,8 +37,8 @@ $assetOrigins = CspSources::unique([
 $connectOrigins = CspSources::unique([
     ...$r2Origins,
     ...$bunnyOrigins,
-    ...($isProduction ? [] : $viteHttpOrigins),
-    ...($isProduction ? [] : $viteSocketOrigins),
+    ...($allowsViteDevServer ? $viteHttpOrigins : []),
+    ...($allowsViteDevServer ? $viteSocketOrigins : []),
 ]);
 
 $presets = [ContentSecurityPolicy::class];
@@ -58,6 +59,6 @@ return [
         'asset' => $assetOrigins,
         'bunny' => $bunnyOrigins,
         'connect' => $connectOrigins,
-        'vite_http' => $isProduction ? [] : $viteHttpOrigins,
+        'vite_http' => $allowsViteDevServer ? $viteHttpOrigins : [],
     ],
 ];
