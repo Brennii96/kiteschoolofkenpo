@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Members\ProfileController;
 use App\Http\Controllers\Members\SubscriptionController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Statamic\View\View;
 
@@ -19,8 +20,16 @@ Route::get('/email/verify', function () {
         ->layout('layout');
 })->middleware('auth:member')->name('verification.notice');
 
-Route::post('/email/verification-notification', function (\Illuminate\Http\Request $request) {
-    $request->user('member')->sendEmailVerificationNotification();
+Route::post('/email/verification-notification', function (Request $request) {
+    try {
+        $request->user('member')->sendEmailVerificationNotification();
+    } catch (\Throwable $exception) {
+        report($exception);
+
+        return back()->withErrors([
+            'email' => "We couldn't send the email right now. Please try again in a few minutes.",
+        ]);
+    }
 
     return back()->with('status', 'verification-link-sent');
 })->middleware(['auth:member', 'throttle:6,1'])->name('verification.send');

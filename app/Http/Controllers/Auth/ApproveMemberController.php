@@ -10,6 +10,7 @@ use App\Notifications\MemberApprovedNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Throwable;
 
 final class ApproveMemberController extends Controller
 {
@@ -30,7 +31,16 @@ final class ApproveMemberController extends Controller
         }
 
         $member->update(['approved_at' => Carbon::now()]);
-        $member->notify(new MemberApprovedNotification());
+
+        try {
+            $member->notify(new MemberApprovedNotification());
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return redirect('/')->withErrors([
+                'email' => "Member $member->name has been approved, but we couldn't send the notification email.",
+            ]);
+        }
 
         return redirect('/')->with('status', "Member {$member->name} has been approved.");
     }

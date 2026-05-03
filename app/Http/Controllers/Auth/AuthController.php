@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Statamic\View\View;
+use Throwable;
 
 class AuthController extends Controller
 {
@@ -108,7 +109,17 @@ class AuthController extends Controller
                 ]);
             }
 
-            $existingMember->sendEmailVerificationNotification();
+            try {
+                $existingMember->sendEmailVerificationNotification();
+            } catch (Throwable $exception) {
+                report($exception);
+
+                return back()
+                    ->withInput($request->only('email', 'name'))
+                    ->withErrors([
+                        'email' => "We couldn't send the email right now. Please try again in a few minutes.",
+                    ]);
+            }
 
             return back()
                 ->withInput($request->only('email', 'name'))
@@ -121,13 +132,29 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password')),
         ]);
 
-        event(new Registered($member));
+        $notificationFailed = false;
+
+        try {
+            event(new Registered($member));
+        } catch (Throwable $exception) {
+            report($exception);
+
+            $notificationFailed = true;
+        }
 
         /** @var StatefulGuard $memberGuard */
         $memberGuard = Auth::guard('member');
         $memberGuard->login($member);
 
-        return redirect()->route('members.pending-approval');
+        $redirect = redirect()->route('members.pending-approval');
+
+        if ($notificationFailed) {
+            return $redirect->withErrors([
+                'email' => "Your account was created, but we couldn't send the email right now. Please try again from your account page.",
+            ]);
+        }
+
+        return $redirect;
     }
 
     /**

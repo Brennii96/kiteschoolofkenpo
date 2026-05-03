@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Notifications\AdminMemberApprovalRequest;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Notifications\AnonymousNotifiable;
+use Throwable;
 
 final class SendAdminApprovalNotification
 {
@@ -23,8 +24,12 @@ final class SendAdminApprovalNotification
             return;
         }
 
-        new AnonymousNotifiable()
-            ->route('mail', $adminEmail)
-            ->notify(new AdminMemberApprovalRequest($event->user));
+        try {
+            new AnonymousNotifiable()
+                ->route('mail', $adminEmail)
+                ->notify(new AdminMemberApprovalRequest($event->user));
+        } catch (Throwable $exception) {
+            report($exception);
+        }
     }
 }

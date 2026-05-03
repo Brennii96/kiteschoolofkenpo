@@ -19,6 +19,11 @@
                     <p class="text-green-200 text-sm font-roboto">A new verification link has been sent to your email address.</p>
                 </div>
             {{ /if }}
+            {{ get_error:email }}
+                <div class="mb-6 border border-red-500 bg-red-500/10 p-4">
+                    <p class="text-brand-300 text-sm font-roboto">{{ message }}</p>
+                </div>
+            {{ /get_error:email }}
 
             <p class="text-off-white font-roboto font-light text-sm mb-6 leading-relaxed">
                 Thanks for registering. Please verify your email address by clicking the link we sent you. If you didn't receive the email, we'll send another.
