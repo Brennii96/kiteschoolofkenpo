@@ -1,3 +1,28 @@
+let stripeScriptPromise = null;
+
+function loadStripeScript() {
+    if (window.Stripe) {
+        return Promise.resolve();
+    }
+
+    if (stripeScriptPromise) {
+        return stripeScriptPromise;
+    }
+
+    stripeScriptPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+
+        script.src = 'https://js.stripe.com/v3/';
+        script.async = true;
+        script.addEventListener('load', resolve, { once: true });
+        script.addEventListener('error', () => reject(new Error('Stripe failed to load.')), { once: true });
+
+        document.head.appendChild(script);
+    });
+
+    return stripeScriptPromise;
+}
+
 export function subscriptionPayment(stripeKey) {
     return {
         stripe: null,
@@ -8,7 +33,13 @@ export function subscriptionPayment(stripeKey) {
         cardError: '',
         cardMounted: false,
 
-        init() {
+        async initializeStripe() {
+            if (this.stripe) {
+                return;
+            }
+
+            await loadStripeScript();
+
             this.stripe = Stripe(stripeKey);
             this.elements = this.stripe.elements({ locale: 'auto' });
         },
@@ -20,6 +51,14 @@ export function subscriptionPayment(stripeKey) {
             await this.$nextTick();
 
             if (!this.cardMounted) {
+                try {
+                    await this.initializeStripe();
+                } catch {
+                    this.cardError = 'Payment form failed to load. Please refresh the page and try again.';
+
+                    return;
+                }
+
                 this.cardElement = this.elements.create('card', {
                     style: {
                         base: {
@@ -47,6 +86,11 @@ export function subscriptionPayment(stripeKey) {
 
         async subscribe() {
             if (this.processing || !this.selectedPlan) return;
+            if (!this.stripe || !this.cardElement) {
+                this.cardError = 'Payment form is still loading. Please try again.';
+
+                return;
+            }
 
             this.processing = true;
             this.cardError = '';
