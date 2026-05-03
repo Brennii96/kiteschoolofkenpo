@@ -1,42 +1,63 @@
 <?php
 
+use App\Csp\ContentSecurityPolicy;
+use App\Csp\CspSources;
+use Spatie\Csp\Nonce\RandomString;
+
+$environment = (string) env('APP_ENV', 'production');
+$isProduction = $environment === 'production';
+
+$vitePort = (int) env('VITE_DEV_SERVER_PORT', 5173);
+$viteHost = trim((string) env('VITE_DEV_SERVER_HOST', 'localhost'));
+$viteHosts = CspSources::viteHosts($viteHost);
+$viteHttpOrigins = CspSources::viteHttpOrigins($viteHosts, $vitePort);
+$viteSocketOrigins = CspSources::viteSocketOrigins($viteHosts, $vitePort);
+
+$r2Origins = CspSources::unique([
+    CspSources::originFromUrl(env('CLOUDFLARE_R2_URL')),
+    CspSources::originFromUrl(env('CLOUDFLARE_R2_ENDPOINT')),
+    'https://*.r2.dev',
+    'https://*.r2.cloudflarestorage.com',
+]);
+
+$bunnyHostname = trim((string) env('BUNNY_CDN_HOSTNAME', ''));
+$bunnyOrigins = CspSources::unique([
+    $bunnyHostname !== '' ? "https://{$bunnyHostname}" : null,
+    'https://*.b-cdn.net',
+    'https://iframe.mediadelivery.net',
+]);
+
+$assetOrigins = CspSources::unique([
+    'blob:',
+    ...$r2Origins,
+    ...$bunnyOrigins,
+]);
+
+$connectOrigins = CspSources::unique([
+    ...$r2Origins,
+    ...$bunnyOrigins,
+    ...($isProduction ? [] : $viteHttpOrigins),
+    ...($isProduction ? [] : $viteSocketOrigins),
+]);
+
+$presets = [ContentSecurityPolicy::class];
+$reportOnly = (bool) env('CSP_REPORT_ONLY', ! $isProduction);
+
 return [
-
-    /*
-     * A policy will determine which CSP headers will be set. A valid CSP policy is
-     * any class that extends `Spatie\Csp\Policies\Policy`
-     */
-    'policy' => Spatie\Csp\Policies\Basic::class,
-
-    /*
-     * This policy which will be put in report only mode. This is great for testing out
-     * a new policy or changes to existing csp policy without breaking anything.
-     */
-    'report_only_policy' => '',
-
-    /*
-     * All violations against the policy will be reported to this url.
-     * A great service you could use for this is https://report-uri.com/
-     *
-     * You can override this setting by calling `reportTo` on your policy.
-     */
+    'presets' => $reportOnly ? [] : $presets,
+    'directives' => [],
+    'report_only_presets' => $reportOnly ? $presets : [],
+    'report_only_directives' => [],
     'report_uri' => env('CSP_REPORT_URI', ''),
-
-    /*
-     * Headers will only be added if this setting is set to true.
-     */
     'enabled' => env('CSP_ENABLED', true),
-
-    /*
-     * The class responsible for generating the nonces used in inline tags and headers.
-     */
-    'nonce_generator' => Spatie\Csp\Nonce\RandomString::class,
-
-    /*
-     * Set to false to disable automatic nonce generation and handling.
-     * This is useful when you want to use 'unsafe-inline' for scripts/styles
-     * and cannot add inline nonces. 
-     * Note that this will make your CSP policy less secure.
-     */
-    'nonce_enabled' => env('CSP_NONCE_ENABLED', true),
+    'enabled_while_hot_reloading' => env('CSP_ENABLED_WHILE_HOT_RELOADING', true),
+    'nonce_generator' => RandomString::class,
+    'nonce_enabled' => env('CSP_NONCE_ENABLED', false),
+    'upgrade_insecure_requests' => (bool) env('CSP_UPGRADE_INSECURE_REQUESTS', $isProduction),
+    'sources' => [
+        'asset' => $assetOrigins,
+        'bunny' => $bunnyOrigins,
+        'connect' => $connectOrigins,
+        'vite_http' => $isProduction ? [] : $viteHttpOrigins,
+    ],
 ];
