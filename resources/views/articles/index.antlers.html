@@ -39,7 +39,8 @@
                                     {{ excerpt }}
                                 </p>
                                 <a
-                                    title="{{ title }}"
+                                    aria-label="Read more about {{ title }}"
+                                    title="Read more about {{ title }}"
                                     class="mt-4 inline-flex items-center text-white"
                                     href="{{ url }}">
                                     Read More
@@ -61,9 +62,9 @@
 
                     {{ paginate }}
                         <div class="mt-8 flex flex-wrap items-center justify-center gap-4 text-off-white">
-                            <a class="btn-secondary" href="{{ prev_page }}">Previous</a>
+                            <a class="btn-secondary" href="{{ prev_page }}" aria-label="Previous article page">Previous</a>
                             <span>{{ current_page }} of {{ total_pages }} pages ({{ total_items }} posts)</span>
-                            <a class="btn-secondary" href="{{ next_page }}">Next</a>
+                            <a class="btn-secondary" href="{{ next_page }}" aria-label="Next article page">Next</a>
                         </div>
                     {{ /paginate }}
 
