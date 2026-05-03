@@ -1,8 +1,16 @@
 <title>{{ (seo_title ?? title) + " " + (site:attributes:title_seperator ?? "-") + " " + site:name }}</title>
 {{ brand:logo | favicon }}
-<link rel="canonical" href="{{ current_url }}"/>
+{{ if get:page && get:page != "1" }}
+    <link rel="canonical" href="{{ current_url }}?page={{ get:page }}"/>
+{{ else }}
+    <link rel="canonical" href="{{ current_url }}"/>
+{{ /if }}
 <meta property="og:site_name" content="{{ site:name }}"/>
-<meta property="og:url" content="{{ current_url }}"/>
+{{ if get:page && get:page != "1" }}
+    <meta property="og:url" content="{{ current_url }}?page={{ get:page }}"/>
+{{ else }}
+    <meta property="og:url" content="{{ current_url }}"/>
+{{ /if }}
 <meta property="og:title"
       content="{{ (seo_title ?? title) + " " + (site:attributes:title_seperator ?? "-") + " " + site:name }}"/>
 <meta name="twitter:card" content="summary_large_image"/>
@@ -23,7 +31,7 @@
     <meta property="og:description" content="{{ description }}"/>
     <meta name="twitter:description" content="{{ description }}"/>
 {{ /if }}
-{{ if noindex or current_uri == "login" or current_uri == "register" or current_uri == "forgot-password" or current_uri == "verify-email" or current_uri | starts_with("reset-password") or current_uri | starts_with("members") }}
+{{ if noindex or current_uri == "login" or current_uri == "register" or current_uri == "forgot-password" or current_uri | starts_with:'verify-email' or current_uri | starts_with:'email/verify' or current_uri | starts_with:'reset-password' or current_uri | starts_with:'members' }}
     <meta name="robots" content="noindex, nofollow">
 {{ else }}
     <meta name="robots" content="index, follow">

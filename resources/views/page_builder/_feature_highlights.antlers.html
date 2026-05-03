@@ -1,6 +1,6 @@
-<div class="grid min-h-[350px] grid-cols-1 bg-dark-brand text-center text-white md:grid-cols-3">
+<div class="grid min-h-87.5 grid-cols-1 bg-dark-brand text-center text-white md:grid-cols-3">
     {{ features }}
-    <div class="group relative flex min-h-[320px] flex-col overflow-hidden">
+    <div class="group relative flex min-h-80 flex-col overflow-hidden">
         <picture class="absolute inset-0">
             <source
                 srcset="{{ glide :src="background_image" width="600" height="400" fit="crop" quality="75" format="avif" }}"
@@ -14,7 +14,7 @@
                 class="w-full h-full object-cover"
             >
         </picture>
-        <div class="absolute inset-0 bg-gradient-to-b from-ink-brand/35 via-ink-brand/60 to-ink-brand/85 transition duration-300 group-hover:from-red-brand/20"></div>
+        <div class="absolute inset-0 bg-linear-to-b from-ink-brand/35 via-ink-brand/60 to-ink-brand/85 transition duration-300 group-hover:from-red-brand/20"></div>
         <div class="relative z-10 flex grow flex-col items-center justify-center p-8">
             <h3 class="font-montserrat text-2xl font-black uppercase">
                 {{ title }}
