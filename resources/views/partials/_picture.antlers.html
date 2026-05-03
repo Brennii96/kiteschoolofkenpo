@@ -39,6 +39,9 @@
                     alt="{{ alt ensure_right='.' }}"
                     width="{{ image.width }}"
                     height="{{ image.height }}"
+                    {{ if fetchpriority }}
+                    fetchpriority="{{ fetchpriority }}"
+                    {{ /if }}
                     {{ if lazy }}
                     loading="lazy"
                     {{ /if }}

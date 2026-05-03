@@ -1,7 +1,7 @@
 <section
     class="hero-section relative flex min-h-155 w-full items-center justify-center overflow-hidden bg-ink-brand sm:min-h-170 lg:min-h-190">
     <div class="absolute inset-0 w-full h-full">
-        {{ partial:partials/picture :image="background_image" cover="true" lazy="true" sizes="(min-width: 1280px) 100vw, (min-width: 768px) 100vw, 100vw" class="w-full h-full object-cover object-center absolute inset-0" }}
+        {{ partial:partials/picture :image="background_image" cover="true" fetchpriority="high" sizes="(min-width: 1280px) 100vw, (min-width: 768px) 100vw, 100vw" class="w-full h-full object-cover object-center absolute inset-0" }}
     </div>
     <div class="absolute inset-0 bg-linear-to-b from-ink-brand/45 via-ink-brand/60 to-dark-brand"></div>
     <div class="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-red-brand to-transparent"></div>
