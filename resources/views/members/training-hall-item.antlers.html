@@ -22,14 +22,14 @@
 
         {{ if video_url }}
             <div class="border-t border-white/5 px-5 pb-5">
-                <div class="aspect-video max-w-5xl overflow-hidden border border-white/10 bg-black">
+                <div class="relative aspect-video max-w-5xl overflow-hidden border border-white/10 bg-black">
                     <iframe
                         src="{{ video_url }}"
                         title="{{ title }} video"
                         loading="lazy"
-                        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen"
                         allowfullscreen
-                        class="h-full w-full"
+                        class="absolute inset-0 h-full w-full"
                     ></iframe>
                 </div>
             </div>

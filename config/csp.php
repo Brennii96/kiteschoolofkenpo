@@ -26,6 +26,7 @@ $bunnyOrigins = CspSources::unique([
     $bunnyHostname !== '' ? "https://{$bunnyHostname}" : null,
     'https://*.b-cdn.net',
     'https://iframe.mediadelivery.net',
+    'https://player.mediadelivery.net',
 ]);
 
 $assetOrigins = CspSources::unique([
