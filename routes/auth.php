@@ -65,7 +65,7 @@ Route::get('/login', [AuthController::class, 'loginView'])
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login')->middleware('guest:member');
 
-Route::get('/logout', [AuthController::class, 'logout'])
+Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout')
     ->middleware('auth:member');
 

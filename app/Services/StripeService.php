@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Contracts\StripeServiceInterface;
 use Illuminate\Support\Collection;
 use NumberFormatter;
+use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 
 final readonly class StripeService implements StripeServiceInterface
@@ -26,7 +27,9 @@ final readonly class StripeService implements StripeServiceInterface
             'expand' => ['data.product'],
         ]);
 
-        return collect($prices->data)->map(function ($price) {
+        return collect($prices->data)->filter(function ($price): bool {
+            return $price->recurring !== null && ($price->product->active ?? false);
+        })->map(function ($price): array {
             return [
                 'id' => $price->id,
                 'title' => $price->product->name,
@@ -39,6 +42,19 @@ final readonly class StripeService implements StripeServiceInterface
         })
             ->sortBy('order')
             ->values();
+    }
+
+    public function isActiveSubscriptionPrice(string $priceId): bool
+    {
+        try {
+            $price = $this->stripe->prices->retrieve($priceId, [
+                'expand' => ['product'],
+            ]);
+        } catch (ApiErrorException) {
+            return false;
+        }
+
+        return $price->active && $price->recurring !== null && ($price->product->active ?? false);
     }
 
     private function formatInterval(string $interval, int $count): string

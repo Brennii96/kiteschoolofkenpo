@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(AddCspHeaders::class);
+        $middleware->validateCsrfTokens(except: [
+            'stripe/*',
+        ]);
 
         $middleware->alias([
             'verified.member' => EnsureMemberEmailIsVerified::class,

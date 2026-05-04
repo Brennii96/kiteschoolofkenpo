@@ -9,4 +9,6 @@ use Illuminate\Support\Collection;
 interface StripeServiceInterface
 {
     public function getActivePrices(): Collection;
+
+    public function isActiveSubscriptionPrice(string $priceId): bool;
 }

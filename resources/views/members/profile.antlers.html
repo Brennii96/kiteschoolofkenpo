@@ -55,13 +55,42 @@
     </div>
 
     <div x-show="tab === 'subscription'" x-transition>
-        {{ if is_subscribed }}
+        {{ if has_incomplete_payment }}
+            <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Payment Pending</p>
+            <p class="text-off-white font-roboto mb-6">
+                Your subscription has been created but the payment still needs confirmation.
+            </p>
+            {{ if payment_confirmation_url }}
+                <a
+                    href="{{ payment_confirmation_url }}"
+                    class="btn"
+                >Confirm Payment</a>
+            {{ else }}
+                <a
+                    href="{{ route:members.billing-portal }}"
+                    class="btn"
+                >Manage Billing</a>
+            {{ /if }}
+        {{ elseif is_subscribed }}
             <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Status</p>
-            <p class="text-white font-roboto mb-6">You have an active subscription.</p>
+            {{ if subscription_on_grace_period }}
+                <p class="text-white font-roboto mb-6">Your subscription is cancelled and remains active until the end of the billing period.</p>
+            {{ else }}
+                <p class="text-white font-roboto mb-6">You have an active subscription.</p>
+            {{ /if }}
             <a
                 href="{{ route:members.billing-portal }}"
                 class="btn"
             >Manage Subscription</a>
+        {{ elseif has_subscription }}
+            <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Status</p>
+            <p class="text-off-white font-roboto mb-6">
+                Your subscription status is {{ subscription_status ?? 'not active' }}.
+            </p>
+            <a
+                href="{{ route:members.billing-portal }}"
+                class="btn"
+            >Manage Billing</a>
         {{ else }}
             <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Status</p>
             <p class="text-off-white font-roboto mb-6">No active subscription.</p>

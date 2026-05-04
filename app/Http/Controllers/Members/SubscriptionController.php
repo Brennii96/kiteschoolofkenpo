@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Members;
 
+use App\Contracts\StripeServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use Illuminate\Http\JsonResponse;
@@ -14,19 +15,42 @@ use Stripe\Exception\InvalidRequestException;
 
 final class SubscriptionController extends Controller
 {
+    public function __construct(
+        private readonly StripeServiceInterface $stripeService,
+    ) {
+    }
+
     public function subscribe(Request $request): JsonResponse
     {
         /** @var Member $member */
         $member = $request->user('member');
 
-        $request->validate([
-            'payment_method' => 'required|string',
-            'price_id' => 'required|string',
+        $validated = $request->validate([
+            'payment_method' => ['required', 'string'],
+            'price_id' => ['required', 'string'],
         ]);
 
+        if ($member->subscribed('default')) {
+            return response()->json([
+                'message' => 'You already have an active subscription.',
+                'redirect' => route('members.profile'),
+            ], 409);
+        }
+
+        if ($member->hasIncompletePayment('default')) {
+            return response()->json([
+                'message' => 'Your subscription payment is still pending confirmation.',
+                'redirect' => route('members.profile'),
+            ], 409);
+        }
+
+        if (! $this->stripeService->isActiveSubscriptionPrice($validated['price_id'])) {
+            return response()->json(['message' => 'Selected membership plan is not available.'], 422);
+        }
+
         try {
-            $member->newSubscription('default', $request->price_id)
-                ->create($request->payment_method);
+            $member->newSubscription('default', $validated['price_id'])
+                ->create($validated['payment_method']);
 
             return response()->json(['message' => 'Subscription created successfully.']);
         } catch (IncompletePayment $exception) {
@@ -35,8 +59,12 @@ final class SubscriptionController extends Controller
                 'payment' => $exception->payment->client_secret,
             ], 426);
         } catch (InvalidRequestException $exception) {
+            report($exception);
+
             return response()->json(['message' => 'Invalid Request. Check price id.'], 400);
         } catch (\Exception $exception) {
+            report($exception);
+
             return response()->json(['message' => 'Subscription failed.'], 500);
         }
     }

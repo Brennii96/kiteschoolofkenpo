@@ -130,6 +130,11 @@ export function subscriptionPayment(stripeKey) {
                         return;
                     }
                 } else if (!response.ok) {
+                    if (response.status === 409 && data.redirect) {
+                        window.location.href = data.redirect;
+                        return;
+                    }
+
                     this.cardError = data.message ?? 'Subscription failed. Please try again.';
                     this.processing = false;
                     return;
