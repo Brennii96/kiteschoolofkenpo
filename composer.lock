@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2f26bd48fc5fa18a412bda28a093f31",
+    "content-hash": "f292f0163efb6d66101287c3bab53f08",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -6201,16 +6201,16 @@
         },
         {
             "name": "statamic/eloquent-driver",
-            "version": "v5.7.0",
+            "version": "v5.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/statamic/eloquent-driver.git",
-                "reference": "25193569c59f116ff62695ed6bb8e8f60ed4747a"
+                "reference": "4ac0a8d4a673eaa840ebaf96a81f03c1a741def3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/statamic/eloquent-driver/zipball/25193569c59f116ff62695ed6bb8e8f60ed4747a",
-                "reference": "25193569c59f116ff62695ed6bb8e8f60ed4747a",
+                "url": "https://api.github.com/repos/statamic/eloquent-driver/zipball/4ac0a8d4a673eaa840ebaf96a81f03c1a741def3",
+                "reference": "4ac0a8d4a673eaa840ebaf96a81f03c1a741def3",
                 "shasum": ""
             },
             "require": {
@@ -6248,9 +6248,9 @@
             "description": "Allows you to store Statamic data in a database.",
             "support": {
                 "issues": "https://github.com/statamic/eloquent-driver/issues",
-                "source": "https://github.com/statamic/eloquent-driver/tree/v5.7.0"
+                "source": "https://github.com/statamic/eloquent-driver/tree/v5.6.3"
             },
-            "time": "2026-05-01T07:42:22+00:00"
+            "time": "2026-04-17T10:49:31+00:00"
         },
         {
             "name": "statamic/stringy",

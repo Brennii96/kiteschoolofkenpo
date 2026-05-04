@@ -106,22 +106,61 @@
         <div class="flex items-center gap-3">
             <div class="hidden md:block">
                 {{ if member }}
-                    <div class="flex items-center gap-2">
-                        <a href="{{ route:members.profile }}" class="btn gap-2 px-4 py-2">
+                    <div
+                        class="relative"
+                        x-data="{ open: false }"
+                        @keydown.escape="open = false"
+                        @click.outside="open = false"
+                    >
+                        <button
+                            type="button"
+                            @click="open = !open"
+                            :aria-expanded="open.toString()"
+                            aria-haspopup="true"
+                            class="btn gap-2 px-4 py-2"
+                        >
                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
                             </svg>
-                            Account
-                        </a>
-                        <form method="POST" action="{{ route:logout }}">
-                            {{ csrf_field }}
-                            <button
-                                type="submit"
-                                class="inline-flex items-center justify-center border border-white/10 px-4 py-2 font-montserrat text-xs font-bold uppercase tracking-[0.16em] text-off-white transition duration-150 hover:border-red-brand hover:text-white focus:outline-none focus:ring-2 focus:ring-red-brand focus:ring-offset-2 focus:ring-offset-ink-brand"
-                            >
-                                Log Out
-                            </button>
-                        </form>
+                            Members
+                            <svg class="h-3 w-3 transition-transform duration-200" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                                <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <div
+                            x-show="open"
+                            x-cloak
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-1"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 -translate-y-1"
+                            class="absolute right-0 top-full z-50 mt-2 w-56 border border-white/10 bg-ink-brand/95 shadow-2xl shadow-black/40 backdrop-blur-md"
+                        >
+                            <div class="h-0.5 bg-red-brand"></div>
+
+                            {{ if member:approved_at }}
+                                <a href="{{ route:members.training-hall }}" class="block border-b border-white/5 px-4 py-3 text-sm font-medium uppercase tracking-wide text-white transition-colors duration-150 hover:bg-dark-brand hover:text-gold-brand">
+                                    Training Hall
+                                </a>
+                            {{ /if }}
+
+                            <a href="{{ route:members.profile }}" class="block border-b border-white/5 px-4 py-3 text-sm font-medium uppercase tracking-wide text-white transition-colors duration-150 hover:bg-dark-brand hover:text-gold-brand">
+                                Account
+                            </a>
+
+                            <form method="POST" action="{{ route:logout }}">
+                                {{ csrf_field }}
+                                <button
+                                    type="submit"
+                                    class="block w-full px-4 py-3 text-left text-sm font-medium uppercase tracking-wide text-white transition-colors duration-150 hover:bg-dark-brand hover:text-gold-brand"
+                                >
+                                    Log Out
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 {{ else }}
                     <a href="/login" class="btn px-4 py-2">
@@ -194,6 +233,12 @@
         <div class="px-6 py-4 border-t border-white/10">
             {{ if member }}
                 <div class="flex flex-col gap-3">
+                    <p class="font-montserrat text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-400">Members</p>
+                    {{ if member:approved_at }}
+                        <a href="{{ route:members.training-hall }}" class="w-full border border-white/10 px-4 py-3 text-center font-montserrat text-xs font-bold uppercase tracking-[0.16em] text-off-white transition duration-150 hover:border-red-brand hover:text-white focus:outline-none focus:ring-2 focus:ring-red-brand focus:ring-offset-2 focus:ring-offset-ink-brand">
+                            Training Hall
+                        </a>
+                    {{ /if }}
                     <a href="{{ route:members.profile }}" class="btn w-full gap-2 py-3">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Members\ProfileController;
 use App\Http\Controllers\Members\SubscriptionController;
+use App\Http\Controllers\Members\TrainingHallController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Statamic\View\View;
@@ -49,6 +50,7 @@ Route::middleware(['auth:member', 'verified.member'])->group(function () {
 });
 
 Route::middleware(['auth:member', 'verified.member', 'approved.member'])->group(function () {
+    Route::get('/members/training-hall/{grade?}', TrainingHallController::class)->name('members.training-hall');
     Route::get('/members/choose-your-plan', [ProfileController::class, 'chooseYourPlan'])->name('members.choose-your-plan');
 
     Route::post('/members/subscribe', [SubscriptionController::class, 'subscribe']);

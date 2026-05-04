@@ -1,0 +1,58 @@
+<section class="panel overflow-hidden border-l-4 border-red-brand">
+    <div class="flex flex-col gap-5 border-b border-white/5 px-5 py-6 sm:px-7 lg:flex-row lg:items-start">
+        {{ if belt_image }}
+            <img
+                src="{{ belt_image }}"
+                alt="{{ title }} belt image"
+                height="96"
+                width="96"
+                loading="lazy"
+                class="h-16 w-auto shrink-0 object-contain lg:h-20"
+            >
+        {{ /if }}
+
+        <div class="min-w-0 flex-1">
+            <p class="font-montserrat text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand-400">{{ grade_type }} Grade</p>
+            <h2 class="mt-1 font-montserrat text-3xl font-black uppercase text-white">{{ title }}</h2>
+            {{ if content }}
+                <div class="content-block mt-4 max-w-4xl text-base text-off-white">
+                    {{ content }}
+                </div>
+            {{ /if }}
+        </div>
+    </div>
+
+    <div class="space-y-10 px-5 py-7 sm:px-7">
+        <div>
+            <div class="mb-5 flex items-end justify-between gap-4 border-b border-white/10 pb-3">
+                <h3 class="intro_label">Techniques</h3>
+            </div>
+
+            {{ if techniques }}
+                <div class="space-y-5">
+                    {{ techniques }}
+                        {{ partial:members/training-hall-item item_type="Technique" :video_url="video" }}
+                    {{ /techniques }}
+                </div>
+            {{ else }}
+                <p class="text-sm text-off-white">No techniques listed.</p>
+            {{ /if }}
+        </div>
+
+        <div>
+            <div class="mb-5 flex items-end justify-between gap-4 border-b border-white/10 pb-3">
+                <h3 class="intro_label">Forms & Sets</h3>
+            </div>
+
+            {{ if forms_and_sets }}
+                <div class="space-y-5">
+                    {{ forms_and_sets }}
+                        {{ partial:members/training-hall-item item_type="Form / Set" :video_url="video_field" }}
+                    {{ /forms_and_sets }}
+                </div>
+            {{ else }}
+                <p class="text-sm text-off-white">No forms or sets listed.</p>
+            {{ /if }}
+        </div>
+    </div>
+</section>

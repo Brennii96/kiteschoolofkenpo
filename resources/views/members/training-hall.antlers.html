@@ -1,0 +1,114 @@
+{{ partial src="partials/flex_section" lighten="true" id="training-hall" }}
+
+<div class="w-full max-w-7xl">
+    <div class="mb-8 grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-end">
+        <div>
+            <p class="intro_label">Members Portal</p>
+            <h1 class="section-heading">Training Hall</h1>
+            <div class="content-block mt-5 max-w-3xl text-off-white">
+                <p>
+                    Study the Kenpo syllabus away from class with grade requirements, technique notes, forms, sets, and member video guides.
+                </p>
+            </div>
+        </div>
+
+        <div class="border-l-4 border-red-brand bg-ink-brand/70 p-5">
+            <p class="font-montserrat text-[0.65rem] font-bold uppercase tracking-[0.2em] text-brand-400">Access</p>
+            {{ if can_view_training }}
+                <p class="mt-2 font-montserrat text-xl font-black uppercase text-white">Active Member</p>
+                <a href="{{ route:members.billing-portal }}" class="mt-4 inline-flex text-xs font-bold uppercase tracking-[0.16em] text-gold-brand transition-colors duration-150 hover:text-white">Manage Billing</a>
+            {{ elseif has_incomplete_payment }}
+                <p class="mt-2 font-montserrat text-xl font-black uppercase text-white">Payment Pending</p>
+                <a href="{{ route:members.profile }}" class="mt-4 inline-flex text-xs font-bold uppercase tracking-[0.16em] text-gold-brand transition-colors duration-150 hover:text-white">Confirm Payment</a>
+            {{ else }}
+                <p class="mt-2 font-montserrat text-xl font-black uppercase text-white">Preview Access</p>
+                <a href="{{ route:members.choose-your-plan }}" class="mt-4 inline-flex text-xs font-bold uppercase tracking-[0.16em] text-gold-brand transition-colors duration-150 hover:text-white">Choose Plan</a>
+            {{ /if }}
+        </div>
+    </div>
+
+    <div class="w-full">
+        <div class="mb-6 flex flex-wrap gap-2 border-b border-white/10">
+            {{ if senior_url }}
+                <a
+                    href="{{ senior_url }}"
+                    aria-current="{{ active_grade_type == 'Senior' ? 'page' : 'false' }}"
+                    class="border-b-2 px-4 py-3 font-montserrat text-xs font-bold uppercase tracking-[0.16em] transition-colors duration-150 {{ active_grade_type == 'Senior' ? 'border-red-brand text-white' : 'border-transparent text-off-white hover:text-white' }}"
+                >
+                    Senior Grades
+                </a>
+            {{ /if }}
+            {{ if junior_url }}
+                <a
+                    href="{{ junior_url }}"
+                    aria-current="{{ active_grade_type == 'Junior' ? 'page' : 'false' }}"
+                    class="border-b-2 px-4 py-3 font-montserrat text-xs font-bold uppercase tracking-[0.16em] transition-colors duration-150 {{ active_grade_type == 'Junior' ? 'border-red-brand text-white' : 'border-transparent text-off-white hover:text-white' }}"
+                >
+                    Junior Grades
+                </a>
+            {{ /if }}
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[17rem_minmax(0,1fr)] xl:grid-cols-[19rem_minmax(0,1fr)]">
+            <div class="space-y-6 lg:sticky lg:top-6 lg:self-start">
+                {{ if senior_grades }}
+                    <nav aria-label="Senior syllabus grades">
+                    <div class="border border-white/10 bg-ink-brand/60">
+                        <div class="border-b border-white/10 px-4 py-3">
+                            <p class="font-montserrat text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-400">Senior Syllabus</p>
+                        </div>
+                        <div class="max-h-[32rem] overflow-y-auto">
+                            {{ senior_grades }}
+                                    <a
+                                        href="{{ url }}"
+                                        aria-current="{{ is_active ? 'page' : 'false' }}"
+                                        class="flex w-full items-center gap-3 border-l-4 px-4 py-3 text-left transition-colors duration-150 {{ is_active ? 'border-red-brand bg-red-brand/10 text-white' : 'border-transparent text-off-white hover:bg-white/5 hover:text-white' }}"
+                                    >
+                                        {{ if belt_image_url }}
+                                            <img src="{{ belt_image_url }}" alt="" height="40" width="40" loading="lazy" class="h-8 w-auto shrink-0 object-contain">
+                                        {{ /if }}
+                                        <span class="min-w-0 font-montserrat text-xs font-bold uppercase tracking-[0.12em]">{{ title }}</span>
+                                    </a>
+                            {{ /senior_grades }}
+                        </div>
+                    </div>
+                </nav>
+                {{ /if }}
+
+                {{ if junior_grades }}
+                    <nav aria-label="Junior syllabus grades">
+                    <div class="border border-white/10 bg-ink-brand/60">
+                        <div class="border-b border-white/10 px-4 py-3">
+                            <p class="font-montserrat text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-400">Junior Syllabus</p>
+                        </div>
+                        <div class="max-h-[32rem] overflow-y-auto">
+                            {{ junior_grades }}
+                                    <a
+                                        href="{{ url }}"
+                                        aria-current="{{ is_active ? 'page' : 'false' }}"
+                                        class="flex w-full items-center gap-3 border-l-4 px-4 py-3 text-left transition-colors duration-150 {{ is_active ? 'border-red-brand bg-red-brand/10 text-white' : 'border-transparent text-off-white hover:bg-white/5 hover:text-white' }}"
+                                    >
+                                        {{ if belt_image_url }}
+                                            <img src="{{ belt_image_url }}" alt="" height="40" width="40" loading="lazy" class="h-8 w-auto shrink-0 object-contain">
+                                        {{ /if }}
+                                        <span class="min-w-0 font-montserrat text-xs font-bold uppercase tracking-[0.12em]">{{ title }}</span>
+                                    </a>
+                            {{ /junior_grades }}
+                        </div>
+                    </div>
+                </nav>
+                {{ /if }}
+            </div>
+
+            <div class="min-w-0">
+                {{ cache key="{active_grade_cache_key}" }}
+                    {{ active_grade }}
+                        {{ partial:members/training-hall-grade }}
+                    {{ /active_grade }}
+                {{ /cache }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ /partial }}

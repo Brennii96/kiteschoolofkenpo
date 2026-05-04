@@ -78,10 +78,16 @@
             {{ else }}
                 <p class="text-white font-roboto mb-6">You have an active subscription.</p>
             {{ /if }}
-            <a
-                href="{{ route:members.billing-portal }}"
-                class="btn"
-            >Manage Subscription</a>
+            <div class="flex flex-wrap gap-3">
+                <a
+                    href="{{ route:members.training-hall }}"
+                    class="btn"
+                >Training Hall</a>
+                <a
+                    href="{{ route:members.billing-portal }}"
+                    class="btn-secondary"
+                >Manage Subscription</a>
+            </div>
         {{ elseif has_subscription }}
             <p class="font-montserrat text-[0.65rem] font-bold tracking-[0.2em] uppercase text-brand-400 mb-2">Status</p>
             <p class="text-off-white font-roboto mb-6">
