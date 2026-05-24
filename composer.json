@@ -20,8 +20,8 @@
         "laravel/tinker": "^v3.0.2",
         "league/flysystem-aws-s3-v3": "^3.0",
         "spatie/laravel-csp": "^3.21.0",
-        "statamic/cms": "6.15.0",
-        "statamic/eloquent-driver": "5.6.3"
+        "statamic/cms": "6.20.0",
+        "statamic/eloquent-driver": "5.9.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
