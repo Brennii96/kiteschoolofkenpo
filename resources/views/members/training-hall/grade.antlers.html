@@ -50,16 +50,7 @@
 
                             {{ if {member_access:can_view :subscription_required="subscription_required"} }}
                                 {{ if video }}
-                                    <div class="relative aspect-video overflow-hidden border border-white/10 bg-black">
-                                        <iframe
-                                            src="{{ video }}"
-                                            title="{{ title }} video"
-                                            loading="lazy"
-                                            allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen"
-                                            allowfullscreen
-                                            class="absolute inset-0 h-full w-full"
-                                        ></iframe>
-                                    </div>
+                                    {{ partial:members/training-hall/video_embed :video_url="video" title="{title} video" }}
                                 {{ /if }}
 
                                 {{ if content }}
@@ -99,16 +90,7 @@
 
                             {{ if {member_access:can_view :subscription_required="subscription_required"} }}
                                 {{ if video_field }}
-                                    <div class="relative aspect-video overflow-hidden border border-white/10 bg-black">
-                                        <iframe
-                                            src="{{ video_field }}"
-                                            title="{{ title }} video"
-                                            loading="lazy"
-                                            allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen"
-                                            allowfullscreen
-                                            class="absolute inset-0 h-full w-full"
-                                        ></iframe>
-                                    </div>
+                                    {{ partial:members/training-hall/video_embed :video_url="video_field" title="{title} video" }}
                                 {{ /if }}
 
                                 {{ if content }}
