@@ -121,6 +121,10 @@ final class SubscriptionController extends Controller
         /** @var Member $member */
         $member = $request->user('member');
 
+        if (! $member->hasStripeId()) {
+            return redirect()->route('members.choose-your-plan');
+        }
+
         return $member->redirectToBillingPortal(route('members.profile'));
     }
 
