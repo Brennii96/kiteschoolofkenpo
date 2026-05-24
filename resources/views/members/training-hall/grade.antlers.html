@@ -1,0 +1,224 @@
+<section
+    class="panel overflow-hidden border-l-4 border-red-brand"
+    x-data="lmsCourse([
+        {{ techniques }}'technique-{{ count }}',{{ /techniques }}
+        {{ forms_and_sets }}'form-{{ count }}',{{ /forms_and_sets }}
+    ])"
+>
+    <div class="flex flex-col gap-5 border-b border-white/5 px-5 py-6 sm:px-7 lg:flex-row lg:items-start">
+        {{ if belt_image }}
+            <img
+                src="{{ belt_image }}"
+                alt="{{ title }} belt image"
+                height="96"
+                width="96"
+                loading="lazy"
+                class="h-16 w-auto shrink-0 object-contain lg:h-20"
+            >
+        {{ /if }}
+
+        <div class="min-w-0 flex-1">
+            <p class="font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">{{ grade_type }} Grade</p>
+            <h2 class="mt-1 font-montserrat text-3xl font-black uppercase text-white">{{ title }}</h2>
+            {{ if content }}
+                <div class="content-block mt-4 max-w-4xl text-base text-off-white">
+                    {{ content }}
+                </div>
+            {{ /if }}
+        </div>
+    </div>
+
+    {{ if techniques or forms_and_sets }}
+        <div class="grid gap-0 lg:grid-cols-3">
+            <div class="min-w-0 px-5 py-7 sm:px-7 lg:col-span-2">
+                {{ techniques }}
+                    <template x-if="activeLesson === 'technique-{{ count }}'">
+                        <article class="space-y-6" x-cloak>
+                            <div class="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-start sm:justify-between">
+                                <div class="min-w-0">
+                                    <p class="font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">Technique {{ count }}</p>
+                                    <h3 class="mt-1 font-montserrat text-3xl font-black uppercase tracking-wide text-white">{{ title }}</h3>
+                                    {{ if attack }}
+                                        <p class="mt-3 max-w-3xl text-sm text-off-white">{{ attack }}</p>
+                                    {{ /if }}
+                                </div>
+
+                                {{ if subscription_required }}
+                                    <span class="w-fit shrink-0 border border-gold-brand/30 px-3 py-1.5 font-montserrat text-xs font-bold uppercase tracking-widest text-gold-brand">Member</span>
+                                {{ /if }}
+                            </div>
+
+                            {{ if {member_access:can_view :subscription_required="subscription_required"} }}
+                                {{ if video }}
+                                    <div class="relative aspect-video overflow-hidden border border-white/10 bg-black">
+                                        <iframe
+                                            src="{{ video }}"
+                                            title="{{ title }} video"
+                                            loading="lazy"
+                                            allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen"
+                                            allowfullscreen
+                                            class="absolute inset-0 h-full w-full"
+                                        ></iframe>
+                                    </div>
+                                {{ /if }}
+
+                                {{ if content }}
+                                    <div class="content-block max-w-4xl text-base leading-7 text-off-white">
+                                        {{ content }}
+                                    </div>
+                                {{ /if }}
+                            {{ elseif subscription_required }}
+                                <div class="border border-gold-brand/20 bg-ink-brand/70 px-5 py-5">
+                                    <p class="font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">Member Training Content</p>
+                                    <p class="mt-2 text-sm text-off-white">Subscribe to view the full training notes and video guide for this technique.</p>
+
+                                    {{ if has_incomplete_payment }}
+                                        <a href="{{ route:members.profile }}" class="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-gold-brand transition-colors duration-150 hover:text-white">Confirm Payment</a>
+                                    {{ else }}
+                                        <a href="{{ route:members.choose-your-plan }}" class="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-gold-brand transition-colors duration-150 hover:text-white">Choose Plan</a>
+                                    {{ /if }}
+                                </div>
+                            {{ /if }}
+                        </article>
+                    </template>
+                {{ /techniques }}
+
+                {{ forms_and_sets }}
+                    <template x-if="activeLesson === 'form-{{ count }}'">
+                        <article class="space-y-6" x-cloak>
+                            <div class="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-start sm:justify-between">
+                                <div class="min-w-0">
+                                    <p class="font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">Form / Set {{ count }}</p>
+                                    <h3 class="mt-1 font-montserrat text-3xl font-black uppercase tracking-wide text-white">{{ title }}</h3>
+                                </div>
+
+                                {{ if subscription_required }}
+                                    <span class="w-fit shrink-0 border border-gold-brand/30 px-3 py-1.5 font-montserrat text-xs font-bold uppercase tracking-widest text-gold-brand">Member</span>
+                                {{ /if }}
+                            </div>
+
+                            {{ if {member_access:can_view :subscription_required="subscription_required"} }}
+                                {{ if video_field }}
+                                    <div class="relative aspect-video overflow-hidden border border-white/10 bg-black">
+                                        <iframe
+                                            src="{{ video_field }}"
+                                            title="{{ title }} video"
+                                            loading="lazy"
+                                            allow="accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen"
+                                            allowfullscreen
+                                            class="absolute inset-0 h-full w-full"
+                                        ></iframe>
+                                    </div>
+                                {{ /if }}
+
+                                {{ if content }}
+                                    <div class="content-block max-w-4xl text-base leading-7 text-off-white">
+                                        {{ content }}
+                                    </div>
+                                {{ /if }}
+                            {{ elseif subscription_required }}
+                                <div class="border border-gold-brand/20 bg-ink-brand/70 px-5 py-5">
+                                    <p class="font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">Member Training Content</p>
+                                    <p class="mt-2 text-sm text-off-white">Subscribe to view the full training notes and video guide for this form or set.</p>
+
+                                    {{ if has_incomplete_payment }}
+                                        <a href="{{ route:members.profile }}" class="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-gold-brand transition-colors duration-150 hover:text-white">Confirm Payment</a>
+                                    {{ else }}
+                                        <a href="{{ route:members.choose-your-plan }}" class="mt-4 inline-flex text-xs font-bold uppercase tracking-widest text-gold-brand transition-colors duration-150 hover:text-white">Choose Plan</a>
+                                    {{ /if }}
+                                </div>
+                            {{ /if }}
+                        </article>
+                    </template>
+                {{ /forms_and_sets }}
+
+                <div class="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                    <button
+                        type="button"
+                        x-on:click="previousLesson()"
+                        x-bind:disabled="isFirstLesson()"
+                        class="inline-flex items-center justify-center border border-white/15 px-4 py-3 font-montserrat text-xs font-bold uppercase tracking-widest text-off-white transition duration-150 hover:border-white/35 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                        Previous
+                    </button>
+
+                    <p class="font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">
+                        Lesson <span x-text="activePosition() + 1"></span> of <span x-text="lessonIds.length"></span>
+                    </p>
+
+                    <button
+                        type="button"
+                        x-on:click="nextLesson()"
+                        x-bind:disabled="isLastLesson()"
+                        class="inline-flex items-center justify-center bg-red-brand px-4 py-3 font-montserrat text-xs font-bold uppercase tracking-widest text-white transition duration-150 hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            <aside class="border-t border-white/10 bg-ink-brand/50 lg:border-l lg:border-t-0">
+                <div class="sticky top-6 max-h-160 overflow-y-auto px-5 py-6">
+                    <p class="font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">Lesson Outline</p>
+
+                    {{ if techniques }}
+                        <div class="mt-5">
+                            <h4 class="border-b border-white/10 pb-2 font-montserrat text-xs font-bold uppercase tracking-widest text-off-white">Techniques</h4>
+                            <div class="mt-3 space-y-2">
+                                {{ techniques }}
+                                    <button
+                                        type="button"
+                                        x-on:click="activeLesson = 'technique-{{ count }}'"
+                                        x-bind:aria-current="activeLesson === 'technique-{{ count }}' ? 'true' : 'false'"
+                                        x-bind:class="activeLesson === 'technique-{{ count }}' ? 'border-red-brand bg-red-brand/10 text-white' : 'border-white/10 text-off-white hover:border-white/25 hover:bg-white/5 hover:text-white'"
+                                        class="flex w-full items-start gap-3 border-l-4 px-3 py-3 text-left transition-colors duration-150"
+                                    >
+                                        <span class="shrink-0 font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">{{ count }}</span>
+                                        <span class="min-w-0 flex-1">
+                                            <span class="block font-montserrat text-xs font-bold uppercase tracking-wider">{{ title }}</span>
+                                            {{ if attack }}
+                                                <span class="mt-1 block truncate text-xs text-off-white/75">{{ attack }}</span>
+                                            {{ /if }}
+                                        </span>
+                                        {{ if subscription_required }}
+                                            <span class="shrink-0 border border-gold-brand/30 px-2 py-1 font-montserrat text-xs font-bold uppercase tracking-widest text-gold-brand">Member</span>
+                                        {{ /if }}
+                                    </button>
+                                {{ /techniques }}
+                            </div>
+                        </div>
+                    {{ /if }}
+
+                    {{ if forms_and_sets }}
+                        <div class="mt-7">
+                            <h4 class="border-b border-white/10 pb-2 font-montserrat text-xs font-bold uppercase tracking-widest text-off-white">Forms & Sets</h4>
+                            <div class="mt-3 space-y-2">
+                                {{ forms_and_sets }}
+                                    <button
+                                        type="button"
+                                        x-on:click="activeLesson = 'form-{{ count }}'"
+                                        x-bind:aria-current="activeLesson === 'form-{{ count }}' ? 'true' : 'false'"
+                                        x-bind:class="activeLesson === 'form-{{ count }}' ? 'border-red-brand bg-red-brand/10 text-white' : 'border-white/10 text-off-white hover:border-white/25 hover:bg-white/5 hover:text-white'"
+                                        class="flex w-full items-start gap-3 border-l-4 px-3 py-3 text-left transition-colors duration-150"
+                                    >
+                                        <span class="shrink-0 font-montserrat text-xs font-bold uppercase tracking-widest text-brand-400">{{ count }}</span>
+                                        <span class="min-w-0 flex-1">
+                                            <span class="block font-montserrat text-xs font-bold uppercase tracking-wider">{{ title }}</span>
+                                        </span>
+                                        {{ if subscription_required }}
+                                            <span class="shrink-0 border border-gold-brand/30 px-2 py-1 font-montserrat text-xs font-bold uppercase tracking-widest text-gold-brand">Member</span>
+                                        {{ /if }}
+                                    </button>
+                                {{ /forms_and_sets }}
+                            </div>
+                        </div>
+                    {{ /if }}
+                </div>
+            </aside>
+        </div>
+    {{ else }}
+        <div class="px-5 py-7 sm:px-7">
+            <p class="text-sm text-off-white">No lessons published for this grade.</p>
+        </div>
+    {{ /if }}
+</section>

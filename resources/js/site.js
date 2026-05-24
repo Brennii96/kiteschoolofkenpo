@@ -1,8 +1,10 @@
 import Alpine from 'alpinejs';
 import { subscriptionPayment } from './components/subscription-payment.js';
+import { lmsCourse } from './components/lms-course.js';
 
 window.Alpine = Alpine;
 Alpine.data('subscriptionPayment', subscriptionPayment);
+Alpine.data('lmsCourse', lmsCourse);
 Alpine.start();
 
 

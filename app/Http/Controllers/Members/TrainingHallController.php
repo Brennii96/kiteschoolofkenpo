@@ -58,7 +58,7 @@ final class TrainingHallController extends Controller
         $juniorGrades = $this->navigationGrades($grades, 'Junior', $grade);
 
         return new View()
-            ->template('members.training-hall')
+            ->template('members.training-hall.index')
             ->layout('layout')
             ->with([
                 'member' => $member,
@@ -75,14 +75,6 @@ final class TrainingHallController extends Controller
             ]);
     }
 
-    /**
-     * @return Collection<int, array{
-     *     title: mixed,
-     *     slug: string|null,
-     *     grade_type: mixed,
-     *     belt_image_url: string|null
-     * }>
-     */
     private function gradeNavigation(): Collection
     {
         return Cache::remember('training-hall.grade-navigation', now()->addHours(3), function (): Collection {
@@ -102,16 +94,6 @@ final class TrainingHallController extends Controller
         });
     }
 
-    /**
-     * @return Collection<int, array{
-     *     title: mixed,
-     *     slug: string|null,
-     *     grade_type: mixed,
-     *     belt_image_url: string|null,
-     *     url: string,
-     *     is_active: bool
-     * }>
-     */
     private function navigationGrades(Collection $grades, string $gradeType, string $activeGradeSlug): Collection
     {
         return $grades
