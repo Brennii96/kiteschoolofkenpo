@@ -32,6 +32,11 @@ final class VerifyEmailController extends Controller
 
         Auth::guard('member')->login($member);
 
+        if (! $member->isApproved()) {
+            return redirect()->route('members.pending-approval')
+                ->with('status', 'Your email has been verified. Your account is pending admin approval.');
+        }
+
         return redirect()->route('members.choose-your-plan')
             ->with('status', 'Your email has been verified! Please choose a plan to get started.');
     }
